@@ -26,7 +26,7 @@ picks = mne.pick_types(raw.info, meg=True, eeg=False, eog=False,
                        stim=False, exclude='bads')
 
 random_state = 0
-T = 10000
+T = 1000
 data = raw[picks, :T][0]
 
 # Center
@@ -41,16 +41,16 @@ X = pca.components_ * np.sqrt(float(T))
 
 # Run ICA on X
 
-Y, W = lbfgs_ica(X, maxiter=1000, verbose=False)
+Y, W = lbfgs_ica(X, maxiter=1000)
 
 ###############################################################################
 # Plot results
 N_plots = 10
-models = [X[:N_plots], Y[:N_plots]]
+models = [data[:N_plots], Y[:N_plots]]
 names = ['Observations (raw EEG)',
          'ICA recovered sources']
 colors = ['k', 'k']
-fig, axes = plt.subplots(2, 1, figsize=(6, 4))
+fig, axes = plt.subplots(2, 1, figsize=(10, 5))
 for ii, (model, name, ax) in enumerate(zip(models, names, axes)):
     ax.set_title(name)
     ax.get_xaxis().set_visible(False)
