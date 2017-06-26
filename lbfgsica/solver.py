@@ -81,9 +81,9 @@ def lbfgs_ica(X, m=7, maxiter=100, precon=1, tol=1e-7, lambda_min=0.01,
         # Update the memory
         if n > 0:
             s_list.append(direction) # noqa
-            y = G - G_old # noqa
+            y = G - G_old  # noqa
             y_list.append(y)
-            r_list.append(1. / (np.sum(direction * y))) # noqa
+            r_list.append(1. / (np.sum(direction * y)))  # noqa
             if len(s_list) > m:
                 s_list.pop(0)
                 y_list.pop(0)
@@ -116,7 +116,7 @@ def _loss(Y, W):
     '''
     T = Y.shape[1]
     log_det = np.linalg.slogdet(W)[1]
-    absY = ne.evaluate('abs(Y)') # noqa
+    absY = ne.evaluate('abs(Y)')  # noqa
     logcoshY = ne.evaluate('sum(absY + 2. * log1p(exp(-absY)))')
     return - log_det + logcoshY / float(T)
 
@@ -159,7 +159,7 @@ def _l_bfgs_direction(Y, thY, G, s_list, y_list, r_list, precon, lambda_min):
 def _solve_hessian(G, Y, thY, precon, lambda_min):
     N, T = Y.shape
     # Compute the derivative of the score
-    psidY = ne.evaluate('(- thY ** 2 + 1.) / 2.') # noqa
+    psidY = ne.evaluate('(- thY ** 2 + 1.) / 2.')  # noqa
     # Build the diagonal of the Hessian, a.
     Y_squared = Y ** 2
     if precon == 2:
