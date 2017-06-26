@@ -1,6 +1,6 @@
 import numpy as np
 import numexpr as ne
-from copy import deepcopy
+from copy import copy
 
 
 def lbfgs_ica(X, m=7, maxiter=100, precon=1, tol=1e-7, lambda_min=0.01,
@@ -57,7 +57,7 @@ def lbfgs_ica(X, m=7, maxiter=100, precon=1, tol=1e-7, lambda_min=0.01,
     mode = 'ne'
     N, T = X.shape
     W = np.eye(N)
-    Y = deepcopy(X)
+    Y = copy(X)
     s_list = []
     y_list = []
     G_old = 0.
@@ -70,33 +70,32 @@ def lbfgs_ica(X, m=7, maxiter=100, precon=1, tol=1e-7, lambda_min=0.01,
         G_norm = np.max(np.abs(G))
         if G_norm < tol:
             break
-        # Find the L-BFGS direction
-        # direction = L_BFGS_direction(Y, thY, G, s_list, y_list, precon,
-        #                              lambda_min, mode)
-        direction = solveH(G, Y, thY, precon, lambda_min, mode)
-        # Do a line_search in that direction:
-        if n == 0:
-            current_loss = loss(Y, W, mode)
-        new_Y, new_W, new_loss = line_search(Y, W, direction, current_loss,
-                                             ls_tries, mode)
-        if new_Y is None:
-            direction = G
-            new_Y, new_W, new_loss = line_search(Y, W, direction, current_loss,
-                                                 15, mode)
-        Y = new_Y
-        W = new_W
-        current_loss = new_loss
         # Update the memory
         if n > 0:
-            s_list.append(direction)
+            s_list.append(direction) # noqa
             y_list.append(G - G_old)
             if len(s_list) > m:
                 s_list.pop(0)
                 y_list.pop(0)
         G_old = G
+        # Find the L-BFGS direction
+        direction = L_BFGS_direction(Y, thY, G, s_list, y_list, precon,
+                                     lambda_min, mode)
+        # Do a line_search in that direction:
+        if n == 0:
+            current_loss = loss(Y, W, mode)
+        converged, new_Y, new_W, new_loss, direction =\
+            line_search(Y, W, direction, current_loss, ls_tries, mode, verbose)
+        if not converged:
+            direction = -G
+            _, new_Y, new_W, new_loss, direction =\
+                line_search(Y, W, direction, current_loss, 3, mode, False)
+        Y = new_Y
+        W = new_W
+        current_loss = new_loss
         if verbose:
             print('iteration %d, loss = %.4g, gradient norm = %.2g' %
-                  (n, current_loss, G_norm))
+                  (n + 1, current_loss, G_norm))
     return Y, W
 
 
@@ -126,38 +125,39 @@ def loss(Y, W, mode):
     return - log_det + logcoshY / float(T)
 
 
-def line_search(Y, W, direction, current_loss, ls_tries, mode):
+def line_search(Y, W, direction, current_loss, ls_tries, mode, verbose):
     projected_Y = np.dot(direction, Y)
     projected_W = np.dot(direction, W)
     alpha = 1.
     for _ in range(ls_tries):
-        Y_new = Y - alpha * projected_Y
-        W_new = W - alpha * projected_W
+        Y_new = Y + alpha * projected_Y
+        W_new = W + alpha * projected_W
         new_loss = loss(Y_new, W_new, mode)
         if new_loss < current_loss:
             # print alpha
-            return Y_new, W_new, new_loss
+            return True, Y_new, W_new, new_loss, alpha * direction
         alpha /= 2.
     else:
-        print('ls fail')
-        return None, None, None
+        if verbose:
+            print('ls fail')
+        return False, Y_new, W_new, new_loss, alpha * direction
 
 
 def L_BFGS_direction(Y, thY, G, s_list, y_list, precon, lambda_min, mode):
-    q = G
+    q = copy(G)
     r_list = []
     a_list = []
     for s, y in zip(s_list, y_list):
         r_list.append(1. / (np.sum(s * y)))
     for s, y, r in zip(reversed(s_list), reversed(y_list), reversed(r_list)):
-        a = r * np.sum(s * q)
-        a_list.append(a)
-        q -= a * y
+        alpha = r * np.sum(s * q)
+        a_list.append(alpha)
+        q -= alpha * y
     z = solveH(q, Y, thY, precon, lambda_min, mode)
-    for s, y, r, a in zip(s_list, y_list, r_list, reversed(a_list)):
+    for s, y, r, alpha in zip(s_list, y_list, r_list, reversed(a_list)):
         beta = r * np.sum(y * z)
-        z += (a - beta) * s
-    return z
+        z += (alpha - beta) * s
+    return -z
 
 
 def solveH(G, Y, thY, precon, lambda_min, mode):
@@ -178,7 +178,7 @@ def solveH(G, Y, thY, precon, lambda_min, mode):
         diagonal_term = np.mean(Y_squared * psidY) + 1.
         a[np.diag_indices_from(a)] = diagonal_term
     # Compute the eigenvalues of the Hessian
-    eigenvalues = 0.5 * (a + a.T + np.sqrt((a-a.T) ** 2 + 4.))
+    eigenvalues = 0.5 * (a + a.T + np.sqrt((a - a.T) ** 2 + 4.))
     # Regularize
     problematic_locs = eigenvalues < lambda_min
     np.fill_diagonal(problematic_locs, False)
