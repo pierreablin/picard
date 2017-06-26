@@ -1,1 +1,1 @@
-from .solver import XXX
+from .solver import lbfgs_ica  # noqa
