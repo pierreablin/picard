@@ -9,48 +9,49 @@ def lbfgs_ica(X, m=7, maxiter=100, precon=1, tol=1e-7, lambda_min=0.01,
     Runs the L-BFGS ICA algorithm as described in "Faster ICA by
     preconditioning with Hessian approximations"
 
-    Parameters:
+    Parameters
+    ----------
+    X : array, shape (N, T)
+        Matrix containing the signals that have to be unmixed. N is the
+        number of signals, T is the number of samples. X has to be centered
 
-        X : (N, T) numpy array
-            Matrix containing the signals that have to be unmixed. N is the
-            number of signals, T is the number of samples. X has to be centered
+    m : int
+        Size of L-BFGS's memory. Typical values for m are in the range 3-15
 
-        m : int
-            Size of L-BFGS's memory. Typical values for m are in the range 3-15
+    maxiter : int
+        Maximal number of iterations for the algorithm
 
-        maxiter : int
-            Maximal number of iterations for the algorithm
+    precon : 1 or 2
+        Chooses which Hessian approximation is used as preconditioner.
+        1 -> H1
+        2 -> H2
+        H2 is more costly to compute but can greatly accelerate convergence
+        (See the paper for details).
 
-        precon : 1 or 2
-            Chooses which Hessian approximation is used as preconditioner.
-            1 -> H1
-            2 -> H2
-            H2 is more costly to compute but can greatly accelerate convergence
-            (See the paper for details).
+    tol : float
+        tolerance for the stopping criterion. Iterations stop when the norm
+        of the gradient gets smaller than tol.
 
-        tol : float
-            tolerance for the stopping criterion. Iterations stop when the norm
-            of the gradient gets smaller than tol.
+    lambda_min : float
+        Constant used to regularize the Hessian approximations. The
+        eigenvalues of the approximation that are below lambda_min are
+        shifted to lambda_min.
 
-        lambda_min : float
-            Constant used to regularize the Hessian approximations. The
-            eigenvalues of the approximation that are below lambda_min are
-            shifted to lambda_min.
+    ls_tries : int
+        Number of tries allowed for the backtracking line-search. When that
+        number is exceeded, the direction is thrown away and the gradient
+        is used instead.
 
-        ls_tries : int
-            Number of tries allowed for the backtracking line-search. When that
-            number is exceeded, the direction is thrown away and the gradient
-            is used instead.
-
-        verbose : boolean
-            If true, prints the informations about the algorithm.
+    verbose : boolean
+        If true, prints the informations about the algorithm.
 
     Returns:
-        Y : (N, T) numpy array
-            The estimated source matrix
+    --------
+    Y : array, shape (N, T)
+        The estimated source matrix
 
-        W : (N, N) numpy array
-            The estimated unmixing matrix, such that Y = WX.
+    W : array, shape (N, N)
+        The estimated unmixing matrix, such that Y = WX.
     '''
     # Init
     mode = 'ne'
