@@ -14,4 +14,4 @@ Functions
 .. autosummary::
    :toctree: generated/
 
-   run_ica
+   lbfgs_ica
