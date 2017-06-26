@@ -12,6 +12,8 @@ L-BFGS ICA
 This repository hosts code to run a faster ICA solver based on L-BFGS
 combined with a preconditioning strategy.
 
+See the `documentation <https://pierreablin.github.io/l-bfgs-ica/index.html>`_
+
 Dependencies
 ------------
 
