@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-lbfgsica
+L-BFGS ICA
 ==========
 
 This is a library to run a faster ICA solver based on L-BFGS combined a preconditioning strategy.
@@ -37,7 +37,7 @@ in your script:
 .. code:: python
 
 	>>> from lbfgsica import run_ica
-	>>> run_ica(...)
+	>>> lbfgs_ica(...)
 
 
 Bug reports
@@ -48,6 +48,6 @@ Use the `github issue tracker <https://github.com/pierreablin/l-bfgs-ica/issues>
 Cite
 ====
 
-[1] Pierre Ablin, Jean-Francois Cardoso, and Alexandre Gramfort
-    Faster ICA by preconditioning with Hessian approximations
-    ArXiv Preprint, June 2017
+   [1] Pierre Ablin, Jean-Francois Cardoso, and Alexandre Gramfort
+   Faster ICA by preconditioning with Hessian approximations
+   ArXiv Preprint, June 2017

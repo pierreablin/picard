@@ -13,13 +13,13 @@ at recovering our `instruments` since the related signals reflect
 non-Gaussian processes.
 
 """
-print(__doc__)
-
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy import signal
 
-from sklearn.decomposition import FastICA, PCA
+from lbfgsica import lbfgs_ica
+
+print(__doc__)
 
 ###############################################################################
 # Generate sample data
@@ -40,27 +40,17 @@ A = np.array([[1, 1, 1], [0.5, 2, 1.0], [1.5, 1.0, 2.0]])  # Mixing matrix
 X = np.dot(S, A.T)  # Generate observations
 
 # Compute ICA
-ica = FastICA(n_components=3)
-S_ = ica.fit_transform(X)  # Reconstruct signals
-A_ = ica.mixing_  # Get estimated mixing matrix
-
-# We can `prove` that the ICA model applies by reverting the unmixing.
-assert np.allclose(X, np.dot(S_, A_.T) + ica.mean_)
-
-# For comparison, compute PCA
-pca = PCA(n_components=3)
-H = pca.fit_transform(X)  # Reconstruct signals based on orthogonal components
+Y, W = lbfgs_ica(X)
 
 ###############################################################################
 # Plot results
 
 plt.figure()
 
-models = [X, S, S_, H]
+models = [X, S, Y]
 names = ['Observations (mixed signal)',
          'True Sources',
-         'ICA recovered signals', 
-         'PCA recovered signals']
+         'ICA recovered signals']
 colors = ['red', 'steelblue', 'orange']
 
 for ii, (model, name) in enumerate(zip(models, names), 1):
