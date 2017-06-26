@@ -103,10 +103,7 @@ def tanh(Y, mode):
     '''
     Computes tanh(Y / 2.), using numexpr if available, and numpy otherwise
     '''
-    if mode == 'ne':
-        return ne.evaluate('tanh(Y / 2.)') # noqa
-    else:
-        return np.tanh(Y / 2.)
+    return ne.evaluate('tanh(Y / 2.)')
 
 
 def loss(Y, W, mode):
@@ -116,12 +113,8 @@ def loss(Y, W, mode):
     '''
     T = Y.shape[1]
     log_det = np.linalg.slogdet(W)[1]
-    if mode == 'ne':
-        absY = ne.evaluate('abs(Y)') # noqa
-        logcoshY = ne.evaluate('sum(absY + 2. * log1p(exp(-absY)))') # noqa
-    else:
-        absY = np.abs(Y)
-        logcoshY = np.sum(absY + 2. * np.log1p(np.exp(-absY)))
+    absY = ne.evaluate('abs(Y)') # noqa
+    logcoshY = ne.evaluate('sum(absY + 2. * log1p(exp(-absY)))')
     return - log_det + logcoshY / float(T)
 
 
@@ -139,7 +132,7 @@ def line_search(Y, W, direction, current_loss, ls_tries, mode, verbose):
         alpha /= 2.
     else:
         if verbose:
-            print('ls fail')
+            print('line search failed, falling back to gradient')
         return False, Y_new, W_new, new_loss, alpha * direction
 
 
@@ -163,10 +156,7 @@ def L_BFGS_direction(Y, thY, G, s_list, y_list, precon, lambda_min, mode):
 def solveH(G, Y, thY, precon, lambda_min, mode):
     N, T = Y.shape
     # Compute the derivative of the score
-    if mode == 'np':
-        psidY = (- np.square(thY) + 1.) / 2.
-    else:
-        psidY = ne.evaluate('(- thY ** 2 + 1.) / 2.') # noqa
+    psidY = ne.evaluate('(- thY ** 2 + 1.) / 2.') # noqa
     # Build the diagonal of the Hessian, a.
     if precon == 2:
         a = np.inner(psidY, Y ** 2) / float(T) + np.eye(N)
