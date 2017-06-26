@@ -1,16 +1,13 @@
 L-BFGS ICA
 ==========
 
-|CircleCI|_ |Travis|_ |Codecov|_
+|Travis|_ |Codecov|_
 
-.. |CircleCI| image:: https://circleci.com/gh/lbfgsica/lbfgsica/tree/master.svg?style=shield&circle-token=:circle-token
-.. _CircleCI: https://circleci.com/gh/lbfgsica/lbfgsica
+.. |Travis| image:: https://api.travis-ci.org/pierreablin/l-bfgs-ica.svg?branch=master
+.. _Travis: https://travis-ci.org/pierreablin/l-bfgs-ica
 
-.. |Travis| image:: https://api.travis-ci.org/lbfgsica/lbfgsica.svg?branch=master
-.. _Travis: https://travis-ci.org/lbfgsica/lbfgsica
-
-.. |Codecov| image:: http://codecov.io/github/lbfgsica/lbfgsica/coverage.svg?branch=master
-.. _Codecov: http://codecov.io/github/lbfgsica/lbfgsica?branch=master
+.. |Codecov| image:: http://codecov.io/github/pierreablin/l-bfgs-ica/coverage.svg?branch=master
+.. _Codecov: http://codecov.io/github/pierreablin/l-bfgs-ica?branch=master
 
 This repository hosts code to run a faster ICA solver based on L-BFGS
 combined with a preconditioning strategy.
