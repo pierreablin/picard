@@ -69,7 +69,6 @@ def lbfgs_ica(X, m=7, maxiter=100, precon=1, tol=1e-7, lambda_min=0.01,
     s_list = []
     y_list = []
     r_list = []
-    G_old = 0.
     for n in range(maxiter):
         # Compute the score function
         thY = ne.evaluate('tanh(Y / 2.)')
@@ -82,26 +81,26 @@ def lbfgs_ica(X, m=7, maxiter=100, precon=1, tol=1e-7, lambda_min=0.01,
         # Update the memory
         if n > 0:
             s_list.append(direction) # noqa
-            y = G - G_old
+            y = G - G_old # noqa
             y_list.append(y)
             r_list.append(1. / (np.sum(direction * y))) # noqa
             if len(s_list) > m:
                 s_list.pop(0)
                 y_list.pop(0)
                 r_list.pop(0)
-        G_old = G
+        G_old = G # noqa
         # Find the L-BFGS direction
-        direction = L_BFGS_direction(Y, thY, G, s_list, y_list, r_list, precon,
-                                     lambda_min)
+        direction = _l_bfgs_direction(Y, thY, G, s_list, y_list, r_list,
+                                      precon, lambda_min)
         # Do a line_search in that direction:
         if n == 0:
-            current_loss = loss(Y, W)
+            current_loss = _loss(Y, W)
         converged, new_Y, new_W, new_loss, direction =\
-            line_search(Y, W, direction, current_loss, ls_tries, verbose)
+            _line_search(Y, W, direction, current_loss, ls_tries, verbose)
         if not converged:
             direction = -G
             _, new_Y, new_W, new_loss, direction =\
-                line_search(Y, W, direction, current_loss, 3, False)
+                _line_search(Y, W, direction, current_loss, 3, False)
         Y = new_Y
         W = new_W
         current_loss = new_loss
@@ -111,7 +110,7 @@ def lbfgs_ica(X, m=7, maxiter=100, precon=1, tol=1e-7, lambda_min=0.01,
     return Y, W
 
 
-def loss(Y, W):
+def _loss(Y, W):
     '''
     Computes the loss function for Y, W
     '''
@@ -122,7 +121,7 @@ def loss(Y, W):
     return - log_det + logcoshY / float(T)
 
 
-def line_search(Y, W, direction, current_loss, ls_tries, verbose):
+def _line_search(Y, W, direction, current_loss, ls_tries, verbose):
     '''
     Performs a backtracking line search, starting from Y and W, in the
     direction direction. I
@@ -133,7 +132,7 @@ def line_search(Y, W, direction, current_loss, ls_tries, verbose):
     for _ in range(ls_tries):
         Y_new = Y + alpha * projected_Y
         W_new = W + alpha * projected_W
-        new_loss = loss(Y_new, W_new)
+        new_loss = _loss(Y_new, W_new)
         if new_loss < current_loss:
             return True, Y_new, W_new, new_loss, alpha * direction
         alpha /= 2.
@@ -143,21 +142,21 @@ def line_search(Y, W, direction, current_loss, ls_tries, verbose):
         return False, Y_new, W_new, new_loss, alpha * direction
 
 
-def L_BFGS_direction(Y, thY, G, s_list, y_list, r_list, precon, lambda_min):
+def _l_bfgs_direction(Y, thY, G, s_list, y_list, r_list, precon, lambda_min):
     q = copy(G)
     a_list = []
     for s, y, r in zip(reversed(s_list), reversed(y_list), reversed(r_list)):
         alpha = r * np.sum(s * q)
         a_list.append(alpha)
         q -= alpha * y
-    z = solveH(q, Y, thY, precon, lambda_min)
+    z = _solve_hessian(q, Y, thY, precon, lambda_min)
     for s, y, r, alpha in zip(s_list, y_list, r_list, reversed(a_list)):
         beta = r * np.sum(y * z)
         z += (alpha - beta) * s
     return -z
 
 
-def solveH(G, Y, thY, precon, lambda_min):
+def _solve_hessian(G, Y, thY, precon, lambda_min):
     N, T = Y.shape
     # Compute the derivative of the score
     psidY = ne.evaluate('(- thY ** 2 + 1.) / 2.') # noqa
@@ -182,11 +181,3 @@ def solveH(G, Y, thY, precon, lambda_min):
     a[i_pb, j_pb] += lambda_min - eigenvalues[i_pb, j_pb]
     # Invert the transform
     return (G * a.T - G.T) / (a * a.T - 1.)
-
-
-if __name__ == '__main__':
-    N, T = 2, 1000
-    S = np.random.laplace(size=(N, T))
-    A = np.random.randn(N, N)
-    X = np.dot(A, S)
-    lbfgs_ica(X, verbose=True)
