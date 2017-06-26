@@ -7,6 +7,9 @@ SPHINXBUILD   = sphinx-build
 PAPER         =
 BUILDDIR      = _build
 
+GITHUB_PAGES_BRANCH = gh-pages
+OUTPUTDIR = _build/html
+
 # User-friendly check for sphinx-build
 ifeq ($(shell which $(SPHINXBUILD) >/dev/null 2>&1; echo $$?), 1)
 $(error The '$(SPHINXBUILD)' command was not found. Make sure you have Sphinx installed, then set the SPHINXBUILD environment variable to point to the full path of the '$(SPHINXBUILD)' executable. Alternatively you can add the directory with the executable to your PATH. If you don't have Sphinx installed, grab it from http://sphinx-doc.org/)
@@ -132,20 +135,6 @@ coverage:
 		  "results in $(BUILDDIR)/coverage/python.txt."
 
 install:
-	rm -rf _build/doctrees _build/lbfgsica.github.io
-	# first clone the lbfgsica/lbfgsica.github.io repo because it may ask
-	# for password and we don't want to delay this long build in
-	# the middle of it
-	# --no-checkout just fetches the root folder without content
-	# --depth 1 is a speed optimization since we don't need the
-	# history prior to the last commit
-	git clone --no-checkout --depth 1 https://github.com/lbfgsica/lbfgsica.github.io.git _build/lbfgsica.github.io
-	touch _build/lbfgsica.github.io/.nojekyll
-	make html
-	cd _build/ && \
-	cp -r html/* lbfgsica.github.io && \
-	cd lbfgsica.github.io && \
-	git add * && \
-	git add .nojekyll && \
-	git commit -a -m 'Make install' && \
-	git push
+	touch $(OUTPUTDIR)/.nojekyll
+	ghp-import -m "Generate Pelican site" -b $(GITHUB_PAGES_BRANCH) $(OUTPUTDIR)
+	git push origin $(GITHUB_PAGES_BRANCH)
