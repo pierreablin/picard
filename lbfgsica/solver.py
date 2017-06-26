@@ -61,17 +61,18 @@ def lbfgs_ica(X, m=7, maxiter=100, precon=1, tol=1e-7, lambda_min=0.01,
     y_list = []
     G_old = 0.
     for n in range(maxiter):
-        # Compute the score
+        # Compute the score function
         thY = tanh(Y, mode)
         # Compute the relative gradient
-        G = np.inner(Y, thY) / float(T) - np.eye(N)
+        G = np.inner(thY, Y) / float(T) - np.eye(N)
         # Stopping criterion
         G_norm = np.max(np.abs(G))
         if G_norm < tol:
             break
         # Find the L-BFGS direction
-        direction = L_BFGS_direction(Y, thY, G, s_list, y_list, precon,
-                                     lambda_min, mode)
+        # direction = L_BFGS_direction(Y, thY, G, s_list, y_list, precon,
+        #                              lambda_min, mode)
+        direction = solveH(G, Y, thY, precon, lambda_min, mode)
         # Do a line_search in that direction:
         if n == 0:
             current_loss = loss(Y, W, mode)
@@ -80,7 +81,7 @@ def lbfgs_ica(X, m=7, maxiter=100, precon=1, tol=1e-7, lambda_min=0.01,
         if new_Y is None:
             direction = G
             new_Y, new_W, new_loss = line_search(Y, W, direction, current_loss,
-                                                 ls_tries, mode)
+                                                 15, mode)
         Y = new_Y
         W = new_W
         current_loss = new_loss
@@ -121,7 +122,7 @@ def loss(Y, W, mode):
     else:
         absY = np.abs(Y)
         logcoshY = np.sum(absY + 2. * np.log1p(np.exp(-absY)))
-    return - log_det - logcoshY / float(T)
+    return - log_det + logcoshY / float(T)
 
 
 def line_search(Y, W, direction, current_loss, ls_tries, mode):
@@ -131,8 +132,9 @@ def line_search(Y, W, direction, current_loss, ls_tries, mode):
     for _ in range(ls_tries):
         Y_new = Y - alpha * projected_Y
         W_new = W - alpha * projected_W
-        new_loss = loss(Y, W, mode)
+        new_loss = loss(Y_new, W_new, mode)
         if new_loss < current_loss:
+            # print alpha
             return Y_new, W_new, new_loss
         alpha /= 2.
     else:
@@ -141,18 +143,18 @@ def line_search(Y, W, direction, current_loss, ls_tries, mode):
 
 
 def L_BFGS_direction(Y, thY, G, s_list, y_list, precon, lambda_min, mode):
-    q = -G
+    q = G
     r_list = []
     a_list = []
     for s, y in zip(s_list, y_list):
-        r_list.append(- 1. / (np.sum(s * y)))
+        r_list.append(1. / (np.sum(s * y)))
     for s, y, r in zip(reversed(s_list), reversed(y_list), reversed(r_list)):
         a = r * np.sum(s * q)
         a_list.append(a)
-        q += a * y
+        q -= a * y
     z = solveH(q, Y, thY, precon, lambda_min, mode)
     for s, y, r, a in zip(s_list, y_list, r_list, reversed(a_list)):
-        beta = -r * np.sum(y * z)
+        beta = r * np.sum(y * z)
         z += (a - beta) * s
     return z
 
@@ -166,7 +168,7 @@ def solveH(G, Y, thY, precon, lambda_min, mode):
         psidY = ne.evaluate('(- thY ** 2 + 1.) / 2.') # noqa
     # Build the diagonal of the Hessian, a.
     if precon == 2:
-        a = np.inner(psidY, Y ** 2) + np.eye(N)
+        a = np.inner(psidY, Y ** 2) / float(T) + np.eye(N)
     else:
         Y_squared = Y ** 2
         sigma2 = np.mean(Y_squared, axis=1)
@@ -186,7 +188,7 @@ def solveH(G, Y, thY, precon, lambda_min, mode):
 
 
 if __name__ == '__main__':
-    N, T = 5, 1000
+    N, T = 2, 1000
     S = np.random.laplace(size=(N, T))
     A = np.random.randn(N, N)
     X = np.dot(A, S)
