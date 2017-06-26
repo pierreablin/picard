@@ -1,13 +1,22 @@
+# Authors: Pierre Ablin <pierre.ablin@inria.fr>
+#          Alexandre Gramfort <alexandre.gramfort@inria.fr>
+#
+# License: BSD (3-clause)
+
+from copy import copy
 import numpy as np
 import numexpr as ne
-from copy import copy
 
 
 def lbfgs_ica(X, m=7, maxiter=100, precon=1, tol=1e-7, lambda_min=0.01,
               ls_tries=5, verbose=False):
-    '''
-    Runs the L-BFGS ICA algorithm as described in "Faster ICA by
-    preconditioning with Hessian approximations"
+    '''Runs L-BFGS ICA algorithm using preconditioning
+
+    The algorithm is detailed in::
+
+        Pierre Ablin, Jean-Francois Cardoso, and Alexandre Gramfort
+        Faster ICA by preconditioning with Hessian approximations
+        ArXiv Preprint, June 2017
 
     Parameters
     ----------
@@ -45,8 +54,8 @@ def lbfgs_ica(X, m=7, maxiter=100, precon=1, tol=1e-7, lambda_min=0.01,
     verbose : boolean
         If true, prints the informations about the algorithm.
 
-    Returns:
-    --------
+    Returns
+    -------
     Y : array, shape (N, T)
         The estimated source matrix
 
