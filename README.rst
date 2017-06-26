@@ -13,7 +13,7 @@ L-BFGS ICA
 .. _Codecov: http://codecov.io/github/lbfgsica/lbfgsica?branch=master
 
 This repository hosts code to run a faster ICA solver based on L-BFGS
-combined a preconditioning strategy.
+combined with a preconditioning strategy.
 
 Dependencies
 ------------
@@ -24,6 +24,11 @@ These are the dependencies to use lbfgsica:
 * matplotlib (>=1.3)
 * scipy (>=0.16)
 * numexpr (>= 2.0) 
+
+These are the dependencies to run the EEG example:
+
+* mne (>=0.14)
+* scikit-learn (>=0.18)
 
 Cite
 ----
