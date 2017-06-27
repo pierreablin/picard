@@ -7,7 +7,7 @@ def test_lbgfs_solver():
     S = np.random.laplace(size=(N, T))
     A = np.random.randn(N, N)
     X = np.dot(A, S)
-    Y, W = lbfgs_ica(X, precon=2)
+    Y, W = lbfgs_ica(X, verbose=True)
 
 
 def test_lbgfs_h2_solver():
