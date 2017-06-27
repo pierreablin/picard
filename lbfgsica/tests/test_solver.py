@@ -3,7 +3,7 @@ from lbfgsica import lbfgs_ica
 
 
 def test_lbgfs_solver():
-    N, T = 2, 1000
+    N, T = 15, 5000
     S = np.random.laplace(size=(N, T))
     A = np.random.randn(N, N)
     X = np.dot(A, S)
