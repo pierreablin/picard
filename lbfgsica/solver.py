@@ -8,7 +8,7 @@ import numpy as np
 import numexpr as ne
 
 
-def lbfgs_ica(X, m=7, maxiter=100, precon=1, tol=1e-7, lambda_min=0.01,
+def lbfgs_ica(X, m=7, maxiter=1000, precon=1, tol=1e-7, lambda_min=0.01,
               ls_tries=5, verbose=False):
     '''Runs L-BFGS ICA algorithm using preconditioning
 
