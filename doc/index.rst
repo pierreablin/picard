@@ -9,7 +9,7 @@ L-BFGS ICA
 This is a library to run a faster ICA solver based on L-BFGS combined a preconditioning strategy.
 
 Installation
-============
+------------
 
 We recommend the `Anaconda Python distribution <https://www.continuum.io/downloads>`_. To install ``lbfgsica``, you first need to install its dependencies::
 
@@ -29,25 +29,38 @@ To check if everything worked fine, you can do::
 and it should not give any error messages.
 
 Quickstart
-==========
+----------
 
 The easiest way to get started is to copy the following three lines of code
 in your script:
 
 .. code:: python
 
-	>>> from lbfgsica import run_ica
-	>>> lbfgs_ica(...)
+   >>> import numpy as np
+   >>> from lbfgsica import lbfgs_ica
+   >>> N, T = 3, 1000
+   >>> S = np.random.laplace(size=(N, T))
+   >>> A = np.random.randn(N, N)
+   >>> X = np.dot(A, S)
+   >>> Y, W = lbfgs_ica(X)  # doctest:+ELLIPSIS
 
 
 Bug reports
-===========
+-----------
 
 Use the `github issue tracker <https://github.com/pierreablin/l-bfgs-ica/issues>`_ to report bugs.
 
 Cite
-====
+----
 
    [1] Pierre Ablin, Jean-Francois Cardoso, and Alexandre Gramfort
    Faster ICA by preconditioning with Hessian approximations
-   ArXiv Preprint, June 2017
+   ArXiv Preprint, June 2017, https://arxiv.org/abs/1706.08171
+
+API
+---
+
+.. toctree::
+    :maxdepth: 1
+
+    api.rst
