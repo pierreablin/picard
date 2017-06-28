@@ -6,7 +6,7 @@
 L-BFGS ICA
 ==========
 
-This is a library to run a faster ICA solver based on L-BFGS combined a preconditioning strategy.
+This is a library to run a faster ICA solver based on L-BFGS combined with a preconditioning strategy.
 
 Installation
 ------------
@@ -31,7 +31,7 @@ and it should not give any error messages.
 Quickstart
 ----------
 
-The easiest way to get started is to copy the following three lines of code
+The easiest way to get started is to copy the following lines of code
 in your script:
 
 .. code:: python
