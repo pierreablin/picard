@@ -9,7 +9,7 @@ NOSETESTS_OPTIONS := $(shell pip list | grep nose-timer > /dev/null && \
                        echo '--with-timer --timer-top-n 50')
 CTAGS ?= ctags
 
-all: clean test doc-noplot
+all: clean test
 
 clean-pyc:
 	find . -name "*.pyc" | xargs rm -f
