@@ -17,6 +17,7 @@ def lbfgs_ica(X, m=7, maxiter=1000, precon=1, tol=1e-7, lambda_min=0.01,
         Pierre Ablin, Jean-Francois Cardoso, and Alexandre Gramfort
         Faster ICA by preconditioning with Hessian approximations
         ArXiv Preprint, June 2017
+        https://arxiv.org/abs/1706.08171
 
     Parameters
     ----------
