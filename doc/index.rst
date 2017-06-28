@@ -26,7 +26,7 @@ To check if everything worked fine, you can do::
 
 	$ python -c 'import lbfgsica'
 
-and it should not give any error messages.
+and it should not give any error message.
 
 Quickstart
 ----------
