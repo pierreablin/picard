@@ -1,5 +1,6 @@
 # Authors: Pierre Ablin <pierre.ablin@inria.fr>
 #          Alexandre Gramfort <alexandre.gramfort@inria.fr>
+#          Jean-François Cardoso <cardoso@iap.fr>
 #
 # License: BSD (3-clause)
 
