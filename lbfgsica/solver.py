@@ -1,6 +1,6 @@
 # Authors: Pierre Ablin <pierre.ablin@inria.fr>
 #          Alexandre Gramfort <alexandre.gramfort@inria.fr>
-#          Jean-François Cardoso <cardoso@iap.fr>
+#          Jean-Francois Cardoso <cardoso@iap.fr>
 #
 # License: BSD (3-clause)
 
@@ -10,7 +10,7 @@ import numexpr as ne
 
 
 def lbfgs_ica(X, m=7, maxiter=1000, precon=1, tol=1e-7, lambda_min=0.01,
-              ls_tries=5, verbose=False):
+              ls_tries=10, verbose=False):
     '''Runs L-BFGS ICA algorithm using preconditioning
 
     The algorithm is detailed in::
@@ -102,13 +102,13 @@ def lbfgs_ica(X, m=7, maxiter=1000, precon=1, tol=1e-7, lambda_min=0.01,
         if not converged:
             direction = -G
             _, new_Y, new_W, new_loss, direction =\
-                _line_search(Y, W, direction, current_loss, 3, False)
+                _line_search(Y, W, direction, current_loss, 10, False)
         Y = new_Y
         W = new_W
         current_loss = new_loss
         if verbose:
-            print('iteration %d, loss = %.4g, gradient norm = %.2g' %
-                  (n + 1, current_loss, G_norm))
+            print('iteration %d, gradient norm = %.4g' %
+                  (n + 1, G_norm))
     return Y, W
 
 
@@ -165,7 +165,7 @@ def _solve_hessian(G, Y, thY, precon, lambda_min):
     # Build the diagonal of the Hessian, a.
     Y_squared = Y ** 2
     if precon == 2:
-        a = np.inner(psidY, Y_squared) / float(T) + np.eye(N)
+        a = np.inner(psidY, Y_squared) / float(T)
     elif precon == 1:
         sigma2 = np.mean(Y_squared, axis=1)
         psidY_mean = np.mean(psidY, axis=1)
@@ -175,7 +175,7 @@ def _solve_hessian(G, Y, thY, precon, lambda_min):
     else:
         raise ValueError('precon should be 1 or 2')
     # Compute the eigenvalues of the Hessian
-    eigenvalues = 0.5 * (a + a.T + np.sqrt((a - a.T) ** 2 + 4.))
+    eigenvalues = 0.5 * (a + a.T - np.sqrt((a - a.T) ** 2 + 4.))
     # Regularize
     problematic_locs = eigenvalues < lambda_min
     np.fill_diagonal(problematic_locs, False)
