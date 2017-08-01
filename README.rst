@@ -21,8 +21,7 @@ These are the dependencies to use lbfgsica:
 
 * numpy (>=1.8)
 * matplotlib (>=1.3)
-* scipy (>=0.16)
-* numexpr (>= 2.0) 
+* numexpr (>= 2.0)
 
 These are the dependencies to run the EEG example:
 
