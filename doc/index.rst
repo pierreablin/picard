@@ -13,7 +13,7 @@ Installation
 
 We recommend the `Anaconda Python distribution <https://www.continuum.io/downloads>`_. To install ``lbfgsica``, you first need to install its dependencies::
 
-	$ pip install numpy matplotlib scipy numexpr
+	$ pip install numpy matplotlib numexpr
 
 Then install lbfgsica::
 

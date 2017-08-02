@@ -316,6 +316,5 @@ sphinx_gallery_conf = {
     'reference_url': {
         'lbfgsica': 'http://pierreablin.github.io/l-bfgs-ica',
         'numpy': 'http://docs.scipy.org/doc/numpy-1.9.1',
-        'scipy': 'http://docs.scipy.org/doc/scipy-0.17.0/reference',
         }
 }
