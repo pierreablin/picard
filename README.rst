@@ -1,4 +1,4 @@
-L-BFGS ICA
+Preconditioned ICA for Real Data
 ==========
 
 |Travis|_ |Codecov|_
