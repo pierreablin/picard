@@ -1,23 +1,22 @@
-Preconditioned ICA for Real Data
+Picard : Preconditioned ICA for Real Data
 ==========
 
 |Travis|_ |Codecov|_
 
-.. |Travis| image:: https://api.travis-ci.org/pierreablin/l-bfgs-ica.svg?branch=master
-.. _Travis: https://travis-ci.org/pierreablin/l-bfgs-ica
+.. |Travis| image:: https://api.travis-ci.org/pierreablin/picard.svg?branch=master
+.. _Travis: https://travis-ci.org/pierreablin/picard
 
-.. |Codecov| image:: http://codecov.io/github/pierreablin/l-bfgs-ica/coverage.svg?branch=master
-.. _Codecov: http://codecov.io/github/pierreablin/l-bfgs-ica?branch=master
+.. |Codecov| image:: http://codecov.io/github/pierreablin/picard/coverage.svg?branch=master
+.. _Codecov: http://codecov.io/github/pierreablin/picard?branch=master
 
-This repository hosts code to run a faster ICA solver based on L-BFGS
-combined with a preconditioning strategy.
+This repository hosts code of the Preconditioned ICA for Real Data (Picard) algorithm.
 
-See the `documentation <https://pierreablin.github.io/l-bfgs-ica/index.html>`_
+See the `documentation <https://pierreablin.github.io/picard/index.html>`_
 
 Dependencies
 ------------
 
-These are the dependencies to use lbfgsica:
+These are the dependencies to use Picard:
 
 * numpy (>=1.8)
 * matplotlib (>=1.3)
@@ -34,5 +33,5 @@ Cite
 If you use this code in your project, please cite::
 
     Pierre Ablin, Jean-Francois Cardoso, and Alexandre Gramfort
-    Faster ICA by preconditioning with Hessian approximations
+    Faster independent component analysis by preconditioning with Hessian approximations
     ArXiv Preprint, June 2017

@@ -10,7 +10,7 @@ import mne
 from mne.datasets import sample
 from sklearn.decomposition import PCA
 
-from lbfgsica import lbfgs_ica
+from picard import picard
 
 print(__doc__)
 
@@ -42,7 +42,7 @@ X = pca.components_ * np.sqrt(data.shape[1])
 
 # Run ICA on X
 
-Y, W = lbfgs_ica(X, maxiter=1000)
+Y, W = picard(X)
 
 ###############################################################################
 # Plot results

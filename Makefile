@@ -32,7 +32,7 @@ inplace:
 	$(PYTHON) setup.py build_ext -i
 
 test-code:
-	$(NOSETESTS) -s lbfgsica $(NOSETESTS_OPTIONS)
+	$(NOSETESTS) -s picard $(NOSETESTS_OPTIONS)
 test-doc:
 	$(NOSETESTS) -s --with-doctest --doctest-tests --doctest-extension=rst \
 	--doctest-extension=inc --doctest-fixtures=_fixture `find doc/ -name '*.rst'`
@@ -40,7 +40,7 @@ test-doc:
 test-coverage:
 	rm -rf coverage .coverage
 	$(NOSETESTS) -s --with-coverage --cover-html --cover-html-dir=coverage \
-	--cover-package=lbfgsica lbfgsica
+	--cover-package=picard picard
 
 test: test-code test-doc
 

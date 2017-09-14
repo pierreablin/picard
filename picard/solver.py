@@ -9,14 +9,15 @@ import numpy as np
 import numexpr as ne
 
 
-def lbfgs_ica(X, m=7, maxiter=1000, precon=1, tol=1e-7, lambda_min=0.01,
-              ls_tries=10, verbose=False):
-    '''Runs L-BFGS ICA algorithm using preconditioning
+def picard(X, m=7, maxiter=1000, precon=1, tol=1e-7, lambda_min=0.01,
+           ls_tries=10, verbose=False):
+    '''Runs the Picard algorithm
 
     The algorithm is detailed in::
 
         Pierre Ablin, Jean-Francois Cardoso, and Alexandre Gramfort
-        Faster ICA by preconditioning with Hessian approximations
+        Faster independent component analysis by preconditioning with Hessian
+        approximations
         ArXiv Preprint, June 2017
         https://arxiv.org/abs/1706.08171
 

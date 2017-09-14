@@ -2,14 +2,14 @@
 import setuptools  # noqa; we are using a setuptools namespace
 from numpy.distutils.core import setup
 
-descr = """Faster ICA solver with preconditioning."""
+descr = """Preconditoned ICA for Real Data"""
 
-DISTNAME = 'lbfgsica'
+DISTNAME = 'picard'
 DESCRIPTION = descr
 MAINTAINER = 'Pierre Ablin'
 MAINTAINER_EMAIL = 'pierre.ablin@inria.fr'
 LICENSE = 'BSD (3-clause)'
-DOWNLOAD_URL = 'https://github.com/pierreablin/l-bfgs-ica.git'
+DOWNLOAD_URL = 'https://github.com/pierreablin/picard.git'
 VERSION = '0.1.dev0'
 
 if __name__ == "__main__":
@@ -35,6 +35,6 @@ if __name__ == "__main__":
           ],
           platforms='any',
           packages=[
-              'lbfgsica'
+              'picard'
           ],
           )

@@ -4,14 +4,14 @@
 API Documentation
 =================
 
-.. currentmodule:: lbfgsica
+.. currentmodule:: picard
 
-L-BFGS ICA solver
-=================
+Preconditioned ICA for Real Data
+================================
 
 Functions
 
 .. autosummary::
    :toctree: generated/
 
-   lbfgs_ica
+   picard

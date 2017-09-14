@@ -2,7 +2,7 @@ import numpy as np
 from nose.tools import assert_raises, assert_equal
 from numpy.testing import assert_allclose
 
-from lbfgsica import lbfgs_ica
+from picard import picard
 
 
 def get_perm(A):
@@ -28,14 +28,14 @@ def get_perm(A):
     return idx, A
 
 
-def test_lbgfs_solver():
+def test_picard():
     N, T = 2, 10000
     rng = np.random.RandomState(42)
     S = rng.laplace(size=(N, T))
     A = rng.randn(N, N)
     X = np.dot(A, S)
     for precon in [1, 2]:
-        Y, W = lbfgs_ica(X, precon=precon, verbose=True)
+        Y, W = picard(X, precon=precon, verbose=True)
         # Get the final gradient norm
         G = np.inner(np.tanh(Y / 2.), Y) / float(T) - np.eye(N)
         assert_allclose(G, np.zeros((N, N)), atol=1e-7)
@@ -52,4 +52,4 @@ def test_lbgfs_crash():
     S = rng.laplace(size=(N, T))
     A = rng.randn(N, N)
     X = np.dot(A, S)
-    assert_raises(ValueError, lbfgs_ica, X, precon=18)
+    assert_raises(ValueError, picard, X, precon=18)

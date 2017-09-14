@@ -10,7 +10,7 @@ coverage:
     patch: false
     changes: false
   ignore:
-    - "lbfgsica/viz.py"
+    - "picard/viz.py"
 comment:
   layout: "header, diff, sunburst, uncovered"
   behavior: default

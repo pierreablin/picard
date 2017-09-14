@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# lbfgsica documentation build configuration file, created by
+# picard documentation build configuration file, created by
 # sphinx-quickstart on Mon May 23 16:22:52 2016.
 #
 # This file is execfile()d with the current directory set to its
@@ -59,7 +59,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'lbfgsica'
+project = u'picard'
 copyright = u'2017, Pierre Ablin'
 author = u'Pierre Ablin'
 
@@ -131,7 +131,7 @@ html_theme_options = {
     'navbar_links': [
         ("Examples", "auto_examples/index"),
         ("API", "api"),
-        ("GitHub", "https://github.com/pierreablin/l-bfgs-ica", True)
+        ("GitHub", "https://github.com/pierreablin/picard", True)
     ],
     'bootswatch_theme': "united"
 }
@@ -221,7 +221,7 @@ html_theme_path = sphinx_bootstrap_theme.get_html_theme_path()
 #html_search_scorer = 'scorer.js'
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'lbfgsicadoc'
+htmlhelp_basename = 'picarddoc'
 
 # -- Options for LaTeX output ---------------------------------------------
 
@@ -243,7 +243,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'lbfgsica.tex', u'lbfgsica Documentation',
+    (master_doc, 'picard.tex', u'picard Documentation',
      u'Pierre Ablin', 'manual'),
 ]
 
@@ -273,7 +273,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'lbfgsica', u'L-BFGS ICA Documentation',
+    (master_doc, 'picard', u'Picard Documentation',
      [author], 1)
 ]
 
@@ -287,8 +287,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'lbfgsica', u'lbfgsica Documentation',
-     author, 'lbfgsica', 'One line description of project.',
+    (master_doc, 'picard', u'picard Documentation',
+     author, 'picard', 'One line description of project.',
      'Miscellaneous'),
 ]
 
@@ -314,7 +314,7 @@ sphinx_gallery_conf = {
     'examples_dirs': '../examples',
     'gallery_dirs': 'auto_examples',
     'reference_url': {
-        'lbfgsica': 'http://pierreablin.github.io/l-bfgs-ica',
+        'lbfgsica': 'http://pierreablin.github.io/picard',
         'numpy': 'http://docs.scipy.org/doc/numpy-1.9.1',
         }
 }

@@ -1,13 +1,13 @@
 """
-================================================
-Blind source separation using preconditioned ICA
-================================================
+====================================
+Blind source separation using Picard
+====================================
 
 """
 import numpy as np
 import matplotlib.pyplot as plt
 
-from lbfgsica import lbfgs_ica
+from picard import picard
 
 print(__doc__)
 
@@ -29,7 +29,7 @@ A = np.array([[1, 1, 1], [0.5, 2, 1.0], [1.5, 1.0, 2.0]])  # Mixing matrix
 X = np.dot(A, S)  # Generate observations
 
 # Compute ICA
-Y, W = lbfgs_ica(X)
+Y, W = picard(X)
 
 ###############################################################################
 # Plot results
