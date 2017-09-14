@@ -21,7 +21,7 @@ doc/auto_examples/
 doc/modules/generated/
 doc/datasets/generated/
 pip-log.txt
-lbfgsica.egg-info/
+picard.egg-info/
 .tags
 tags
 .coverage
