@@ -314,7 +314,7 @@ sphinx_gallery_conf = {
     'examples_dirs': '../examples',
     'gallery_dirs': 'auto_examples',
     'reference_url': {
-        'lbfgsica': 'http://pierreablin.github.io/picard',
+        'picard': 'http://pierreablin.github.io/picard',
         'numpy': 'http://docs.scipy.org/doc/numpy-1.9.1',
         }
 }

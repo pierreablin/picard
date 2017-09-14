@@ -15,7 +15,7 @@ We recommend the `Anaconda Python distribution <https://www.continuum.io/downloa
 
 	$ pip install numpy matplotlib numexpr
 
-Then install lbfgsica::
+Then install Picard::
 
 	$ pip install git+https://github.com/pierreablin/picard.git#egg=picard
 
