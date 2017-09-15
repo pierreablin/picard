@@ -72,6 +72,7 @@ def picard(X, m=7, maxiter=1000, precon=1, tol=1e-7, lambda_min=0.01,
     s_list = []
     y_list = []
     r_list = []
+    current_loss = _loss(Y, W)
     for n in range(maxiter):
         # Compute the score function
         thY = ne.evaluate('tanh(Y / 2.)')
@@ -96,8 +97,6 @@ def picard(X, m=7, maxiter=1000, precon=1, tol=1e-7, lambda_min=0.01,
         direction = _l_bfgs_direction(Y, thY, G, s_list, y_list, r_list,
                                       precon, lambda_min)
         # Do a line_search in that direction:
-        if n == 0:
-            current_loss = _loss(Y, W)
         converged, new_Y, new_W, new_loss, direction =\
             _line_search(Y, W, direction, current_loss, ls_tries, verbose)
         if not converged:

@@ -26,6 +26,7 @@ These are the dependencies to run the EEG example:
 
 * mne (>=0.14)
 * scikit-learn (>=0.18)
+* scipy (>=0.19)
 
 Cite
 ----
