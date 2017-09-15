@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 import mne
 from mne.datasets import sample
 from sklearn.decomposition import PCA
+from scipy.stats import kurtosis
 
 from picard import picard
 
@@ -46,8 +47,11 @@ Y, W = picard(X)
 
 ###############################################################################
 # Plot results
+###############################################################################
+
 n_plots = 10
-models = [data[:n_plots], Y[:n_plots]]
+order = np.argsort(kurtosis(Y[:, :1000], axis=1))[::-1]
+models = [data[:n_plots], Y[order[:n_plots][::-1]]]
 names = ['Observations (raw EEG)',
          'ICA recovered sources']
 fig, axes = plt.subplots(2, 1, figsize=(7, 7))

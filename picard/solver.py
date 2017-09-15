@@ -102,6 +102,7 @@ def picard(X, m=7, maxiter=1000, precon=1, tol=1e-7, lambda_min=0.01,
             _line_search(Y, W, direction, current_loss, ls_tries, verbose)
         if not converged:
             direction = -G
+            s_list, y_list, r_list = [], [], []
             _, new_Y, new_W, new_loss, direction =\
                 _line_search(Y, W, direction, current_loss, 10, False)
         Y = new_Y
@@ -117,11 +118,12 @@ def _loss(Y, W):
     '''
     Computes the loss function for Y, W
     '''
-    T = Y.shape[1]
-    log_det = np.linalg.slogdet(W)[1]
-    absY = ne.evaluate('abs(Y)')  # noqa
-    logcoshY = ne.evaluate('sum(absY + 2. * log1p(exp(-absY)))')
-    return - log_det + logcoshY / float(T)
+    N = Y.shape[0]
+    loss = - np.linalg.slogdet(W)[1]
+    for n in range(N):
+        y = Y[n]  # noqa
+        loss += np.mean(ne.evaluate('abs(Y) + 2. * log1p(exp(-abs(Y)))'))
+    return loss
 
 
 def _line_search(Y, W, direction, current_loss, ls_tries, verbose):
@@ -129,11 +131,11 @@ def _line_search(Y, W, direction, current_loss, ls_tries, verbose):
     Performs a backtracking line search, starting from Y and W, in the
     direction direction. I
     '''
-    projected_Y = np.dot(direction, Y)
+    N = Y.shape[0]
     projected_W = np.dot(direction, W)
     alpha = 1.
     for _ in range(ls_tries):
-        Y_new = Y + alpha * projected_Y
+        Y_new = np.dot(np.eye(N) + alpha * direction, Y)
         W_new = W + alpha * projected_W
         new_loss = _loss(Y_new, W_new)
         if new_loss < current_loss:
