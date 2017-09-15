@@ -43,6 +43,7 @@ To get started, you can build a synthetic signals matrix:
    >>> X = np.dot(A, S)
 
 And then feed Picard with it:
+
 .. code:: python
 
    >>> from picard import picard
