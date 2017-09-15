@@ -1,42 +1,40 @@
 
 <!DOCTYPE html>
 
-
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
     <title>Blind source separation using preconditioned ICA on EEG &#8212; picard 0.1.dev0 documentation</title>
-    
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
         VERSION:     '0.1.dev0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-3.3.7/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="picard 0.1.dev0 documentation" href="../index.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body role="document">
+  <body>
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -95,7 +93,7 @@
             
               <li class="hidden-sm">
 <div id="sourcelink">
-  <a href="../_sources/auto_examples/plot_ica_eeg.txt"
+  <a href="../_sources/auto_examples/plot_ica_eeg.rst.txt"
      rel="nofollow">Source</a>
 </div></li>
             
@@ -127,7 +125,7 @@
 
 <span class="kn">from</span> <span class="nn">picard</span> <span class="kn">import</span> <span class="n">picard</span>
 
-<span class="k">print</span><span class="p">(</span><span class="n">__doc__</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="vm">__doc__</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Generate sample EEG data</p>
@@ -161,24 +159,7 @@
 </pre></div>
 </div>
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-default"><div class="highlight"><pre><span></span><span class="n">Opening</span> <span class="n">raw</span> <span class="n">data</span> <span class="n">file</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">Pierre</span>\<span class="n">mne_data</span>\<span class="n">MNE</span><span class="o">-</span><span class="n">sample</span><span class="o">-</span><span class="n">data</span>\<span class="n">MEG</span>\<span class="n">sample</span>\<span class="n">sample_audvis_filt</span><span class="o">-</span><span class="mi">0</span><span class="o">-</span><span class="mi">40</span><span class="n">_raw</span><span class="o">.</span><span class="n">fif</span><span class="o">...</span>
-    <span class="n">Read</span> <span class="n">a</span> <span class="n">total</span> <span class="n">of</span> <span class="mi">4</span> <span class="n">projection</span> <span class="n">items</span><span class="p">:</span>
-        <span class="n">PCA</span><span class="o">-</span><span class="n">v1</span> <span class="p">(</span><span class="mi">1</span> <span class="n">x</span> <span class="mi">102</span><span class="p">)</span>  <span class="n">idle</span>
-        <span class="n">PCA</span><span class="o">-</span><span class="n">v2</span> <span class="p">(</span><span class="mi">1</span> <span class="n">x</span> <span class="mi">102</span><span class="p">)</span>  <span class="n">idle</span>
-        <span class="n">PCA</span><span class="o">-</span><span class="n">v3</span> <span class="p">(</span><span class="mi">1</span> <span class="n">x</span> <span class="mi">102</span><span class="p">)</span>  <span class="n">idle</span>
-        <span class="n">Average</span> <span class="n">EEG</span> <span class="n">reference</span> <span class="p">(</span><span class="mi">1</span> <span class="n">x</span> <span class="mi">60</span><span class="p">)</span>  <span class="n">idle</span>
-    <span class="n">Range</span> <span class="p">:</span> <span class="mi">6450</span> <span class="o">...</span> <span class="mi">48149</span> <span class="o">=</span>     <span class="mf">42.956</span> <span class="o">...</span>   <span class="mf">320.665</span> <span class="n">secs</span>
-<span class="n">Ready</span><span class="o">.</span>
-<span class="n">Current</span> <span class="n">compensation</span> <span class="n">grade</span> <span class="p">:</span> <span class="mi">0</span>
-<span class="n">add_eeg_ref</span> <span class="n">defaults</span> <span class="n">to</span> <span class="kc">True</span> <span class="ow">in</span> <span class="mf">0.13</span><span class="p">,</span> <span class="n">will</span> <span class="n">default</span> <span class="n">to</span> <span class="kc">False</span> <span class="ow">in</span> <span class="mf">0.14</span><span class="p">,</span> <span class="ow">and</span> <span class="n">will</span> <span class="n">be</span> <span class="n">removed</span> <span class="ow">in</span> <span class="mf">0.15</span><span class="o">.</span> <span class="n">We</span> <span class="n">recommend</span> <span class="n">to</span> <span class="n">use</span> <span class="n">add_eeg_ref</span><span class="o">=</span><span class="kc">False</span> <span class="ow">and</span> <span class="n">set_eeg_reference</span><span class="p">()</span> <span class="n">instead</span><span class="o">.</span>
-<span class="n">Reading</span> <span class="mi">0</span> <span class="o">...</span> <span class="mi">41699</span>  <span class="o">=</span>      <span class="mf">0.000</span> <span class="o">...</span>   <span class="mf">277.709</span> <span class="n">secs</span><span class="o">...</span>
-<span class="n">Band</span><span class="o">-</span><span class="k">pass</span> <span class="n">filtering</span> <span class="kn">from</span> <span class="mi">1</span> <span class="o">-</span> <span class="mi">40</span> <span class="n">Hz</span>
-<span class="n">Multiple</span> <span class="n">deprecated</span> <span class="nb">filter</span> <span class="n">parameters</span> <span class="n">were</span> <span class="n">used</span><span class="p">:</span>
-<span class="n">phase</span> <span class="ow">in</span> <span class="mf">0.13</span> <span class="ow">is</span> <span class="s2">&quot;zero-double&quot;</span> <span class="n">but</span> <span class="n">will</span> <span class="n">change</span> <span class="n">to</span> <span class="s2">&quot;zero&quot;</span> <span class="ow">in</span> <span class="mf">0.14</span>
-<span class="n">fir_window</span> <span class="ow">in</span> <span class="mf">0.13</span> <span class="ow">is</span> <span class="s2">&quot;hann&quot;</span> <span class="n">but</span> <span class="n">will</span> <span class="n">change</span> <span class="n">to</span> <span class="s2">&quot;hamming&quot;</span> <span class="ow">in</span> <span class="mf">0.14</span>
-<span class="n">lower</span> <span class="n">transition</span> <span class="n">bandwidth</span> <span class="ow">in</span> <span class="mf">0.13</span> <span class="ow">is</span> <span class="mf">0.5</span> <span class="n">Hz</span> <span class="n">but</span> <span class="n">will</span> <span class="n">change</span> <span class="n">to</span> <span class="s2">&quot;auto&quot;</span> <span class="ow">in</span> <span class="mf">0.14</span>
-<span class="n">upper</span> <span class="n">transition</span> <span class="n">bandwidth</span> <span class="ow">in</span> <span class="mf">0.13</span> <span class="ow">is</span> <span class="mf">0.5</span> <span class="n">Hz</span> <span class="n">but</span> <span class="n">will</span> <span class="n">change</span> <span class="n">to</span> <span class="s2">&quot;auto&quot;</span> <span class="ow">in</span> <span class="mf">0.14</span>
-<span class="n">The</span> <span class="n">default</span> <span class="nb">filter</span> <span class="n">length</span> <span class="ow">in</span> <span class="mf">0.13</span> <span class="ow">is</span> <span class="s2">&quot;10s&quot;</span> <span class="n">but</span> <span class="n">will</span> <span class="n">change</span> <span class="n">to</span> <span class="s2">&quot;auto&quot;</span> <span class="ow">in</span> <span class="mf">0.14</span>
+<div class="sphx-glr-script-out highlight-default"><div class="highlight"><pre><span></span><span class="n">fir_design</span> <span class="n">defaults</span> <span class="n">to</span> <span class="s2">&quot;firwin2&quot;</span> <span class="ow">in</span> <span class="mf">0.15</span> <span class="n">but</span> <span class="n">will</span> <span class="n">change</span> <span class="n">to</span> <span class="s2">&quot;firwin&quot;</span> <span class="ow">in</span> <span class="mf">0.16</span><span class="p">,</span> <span class="nb">set</span> <span class="n">it</span> <span class="n">explicitly</span> <span class="n">to</span> <span class="n">avoid</span> <span class="n">this</span> <span class="n">warning</span><span class="o">.</span>
 </pre></div>
 </div>
 <p>Plot results</p>
@@ -200,11 +181,11 @@
 </pre></div>
 </div>
 <img alt="../_images/sphx_glr_plot_ica_eeg_001.png" class="align-center" src="../_images/sphx_glr_plot_ica_eeg_001.png" />
-<p><strong>Total running time of the script:</strong> ( 0 minutes  6.401 seconds)</p>
-<div class="sphx-glr-footer container">
-<div class="sphx-glr-download container">
+<p><strong>Total running time of the script:</strong> ( 0 minutes  5.987 seconds)</p>
+<div class="sphx-glr-footer docutils container">
+<div class="sphx-glr-download docutils container">
 <a class="reference download internal" href="../_downloads/plot_ica_eeg.py" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_ica_eeg.py</span></code></a></div>
-<div class="sphx-glr-download container">
+<div class="sphx-glr-download docutils container">
 <a class="reference download internal" href="../_downloads/plot_ica_eeg.ipynb" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_ica_eeg.ipynb</span></code></a></div>
 </div>
 <p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.readthedocs.io">Generated by Sphinx-Gallery</a></p>
@@ -226,7 +207,7 @@ data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_
     </p>
     <p>
         &copy; Copyright 2017, Pierre Ablin.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.<br/>
     </p>
   </div>
 </footer>

@@ -1,6 +1,0 @@
-picard.picard
-=============
-
-.. currentmodule:: picard
-
-.. autofunction:: picard
