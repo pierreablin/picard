@@ -13,6 +13,13 @@ This repository hosts code of the Preconditioned ICA for Real Data (Picard) algo
 
 See the `documentation <https://pierreablin.github.io/picard/index.html>`_
 
+
+Algorithm
+---------
+
+Picard solves the maximum likelihood formulation of independent component analysis.
+It uses a preconditioned L-BFGS strategy, resulting in a very fast convergence.
+
 Dependencies
 ------------
 
