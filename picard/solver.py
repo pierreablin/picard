@@ -122,7 +122,7 @@ def _loss(Y, W):
     loss = - np.linalg.slogdet(W)[1]
     for n in range(N):
         y = Y[n]  # noqa
-        loss += np.mean(ne.evaluate('abs(Y) + 2. * log1p(exp(-abs(Y)))'))
+        loss += np.mean(ne.evaluate('abs(y) + 2. * log1p(exp(-abs(y)))'))
     return loss
 
 
