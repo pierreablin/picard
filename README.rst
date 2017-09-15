@@ -47,7 +47,7 @@ And then feed Picard with it:
 .. code:: python
 
    >>> from picard import picard
-   >>> Y, W = picard(X)  # doctest:+ELLIPSIS
+   >>> Y, W = picard(X)
 
 Picard outputs the estimated sources, Y, and estimated unmixing matrix, W.
 
