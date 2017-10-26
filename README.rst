@@ -18,8 +18,14 @@ Algorithm
 ---------
 
 Picard solves the maximum likelihood formulation of independent component analysis.
+It solves the same problem as Infomax, faster.
 It uses a preconditioned L-BFGS strategy, resulting in a very fast convergence.
 
+
+Picard-O uses an adaptation of that strategy to solve the same problem under the constraint of whiteness of the signals.
+It solves the same problem as FastICA, faster.
+
+The code for Picard is at picard/solver.py, the code for PicardO is at picardo/solver.py
 
 Installation
 ------------
