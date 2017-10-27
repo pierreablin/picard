@@ -1,7 +1,7 @@
 """
-====================================
-Blind source separation using Picard
-====================================
+=================================================
+Blind source separation using Picard and Picard-O
+=================================================
 
 """
 import numpy as np
