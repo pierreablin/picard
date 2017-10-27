@@ -2,7 +2,7 @@ import numpy as np
 from nose.tools import assert_raises, assert_equal
 from numpy.testing import assert_allclose
 
-from picard import picard
+from picard import picard, picardo
 
 
 def get_perm(A):
@@ -44,6 +44,25 @@ def test_picard():
         WA = np.dot(W, A)
         WA = get_perm(WA)[1]  # Permute and scale
         assert_allclose(WA, np.eye(N), rtol=1e-2, atol=1e-2)
+
+
+def test_picardo():
+    N, T = 2, 10000
+    rng = np.random.RandomState(42)
+    S = rng.laplace(size=(N, T))
+    A = rng.randn(N, N)
+    X = np.dot(A, S)
+
+    Y, W = picardo(X, verbose=True)
+    # Get the final gradient norm
+    G = np.inner(np.tanh(Y), Y) / float(T) - np.eye(N)
+    G = (G - G.T)  # take skew-symmetric part
+    assert_allclose(G, np.zeros((N, N)), atol=1e-7)
+    assert_equal(Y.shape, X.shape)
+    assert_equal(W.shape, A.shape)
+    WA = np.dot(W, A)
+    WA = get_perm(WA)[1]  # Permute and scale
+    assert_allclose(WA, np.eye(N), rtol=1e-2, atol=1e-2)
 
 
 def test_lbgfs_crash():

@@ -9,11 +9,11 @@ from __future__ import print_function
 from time import time
 import numpy as np
 from scipy.linalg import expm
-from tools import (gradient, proj_hessian_approx, regularize_hessian,
-                   l_bfgs_direction, line_search, score, score_der)
+from .tools import (gradient, proj_hessian_approx, regularize_hessian,
+                    l_bfgs_direction, line_search, score, score_der)
 
 
-def picardO(X, m=7, maxiter=100, tol=1e-9, lambda_min=0.01,
+def picardo(X, m=7, maxiter=100, tol=1e-9, lambda_min=0.01,
             ls_tries=10, verbose=0, callback=None):
     '''Runs the Picard-O algorithm
 

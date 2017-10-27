@@ -3,7 +3,13 @@
 Blind source separation using preconditioned ICA on EEG
 =======================================================
 
-"""
+The examples runs the Picard algorithm proposed in:
+
+Pierre Ablin, Jean-Francois Cardoso, and Alexandre Gramfort
+Faster independent component analysis by preconditioning with Hessian approximations
+ArXiv Preprint, June 2017
+
+"""  # noqa
 import numpy as np
 import matplotlib.pyplot as plt
 import mne
