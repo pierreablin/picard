@@ -7,7 +7,7 @@ Blind source separation using Picard
 import numpy as np
 import matplotlib.pyplot as plt
 
-from picard import picard
+from picard import picard, picardo
 
 print(__doc__)
 
@@ -29,15 +29,17 @@ A = np.array([[1, 1, 1], [0.5, 2, 1.0], [1.5, 1.0, 2.0]])  # Mixing matrix
 X = np.dot(A, S)  # Generate observations
 
 # Compute ICA
-Y, W = picard(X)
+Y_picard, W_picard = picard(X)
+Y_picardo, W_picardo = picardo(X)
 
 ###############################################################################
 # Plot results
 
-models = [X, S, Y]
+models = [X, S, Y_picard, Y_picardo]
 names = ['Observations (mixed signal)',
          'True Sources',
-         'ICA recovered signals']
+         'ICA recovered signals with Picard',
+         'ICA recovered signals with Picard-O']
 colors = ['red', 'steelblue', 'orange']
 
 for ii, (model, name) in enumerate(zip(models, names), 1):
