@@ -10,11 +10,11 @@ from time import time
 import numpy as np
 from scipy.linalg import expm
 from .tools import (gradient, proj_hessian_approx, regularize_hessian,
-                    l_bfgs_direction, line_search, score, score_der)
+                    l_bfgs_direction, line_search, score, score_der, whitening)
 
 
 def picardo(X, m=7, maxiter=100, tol=1e-9, lambda_min=0.01,
-            ls_tries=10, verbose=0, callback=None):
+            ls_tries=10, whiten_input=True, verbose=0, callback=None):
     '''Runs the Picard-O algorithm
 
 
@@ -45,6 +45,10 @@ def picardo(X, m=7, maxiter=100, tol=1e-9, lambda_min=0.01,
         number is exceeded, the direction is thrown away and the gradient
         is used instead.
 
+    whiten_input : bool
+        If true, the algorithm whitens the input signals. If False, the input
+        signals should already by white.
+
     verbose : boolean
         If true, prints the informations about the algorithm.
 
@@ -58,8 +62,11 @@ def picardo(X, m=7, maxiter=100, tol=1e-9, lambda_min=0.01,
     '''
     # Init
     N, T = X.shape
-    W = np.eye(N)
-    Y = X.copy()
+    if whiten_input:
+        Y, W = whitening(X)
+    else:
+        W = np.eye(N)
+        Y = X.copy()
     s_list = []
     y_list = []
     r_list = []
