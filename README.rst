@@ -1,5 +1,5 @@
 Picard : Preconditioned ICA for Real Data
-==========
+=========================================
 
 |Travis|_ |Codecov|_
 
@@ -9,7 +9,8 @@ Picard : Preconditioned ICA for Real Data
 .. |Codecov| image:: http://codecov.io/github/pierreablin/picard/coverage.svg?branch=master
 .. _Codecov: http://codecov.io/github/pierreablin/picard?branch=master
 
-This repository hosts code of the Preconditioned ICA for Real Data (Picard) algorithm.
+This repository hosts code of the Preconditioned ICA for Real Data (Picard)
+and Picard-O algorithms.
 
 See the `documentation <https://pierreablin.github.io/picard/index.html>`_.
 
@@ -22,15 +23,14 @@ It solves the same problem as Infomax, faster.
 It uses a preconditioned L-BFGS strategy, resulting in a very fast convergence.
 
 
-Picard-O uses an adaptation of that strategy to solve the same problem under the constraint of whiteness of the signals.
-It solves the same problem as FastICA, faster.
-
-The code for Picard is at picard/solver.py, the code for PicardO is at picardo/solver.py
+Picard-O uses an adaptation of that strategy to solve the same problem under the
+constraint of whiteness of the signals. It solves the same problem as
+FastICA, but faster.
 
 Installation
 ------------
 
-To install Picard, the simplest way is to use pip::
+To install the package, the simplest way is to use pip::
 
 	$ pip install git+https://github.com/pierreablin/picard.git#egg=picard
 
@@ -55,7 +55,15 @@ And then feed Picard with it:
    >>> from picard import picard
    >>> Y, W = picard(X)
 
-Picard outputs the estimated sources, Y, and estimated unmixing matrix, W.
+or Picard-O:
+
+.. code:: python
+
+   >>> from picard import picardo
+   >>> Y, W = picardo(X)
+
+Picard or Picard-O output the estimated sources, Y, and estimated
+unmixing matrix, W.
 
 
 Dependencies
