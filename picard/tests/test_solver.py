@@ -55,7 +55,7 @@ def test_picardo():
 
     Y, W = picardo(X, verbose=True)
     # Get the final gradient norm
-    G = np.inner(np.tanh(Y / 2.), Y) / float(T) - np.eye(N)
+    G = np.inner(np.tanh(Y), Y) / float(T) - np.eye(N)
     G = (G - G.T)  # take skew-symmetric part
     assert_allclose(G, np.zeros((N, N)), atol=1e-7)
     assert_equal(Y.shape, X.shape)
