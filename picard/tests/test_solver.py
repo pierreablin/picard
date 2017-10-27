@@ -53,7 +53,7 @@ def test_picardo():
     A = rng.randn(N, N)
     X = np.dot(A, S)
 
-    Y, W = picardo(X, verbose=True)
+    Y, W = picardo(X, verbose=2)
     # Get the final gradient norm
     G = np.inner(np.tanh(Y), Y) / float(T) - np.eye(N)
     G = (G - G.T)  # take skew-symmetric part
