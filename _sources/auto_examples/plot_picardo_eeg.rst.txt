@@ -1,17 +1,11 @@
 
 
-.. _sphx_glr_auto_examples_plot_ica_eeg.py:
+.. _sphx_glr_auto_examples_plot_picardo_eeg.py:
 
 
-=======================================================
-Blind source separation using preconditioned ICA on EEG
-=======================================================
-
-The examples runs the Picard algorithm proposed in:
-
-Pierre Ablin, Jean-Francois Cardoso, and Alexandre Gramfort
-Faster independent component analysis by preconditioning with Hessian approximations
-ArXiv Preprint, June 2017
+==============================================
+Picard-O: orthogonal preconditioned ICA on EEG
+==============================================
 
 
 
@@ -30,7 +24,7 @@ ArXiv Preprint, June 2017
     from sklearn.decomposition import PCA
     from scipy.stats import kurtosis
 
-    from picard import picard
+    from picard import picardo
 
     print(__doc__)
 
@@ -70,9 +64,9 @@ Generate sample EEG data
 
     X = pca.components_ * np.sqrt(data.shape[1])
 
-    # Run ICA on X
+    # Run Picard-O ICA algorithm on X
 
-    Y, W = picard(X)
+    Y, W = picardo(X)
 
 
 
@@ -107,13 +101,13 @@ Plot results
 
 
 
-.. image:: /auto_examples/images/sphx_glr_plot_ica_eeg_001.png
+.. image:: /auto_examples/images/sphx_glr_plot_picardo_eeg_001.png
     :align: center
 
 
 
 
-**Total running time of the script:** ( 0 minutes  5.606 seconds)
+**Total running time of the script:** ( 0 minutes  4.304 seconds)
 
 
 
@@ -124,13 +118,13 @@ Plot results
 
   .. container:: sphx-glr-download
 
-     :download:`Download Python source code: plot_ica_eeg.py <plot_ica_eeg.py>`
+     :download:`Download Python source code: plot_picardo_eeg.py <plot_picardo_eeg.py>`
 
 
 
   .. container:: sphx-glr-download
 
-     :download:`Download Jupyter notebook: plot_ica_eeg.ipynb <plot_ica_eeg.ipynb>`
+     :download:`Download Jupyter notebook: plot_picardo_eeg.ipynb <plot_picardo_eeg.ipynb>`
 
 
 .. only:: html

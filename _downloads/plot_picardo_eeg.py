@@ -1,15 +1,9 @@
 """
-=======================================================
-Blind source separation using preconditioned ICA on EEG
-=======================================================
+==============================================
+Picard-O: orthogonal preconditioned ICA on EEG
+==============================================
 
-The examples runs the Picard algorithm proposed in:
-
-Pierre Ablin, Jean-Francois Cardoso, and Alexandre Gramfort
-Faster independent component analysis by preconditioning with Hessian approximations
-ArXiv Preprint, June 2017
-
-"""  # noqa
+"""
 
 # Author: Pierre Ablin <pierre.ablin@inria.fr>
 #         Alexandre Gramfort <alexandre.gramfort@inria.fr>
@@ -22,7 +16,7 @@ from mne.datasets import sample
 from sklearn.decomposition import PCA
 from scipy.stats import kurtosis
 
-from picard import picard
+from picard import picardo
 
 print(__doc__)
 
@@ -52,9 +46,9 @@ pca.fit(data)
 
 X = pca.components_ * np.sqrt(data.shape[1])
 
-# Run ICA on X
+# Run Picard-O ICA algorithm on X
 
-Y, W = picard(X)
+Y, W = picardo(X)
 
 ###############################################################################
 # Plot results

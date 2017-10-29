@@ -6,7 +6,9 @@
 Picard
 ======
 
-This is a library to run the Preconditioned ICA for Real Data algorithm. This algorithms shows fast convergence even on real data.
+This is a library to run the Preconditioned ICA for Real Data (PICARD) algorithm
+and its orthogonal version (PICARD-O). These algorithms show fast convergence even
+on real data for which sources independence do not perfectly hold.
 
 Installation
 ------------
@@ -43,6 +45,13 @@ in your script:
    >>> A = np.random.randn(N, N)
    >>> X = np.dot(A, S)
    >>> Y, W = picard(X)  # doctest:+ELLIPSIS
+
+and to run PICARD-O:
+
+.. code:: python
+
+   >>> from picard import picardo
+   >>> Y, W = picardo(X)  # doctest:+ELLIPSIS
 
 
 Bug reports

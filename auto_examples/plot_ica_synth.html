@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Blind source separation using Picard &#8212; picard 0.1.dev0 documentation</title>
+    <title>Blind source separation using Picard and Picard-O &#8212; picard 0.1.dev0 documentation</title>
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
@@ -81,7 +81,7 @@
   <ul class="dropdown-menu localtoc"
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
-<li><a class="reference internal" href="#">Blind source separation using Picard</a></li>
+<li><a class="reference internal" href="#">Blind source separation using Picard and Picard-O</a></li>
 </ul>
 </ul>
 </li>
@@ -115,12 +115,16 @@
 
 <div class="container content-container">
   
-  <div class="section" id="blind-source-separation-using-picard">
-<span id="sphx-glr-auto-examples-plot-ica-synth-py"></span><h1>Blind source separation using Picard<a class="headerlink" href="#blind-source-separation-using-picard" title="Permalink to this headline">¶</a></h1>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+  <div class="section" id="blind-source-separation-using-picard-and-picard-o">
+<span id="sphx-glr-auto-examples-plot-ica-synth-py"></span><h1>Blind source separation using Picard and Picard-O<a class="headerlink" href="#blind-source-separation-using-picard-and-picard-o" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Author: Pierre Ablin &lt;pierre.ablin@inria.fr&gt;</span>
+<span class="c1">#         Alexandre Gramfort &lt;alexandre.gramfort@inria.fr&gt;</span>
+<span class="c1"># License: BSD 3 clause</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
 
-<span class="kn">from</span> <span class="nn">picard</span> <span class="kn">import</span> <span class="n">picard</span>
+<span class="kn">from</span> <span class="nn">picard</span> <span class="kn">import</span> <span class="n">picard</span><span class="p">,</span> <span class="n">picardo</span>
 
 <span class="k">print</span><span class="p">(</span><span class="vm">__doc__</span><span class="p">)</span>
 </pre></div>
@@ -142,14 +146,16 @@
 <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">S</span><span class="p">)</span>  <span class="c1"># Generate observations</span>
 
 <span class="c1"># Compute ICA</span>
-<span class="n">Y</span><span class="p">,</span> <span class="n">W</span> <span class="o">=</span> <span class="n">picard</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">Y_picard</span><span class="p">,</span> <span class="n">W_picard</span> <span class="o">=</span> <span class="n">picard</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">Y_picardo</span><span class="p">,</span> <span class="n">W_picardo</span> <span class="o">=</span> <span class="n">picardo</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Plot results</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">models</span> <span class="o">=</span> <span class="p">[</span><span class="n">X</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">Y</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">models</span> <span class="o">=</span> <span class="p">[</span><span class="n">X</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">Y_picard</span><span class="p">,</span> <span class="n">Y_picardo</span><span class="p">]</span>
 <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Observations (mixed signal)&#39;</span><span class="p">,</span>
          <span class="s1">&#39;True Sources&#39;</span><span class="p">,</span>
-         <span class="s1">&#39;ICA recovered signals&#39;</span><span class="p">]</span>
+         <span class="s1">&#39;ICA recovered signals with Picard&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;ICA recovered signals with Picard-O&#39;</span><span class="p">]</span>
 <span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;steelblue&#39;</span><span class="p">,</span> <span class="s1">&#39;orange&#39;</span><span class="p">]</span>
 
 <span class="k">for</span> <span class="n">ii</span><span class="p">,</span> <span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="n">names</span><span class="p">),</span> <span class="mi">1</span><span class="p">):</span>
@@ -168,15 +174,17 @@
 </li>
 <li><a class="first reference internal image-reference" href="../_images/sphx_glr_plot_ica_synth_003.png"><img alt="../_images/sphx_glr_plot_ica_synth_003.png" src="../_images/sphx_glr_plot_ica_synth_003.png" style="width: 282.0px; height: 188.0px;" /></a>
 </li>
+<li><a class="first reference internal image-reference" href="../_images/sphx_glr_plot_ica_synth_004.png"><img alt="../_images/sphx_glr_plot_ica_synth_004.png" src="../_images/sphx_glr_plot_ica_synth_004.png" style="width: 282.0px; height: 188.0px;" /></a>
+</li>
 </ul>
-<p><strong>Total running time of the script:</strong> ( 0 minutes  0.380 seconds)</p>
+<p><strong>Total running time of the script:</strong> ( 0 minutes  0.473 seconds)</p>
 <div class="sphx-glr-footer docutils container">
 <div class="sphx-glr-download docutils container">
 <a class="reference download internal" href="../_downloads/plot_ica_synth.py" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_ica_synth.py</span></code></a></div>
 <div class="sphx-glr-download docutils container">
 <a class="reference download internal" href="../_downloads/plot_ica_synth.ipynb" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_ica_synth.ipynb</span></code></a></div>
 </div>
-<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.readthedocs.io">Generated by Sphinx-Gallery</a></p>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.readthedocs.io">Gallery generated by Sphinx-Gallery</a></p>
 </div>
 
 
