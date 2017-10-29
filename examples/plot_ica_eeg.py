@@ -10,6 +10,11 @@ Faster independent component analysis by preconditioning with Hessian approximat
 ArXiv Preprint, June 2017
 
 """  # noqa
+
+# Author: Pierre Ablin <pierre.ablin@inria.fr>
+#         Alexandre Gramfort <alexandre.gramfort@inria.fr>
+# License: BSD 3 clause
+
 import numpy as np
 import matplotlib.pyplot as plt
 import mne

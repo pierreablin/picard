@@ -1,7 +1,15 @@
+# Authors: Pierre Ablin <pierre.ablin@inria.fr>
+#          Alexandre Gramfort <alexandre.gramfort@inria.fr>
+#          Jean-Francois Cardoso <cardoso@iap.fr>
+#
+# License: BSD (3-clause)
+
 import numpy as np
-import numexpr as ne
 import numpy.linalg as linalg
+
 from scipy.linalg import expm
+
+import numexpr as ne
 
 
 def score(Y):

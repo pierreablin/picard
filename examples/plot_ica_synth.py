@@ -4,6 +4,11 @@ Blind source separation using Picard and Picard-O
 =================================================
 
 """
+
+# Author: Pierre Ablin <pierre.ablin@inria.fr>
+#         Alexandre Gramfort <alexandre.gramfort@inria.fr>
+# License: BSD 3 clause
+
 import numpy as np
 import matplotlib.pyplot as plt
 

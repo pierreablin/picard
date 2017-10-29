@@ -4,17 +4,24 @@
 #
 # License: BSD (3-clause)
 
+# Authors: Pierre Ablin <pierre.ablin@inria.fr>
+#          Alexandre Gramfort <alexandre.gramfort@inria.fr>
+#          Jean-Francois Cardoso <cardoso@iap.fr>
+#
+# License: BSD (3-clause)
 
 from __future__ import print_function
 from time import time
+
 import numpy as np
 from scipy.linalg import expm
+
 from .tools import (gradient, proj_hessian_approx, regularize_hessian,
                     l_bfgs_direction, line_search, score, score_der, whitening)
 
 
 def picardo(X, m=7, maxiter=100, tol=1e-9, lambda_min=0.01,
-            ls_tries=10, whiten_input=True, verbose=0, callback=None):
+            ls_tries=10, whiten=True, verbose=0, callback=None):
     '''Runs the Picard-O algorithm
 
 
@@ -45,7 +52,7 @@ def picardo(X, m=7, maxiter=100, tol=1e-9, lambda_min=0.01,
         number is exceeded, the direction is thrown away and the gradient
         is used instead.
 
-    whiten_input : bool
+    whiten : bool
         If true, the algorithm whitens the input signals. If False, the input
         signals should already by white.
 
@@ -62,7 +69,7 @@ def picardo(X, m=7, maxiter=100, tol=1e-9, lambda_min=0.01,
     '''
     # Init
     N, T = X.shape
-    if whiten_input:
+    if whiten:
         Y, W = whitening(X)
     else:
         W = np.eye(N)
