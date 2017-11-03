@@ -6,13 +6,23 @@ from numpy.distutils.core import setup
 
 descr = """Preconditoned ICA for Real Data"""
 
-DISTNAME = 'picard'
+version = None
+with open(os.path.join('picard', '__init__.py'), 'r') as fid:
+    for line in (line.strip() for line in fid):
+        if line.startswith('__version__'):
+            version = line.split('=')[1].strip().strip('\'')
+            break
+if version is None:
+    raise RuntimeError('Could not determine version')
+
+
+DISTNAME = 'python-picard'
 DESCRIPTION = descr
 MAINTAINER = 'Pierre Ablin'
 MAINTAINER_EMAIL = 'pierre.ablin@inria.fr'
 LICENSE = 'BSD (3-clause)'
 DOWNLOAD_URL = 'https://github.com/pierreablin/picard.git'
-VERSION = '0.1.dev0'
+VERSION = version
 
 
 def package_tree(pkgroot):
