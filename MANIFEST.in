@@ -1,0 +1,19 @@
+include *.rst
+include LICENSE
+include picard/__init__.py
+
+recursive-include examples *.py
+recursive-include examples *.txt
+
+recursive-include picard *.py
+
+### Exclude
+
+exclude Makefile
+exclude .coveragerc
+exclude *.yml
+exclude dictionary.txt
+exclude .mailmap
+recursive-exclude picard *.pyc
+
+recursive-exclude doc *

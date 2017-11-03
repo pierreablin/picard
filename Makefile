@@ -33,6 +33,7 @@ inplace:
 
 test-code:
 	$(NOSETESTS) -s picard $(NOSETESTS_OPTIONS)
+
 test-doc:
 	$(NOSETESTS) -s --with-doctest --doctest-tests --doctest-extension=rst \
 	--doctest-extension=inc --doctest-fixtures=_fixture `find doc/ -name '*.rst'`
@@ -42,7 +43,7 @@ test-coverage:
 	$(NOSETESTS) -s --with-coverage --cover-html --cover-html-dir=coverage \
 	--cover-package=picard picard
 
-test: test-code test-doc
+test: test-code test-doc test-manifest
 
 trailing-spaces:
 	find . -name "*.py" | xargs perl -pi -e 's/[ \t]*$$//'
@@ -62,3 +63,6 @@ doc-plot:
 .PHONY : doc
 doc:
 	make -C doc html-noplot
+
+test-manifest:
+	check-manifest --ignore doc,picard/*/tests;

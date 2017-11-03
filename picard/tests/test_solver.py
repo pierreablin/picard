@@ -1,6 +1,12 @@
+# Authors: Pierre Ablin <pierre.ablin@inria.fr>
+#          Alexandre Gramfort <alexandre.gramfort@inria.fr>
+#
+# License: BSD (3-clause)
+
 import numpy as np
-from nose.tools import assert_raises, assert_equal
 from numpy.testing import assert_allclose
+
+from nose.tools import assert_raises, assert_equal
 
 from picard import picard, picardo
 

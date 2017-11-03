@@ -30,9 +30,13 @@ FastICA, but faster.
 Installation
 ------------
 
-To install the package, the simplest way is to use pip::
+To install the package, the simplest way is to use pip to get the latest release::
 
-	$ pip install git+https://github.com/pierreablin/picard.git#egg=picard
+  $ pip install python-picard
+
+or to get the latest version of the code::
+
+  $ pip install git+https://github.com/pierreablin/picard.git#egg=picard
 
 
 Quickstart
