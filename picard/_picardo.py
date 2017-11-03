@@ -4,12 +4,6 @@
 #
 # License: BSD (3-clause)
 
-# Authors: Pierre Ablin <pierre.ablin@inria.fr>
-#          Alexandre Gramfort <alexandre.gramfort@inria.fr>
-#          Jean-Francois Cardoso <cardoso@iap.fr>
-#
-# License: BSD (3-clause)
-
 from __future__ import print_function
 from time import time
 
