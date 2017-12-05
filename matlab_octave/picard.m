@@ -127,7 +127,7 @@ function [loss] = loss(Y, W)
     loss = - log(det(W));
     for n=1:N
         y = Y(n, :);
-        loss = loss + mean(mean(abs(y) + 2. * log1p(exp(-abs(y)))'));
+        loss = loss + mean(abs(y) + 2. * log1p(exp(-abs(y))));
     end
 end
 
