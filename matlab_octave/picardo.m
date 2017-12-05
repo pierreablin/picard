@@ -69,7 +69,7 @@ if nargin < 2 m = 7; end
 [N, T] = size(X);
 
 if whiten
-    [Y, W] = whitening(X);
+    [Y, W] = whitening(X, 'sph');
 else
     W = eye(N);
     Y = X;
@@ -162,7 +162,7 @@ function [grad] = gradient(Y, psiY)
     grad = (psiY * Y') / T;
 end
 
-function [Z, W] = whitening(Y, mode='sph')
+function [Z, W] = whitening(Y, mode)
     % Whitens the data Y using sphering or pca
     R = (Y * Y') / size(Y, 2);
     [U, D, tmp] = svd(R);
