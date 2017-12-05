@@ -181,6 +181,7 @@ function [hess] = proj_hessian_approx(Y, psidY_mean, G)
     N = size(Y, 1);
     diagonal = psidY_mean * ones(1, N);
     off_diag = diag(G);
+    off_diag = repmat(off_diag, 1, N);
     hess = 0.5 * (diagonal + diagonal' - off_diag - off_diag');
 end
 
