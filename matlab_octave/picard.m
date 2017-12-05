@@ -64,9 +64,9 @@ if nargin < 8 verbose = false; end
 if nargin < 7 ls_tries = 10; end
 if nargin < 6 lambda_min = 0.01; end
 if nargin < 5 tol = 1e-7; end
-if nargin < 5 precon = 1; end
-if nargin < 5 maxiter = 1000; end
-if nargin < 5 m = 7; end
+if nargin < 4 precon = 1; end
+if nargin < 3 maxiter = 1000; end
+if nargin < 2 m = 7; end
 
 % Init
 [N, T] = size(X);
@@ -149,7 +149,7 @@ function [converged, Y_new, W_new, new_loss, rel_step] = _line_search(Y, W, dire
             rel_step = alpha * direction;
             return
         end
-        alpha /= 2.;
+        alpha = alpha / 2.;
     end
     if verbose
         sprintf('line search failed, falling back to gradient');
