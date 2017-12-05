@@ -65,4 +65,4 @@ doc:
 	make -C doc html-noplot
 
 test-manifest:
-	check-manifest --ignore doc,picard/*/tests;
+	check-manifest --ignore doc,picard/*/tests,matlab_octave;

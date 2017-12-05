@@ -109,8 +109,8 @@ def picardo(X, m=7, maxiter=100, tol=1e-9, lambda_min=0.01,
         G_old = G # noqa
         # Flush the memory if there is a sign change.
         if sign_change:
-                current_loss = None
-                s_list, y_list, r_list = [], [], []
+            current_loss = None
+            s_list, y_list, r_list = [], [], []
         # Compute the Hessian approximation and regularize
         h = proj_hessian_approx(Y, psidY_mean, g)
         h = regularize_hessian(h, lambda_min)

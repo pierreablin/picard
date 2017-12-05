@@ -5,6 +5,7 @@ before_install:
   - ./miniconda.sh -b -p /home/travis/miniconda
   - export PATH=/home/travis/miniconda/bin:$PATH
   - conda update --yes --quiet conda
+  - sudo apt-get install octave
 install:
     - conda create -n testenv --yes pip python=2.7
     - source activate testenv
@@ -16,5 +17,8 @@ install:
 script:
     - make
     - flake8 --count picard
+    - cd matlab_octave
+    - octave plot_ica_synth.m
+    - cd ..
 after_success:
   - bash <(curl -s https://codecov.io/bash)

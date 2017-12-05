@@ -90,6 +90,10 @@ Cite
 
 If you use this code in your project, please cite::
 
-    Pierre Ablin, Jean-Francois Cardoso, and Alexandre Gramfort
+    Pierre Ablin, Jean-Francois Cardoso, Alexandre Gramfort
     Faster independent component analysis by preconditioning with Hessian approximations
     ArXiv Preprint, June 2017
+
+    Pierre Ablin, Jean-François Cardoso, Alexandre Gramfort
+    Faster ICA under orthogonal constraint
+    ArXiv Preprint, Nov 2017
