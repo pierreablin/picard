@@ -75,7 +75,7 @@ Y = X;
 s_list = {};
 y_list = {};
 r_list = {};
-current_loss = _loss(Y, W);
+current_loss = loss(Y, W);
 
 for n =1:maxiter
     % Compute the score function
@@ -101,16 +101,15 @@ for n =1:maxiter
     end
     G_old = G;
     % Find the L-BFGS direction
-    direction = _l_bfgs_direction(Y, thY, G, s_list, y_list, r_list,
-                                  precon, lambda_min);
+    direction = l_bfgs_direction(Y, thY, G, s_list, y_list, r_list, precon, lambda_min);
     % Do a line_search in that direction:
-    [converged, new_Y, new_W, new_loss, direction] = _line_search(Y, W, direction, current_loss, ls_tries, verbose);
+    [converged, new_Y, new_W, new_loss, direction] = line_search(Y, W, direction, current_loss, ls_tries, verbose);
     if ~converged
         direction = -G;
         s_list = {};
         y_list = {};
         r_list = {};
-        [tmp, new_Y, new_W, new_loss, direction] = _line_search(Y, W, direction, current_loss, 10, false);
+        [tmp, new_Y, new_W, new_loss, direction] = line_search(Y, W, direction, current_loss, 10, false);
     end
     Y = new_Y;
     W = new_W;
@@ -120,7 +119,7 @@ for n =1:maxiter
     end
 end
 
-function [loss] = _loss(Y, W)
+function [loss] = loss(Y, W)
     %
     % Computes the loss function for Y, W
     %
@@ -132,7 +131,7 @@ function [loss] = _loss(Y, W)
     end
 end
 
-function [converged, Y_new, W_new, new_loss, rel_step] = _line_search(Y, W, direction, current_loss, ls_tries, verbose)
+function [converged, Y_new, W_new, new_loss, rel_step] = line_search(Y, W, direction, current_loss, ls_tries, verbose)
     %
     % Performs a backtracking line search, starting from Y and W, in the
     % direction direction. I
@@ -143,7 +142,7 @@ function [converged, Y_new, W_new, new_loss, rel_step] = _line_search(Y, W, dire
     for tmp=1:ls_tries
         Y_new = (eye(N) + alpha * direction) * Y;
         W_new = W + alpha * projected_W;
-        new_loss = _loss(Y_new, W_new);
+        new_loss = loss(Y_new, W_new);
         if new_loss < current_loss
             converged = true;
             rel_step = alpha * direction;
@@ -158,7 +157,7 @@ function [converged, Y_new, W_new, new_loss, rel_step] = _line_search(Y, W, dire
     rel_step = alpha * direction;
 end
 
-function [direction] = _l_bfgs_direction(Y, thY, G, s_list, y_list, r_list, precon, lambda_min)
+function [direction] = l_bfgs_direction(Y, thY, G, s_list, y_list, r_list, precon, lambda_min)
     q = G;
     a_list = {};
     for ii=1:length(s_list)
@@ -169,7 +168,7 @@ function [direction] = _l_bfgs_direction(Y, thY, G, s_list, y_list, r_list, prec
         a_list{end + 1} = alpha;
         q = q - alpha * y;
     end
-    z = _solve_hessian(q, Y, thY, precon, lambda_min);
+    z = solve_hessian(q, Y, thY, precon, lambda_min);
     for ii=1:length(s_list)
         s = s_list{ii};
         y = y_list{ii};
@@ -181,7 +180,7 @@ function [direction] = _l_bfgs_direction(Y, thY, G, s_list, y_list, r_list, prec
     direction = -z;
 end
 
-function [out] = _solve_hessian(G, Y, thY, precon, lambda_min)
+function [out] = solve_hessian(G, Y, thY, precon, lambda_min)
     [N, T] = size(Y);
     % Compute the derivative of the score
     psidY = (- thY.^2 + 1.) / 2.;
