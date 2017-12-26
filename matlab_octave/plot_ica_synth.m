@@ -27,15 +27,13 @@ X = A * S;  % Generate observations
 n_sources = size(A, 1);
 
 % Compute ICA
-[Y_picard, W_picard] = picard(X);
-[Y_picardo, W_picardo] = picardo(X);
+[Y, W] = picard(X);
 
 %% Plot results
-models = {X, S, Y_picard, Y_picardo};
+models = {X, S, Y};
 names = {'Observations (mixed signal)',
          'True Sources',
-         'ICA recovered signals with Picard',
-         'ICA recovered signals with Picard-O'};
+         'ICA recovered signals with Picard'};
 
 for ii=1:length(models)
     model = models{ii};

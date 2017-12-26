@@ -1,5 +1,5 @@
-function [Y, W] = picard(X, m, maxiter, precon, tol, lambda_min, ls_tries, verbose)
-% Runs the Picard algorithm
+function [Y, W] = picard(X, varargin)
+% Runs the Picard algorithm for ICA.
 %
 % The algorithm is detailed in::
 %
@@ -9,203 +9,158 @@ function [Y, W] = picard(X, m, maxiter, precon, tol, lambda_min, ls_tries, verbo
 %     ArXiv Preprint, June 2017
 %     https://arxiv.org/abs/1706.08171
 %
-% Parameters
-% ----------
-% X : array, shape (N, T)
-%     Matrix containing the signals that have to be unmixed. N is the
-%     number of signals, T is the number of samples. X has to be centered
+% Picard estimates independent components from the 2-D signal matrix X. The
+% rows of X are the input mixed signals. The algorithm outputs [Y, W],
+% where Y corresponds to the estimated source matrix, and W to the
+% estimated unmixing matrix, such that Y =  W * X.
+% 
+% There are several optional parameters which can be provided in the
+% varargin variable.
 %
-% m : int
-%     Size of L-BFGS's memory. Typical values for m are in the range 3-15
+% Optional parameters:
+% --------------------
+% 'm'                         (int) Size of L-BFGS's memory. Typical values
+%                             for m are in the range 3-15.
+%                             Default : 7
 %
-% maxiter : int
-%     Maximal number of iterations for the algorithm
+% 'maxiter'                   (int) Maximal number of iterations for the
+%                             algorithm.
+%                             Default : 100
 %
-% precon : 1 or 2
-%     Chooses which Hessian approximation is used as preconditioner.
-%     1 -> H1
-%     2 -> H2
-%     H2 is more costly to compute but can greatly accelerate convergence
-%     (See the paper for details).
+% 'mode'                      (string) Chooses to run the orthogonal 
+%                             (Picard-O) or unconstrained version of
+%                             Picard. 
+%                             Possible values:
+%                             'ortho' (default): runs Picard-O 
+%                             'standard'       : runs standard Picard
 %
-% tol : float
-%     tolerance for the stopping criterion. Iterations stop when the norm
-%     of the gradient gets smaller than tol.
+% 'tol'                       (float) Tolerance for the stopping criterion.
+%                             Iterations stop when the norm of the gradient 
+%                             gets smaller than tol.
+%                             Default: 1e-8
 %
-% lambda_min : float
-%     Constant used to regularize the Hessian approximations. The
-%     eigenvalues of the approximation that are below lambda_min are
-%     shifted to lambda_min.
+% 'lambda_min'                (float) Constant used to regularize the 
+%                             Hessian approximation. Eigenvalues of the
+%                             approximation that are below lambda_min are
+%                             shifted to lambda_min.
+%                             Default: 1e-2
 %
-% ls_tries : int
-%     Number of tries allowed for the backtracking line-search. When that
-%     number is exceeded, the direction is thrown away and the gradient
-%     is used instead.
+% 'ls_tries'                  (int) Number of tries allowed for the
+%                             backtracking line-search. When that
+%                             number is exceeded, the direction is thrown
+%                             away and the gradient is used instead.
+%                             Default: 10
 %
-% verbose : boolean
-%     If true, prints the informations about the algorithm.
+% 'whiten'                    (bool) If true, the signals X are whitened
+%                             before running ICA. When using Picard-O, the
+%                             input signals should be whitened.
+%                             Default: true
 %
-% Returns
-% -------
-% Y : array, shape (N, T)
-%     The estimated source matrix
+% 'verbose'                   (bool) If true, prints the informations about
+%                             the algorithm.
+%                             Default: false
 %
-% W : array, shape (N, N)
-%     The estimated unmixing matrix, such that Y = WX.
-
+%
+% Example:
+% --------
+%
+%  [Y, W] = picard(X, 'mode', 'standard', 'tol', 1e-5)
+%
+%  [Y, W] = picard(X, 'mode', 'ortho', 'tol', 1e-10, 'verbose', true)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Authors: Pierre Ablin <pierre.ablin@inria.fr>
 %          Alexandre Gramfort <alexandre.gramfort@inria.fr>
 %          Jean-Francois Cardoso <cardoso@iap.fr>
 %
 % License: BSD (3-clause)
 
-% Fill in unset optional values.
-if nargin < 8 verbose = false; end
-if nargin < 7 ls_tries = 10; end
-if nargin < 6 lambda_min = 0.01; end
-if nargin < 5 tol = 1e-7; end
-if nargin < 4 precon = 1; end
-if nargin < 3 maxiter = 1000; end
-if nargin < 2 m = 7; end
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Init
+% First tests
+
+if nargin == 0,
+    error('No signal provided');
+end
+
+if length(size(X)) > 2,
+    error('Input signals should be two dimensional');
+end
+
+if ~isa (X, 'double'),
+  fprintf ('Converting input signals to double...');
+  X = double(X);
+end
+
 [N, T] = size(X);
-W = eye(N);
-Y = X;
-s_list = {};
-y_list = {};
-r_list = {};
-current_loss = loss(Y, W);
 
-for n =1:maxiter
-    % Compute the score function
-    thY = tanh(Y / 2.);
-    % Compute the relative gradient
-    G = (thY * Y') / T - eye(N);
-    % Stopping criterion
-    G_norm = max(abs(G));
-    if G_norm < tol
-        break
-    end
-    % Update the memory
-    if n > 1
-        s_list{end + 1} = direction;
-        y = G - G_old;
-        y_list{end + 1} = y;
-        r_list{end + 1} = 1. / sum(sum(direction .* y));
-        if length(s_list) > m
-            s_list = s_list(2:end);
-            y_list = y_list(2:end);
-            r_list = r_list(2:end);
-        end
-    end
-    G_old = G;
-    % Find the L-BFGS direction
-    direction = l_bfgs_direction(Y, thY, G, s_list, y_list, r_list, precon, lambda_min);
-    % Do a line_search in that direction:
-    [converged, new_Y, new_W, new_loss, direction] = line_search(Y, W, direction, current_loss, ls_tries, verbose);
-    if ~converged
-        direction = -G;
-        s_list = {};
-        y_list = {};
-        r_list = {};
-        [tmp, new_Y, new_W, new_loss, direction] = line_search(Y, W, direction, current_loss, 10, false);
-    end
-    Y = new_Y;
-    W = new_W;
-    current_loss = new_loss;
-    if verbose
-        sprintf('iteration %d, gradient norm = %.4g', n + 1, G_norm)
+if N > T,
+    error('There are more signals than samples')
+end
+
+% Default parameters
+
+m = 7;
+maxiter = 100;
+mode = 'ortho';
+tol = 1e-8;
+lambda_min = 0.01;
+ls_tries = 10;
+whiten = true;
+verbose = false;
+
+% Read varargin
+
+if mod(length(varargin), 2) == 1,
+    error('There should be an even number of optional parameters');
+end
+
+for i = 1:2:length(varargin)
+    param = lower(varargin{i});
+    value = varargin{i + 1};
+    switch param
+        case 'm'
+            m = value;
+        case 'maxiter'
+            maxiter = value;
+        case 'mode'
+            mode = value;
+        case 'tol'
+            tol = value;
+        case 'lambda_min'
+            lambda_min = value;
+        case 'ls_tries'
+            ls_tries = value;
+        case 'whiten'
+            whiten = value;
+        case 'verbose'
+            verbose = value;
+        otherwise
+            error(['Parameter ''' param ''' unknown'])
     end
 end
 
-function [loss] = loss(Y, W)
-    %
-    % Computes the loss function for Y, W
-    %
-    N = size(Y, 1);
-    loss = - log(det(W));
-    for n=1:N
-        y = Y(n, :);
-        loss = loss + mean(abs(y) + 2. * log1p(exp(-abs(y))));
-    end
+
+% Whiten the signals if needed
+
+if whiten,
+    [X_white, W_white] = whitening(X, 'sph');
+else
+    X_white = X;
+    W_white = eye(N);
+end
+    
+% Run ICA
+
+switch mode
+    case 'ortho'
+        [Y, W] = picardo(X_white, m, maxiter, tol, lambda_min, ls_tries, verbose);
+    case 'standard'
+        [Y, W] = picard_standard(X_white, m, maxiter, 2, tol, lambda_min, ls_tries, verbose);
+    otherwise
+        error('Wrong ICA mode')
 end
 
-function [converged, Y_new, W_new, new_loss, rel_step] = line_search(Y, W, direction, current_loss, ls_tries, verbose)
-    %
-    % Performs a backtracking line search, starting from Y and W, in the
-    % direction direction. I
-    %
-    N = size(Y, 1);
-    projected_W = direction * W;
-    alpha = 1.;
-    for tmp=1:ls_tries
-        Y_new = (eye(N) + alpha * direction) * Y;
-        W_new = W + alpha * projected_W;
-        new_loss = loss(Y_new, W_new);
-        if new_loss < current_loss
-            converged = true;
-            rel_step = alpha * direction;
-            return
-        end
-        alpha = alpha / 2.;
-    end
-    if verbose
-        sprintf('line search failed, falling back to gradient');
-    end
-    converged = false;
-    rel_step = alpha * direction;
+W = W * W_white;
 end
 
-function [direction] = l_bfgs_direction(Y, thY, G, s_list, y_list, r_list, precon, lambda_min)
-    q = G;
-    a_list = {};
-    for ii=1:length(s_list)
-        s = s_list{end - ii + 1};
-        y = y_list{end - ii + 1};
-        r = r_list{end - ii + 1};
-        alpha = r * sum(sum(s .* q));
-        a_list{end + 1} = alpha;
-        q = q - alpha * y;
-    end
-    z = solve_hessian(q, Y, thY, precon, lambda_min);
-    for ii=1:length(s_list)
-        s = s_list{ii};
-        y = y_list{ii};
-        r = r_list{ii};
-        alpha = a_list{end - ii + 1};
-        beta = r * sum(sum(y .* z));
-        z = z + (alpha - beta) * s;
-    end
-    direction = -z;
-end
-
-function [out] = solve_hessian(G, Y, thY, precon, lambda_min)
-    [N, T] = size(Y);
-    % Compute the derivative of the score
-    psidY = (- thY.^2 + 1.) / 2.;
-    % Build the diagonal of the Hessian, a.
-    Y_squared = Y.^2;
-    if precon == 2
-        a = (psidY * Y_squared') / T;
-    elseif precon == 1
-        sigma2 = mean(Y_squared, 2);
-        psidY_mean = mean(psidY, 2);
-        a = psidY_mean * sigma2';
-        diagonal_term = mean(mean(Y_squared .* psidY)) + 1.;
-        a(1:(N+1):N*N) = diagonal_term;
-    else
-        error('precon should be 1 or 2')
-    end
-    % Compute the eigenvalues of the Hessian
-    eigenvalues = 0.5 * (a + a' - sqrt((a - a').^2 + 4.));
-    % Regularize
-    problematic_locs = eigenvalues < lambda_min;
-    problematic_locs(1:(N+1):N*N) = false;
-    [i_pb, j_pb] = find(problematic_locs);
-    a(i_pb, j_pb) = a(i_pb, j_pb) + lambda_min - eigenvalues(i_pb, j_pb);
-    % Invert the transform
-    out = (G .* a' - G') ./ (a .* a' - 1.);
-end
-
-end

@@ -1,4 +1,4 @@
-function [Y, W] = picardo(X, m, maxiter, tol, lambda_min, ls_tries, whiten, verbose)
+function [Y, W] = picardo(X, m, maxiter, tol, lambda_min, ls_tries, verbose)
 % Runs the Picard-O algorithm
 %
 % The algorithm is detailed in::
@@ -56,24 +56,11 @@ function [Y, W] = picardo(X, m, maxiter, tol, lambda_min, ls_tries, whiten, verb
 %
 % License: BSD (3-clause)
 
-% Fill in unset optional values.
-if nargin < 8 verbose = false; end
-if nargin < 7 whiten = true; end
-if nargin < 6 ls_tries = 10; end
-if nargin < 5 lambda_min = 0.01; end
-if nargin < 4 tol = 1e-9; end
-if nargin < 3 maxiter = 100; end
-if nargin < 2 m = 7; end
-
 % Init
 [N, T] = size(X);
 
-if whiten
-    [Y, W] = whitening(X, 'sph');
-else
-    W = eye(N);
-    Y = X;
-end
+W = eye(N);
+Y = X;
 
 s_list = {};
 y_list = {};
@@ -160,20 +147,6 @@ function [grad] = gradient(Y, psiY)
     % Compute the gradient for the current signals
     T = size(Y, 2);
     grad = (psiY * Y') / T;
-end
-
-function [Z, W] = whitening(Y, mode)
-    % Whitens the data Y using sphering or pca
-    R = (Y * Y') / size(Y, 2);
-    [U, D, tmp] = svd(R);
-    D = diag(D);
-    if strcmp(mode, 'pca')
-        W = diag(1. ./ sqrt(D)) * U';;
-        Z = W * Y;
-    elseif strcmp(mode, 'sph')
-        W = U *  diag(1. ./ sqrt(D)) * U';
-        Z = W * Y;
-    end
 end
 
 function [hess] = proj_hessian_approx(Y, psidY_mean, G)
