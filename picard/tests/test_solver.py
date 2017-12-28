@@ -8,7 +8,7 @@ from numpy.testing import assert_allclose
 
 from nose.tools import assert_raises, assert_equal
 
-from picard import picard, picardo
+from picard import picard
 
 
 def get_perm(A):
@@ -40,16 +40,15 @@ def test_picard():
     S = rng.laplace(size=(N, T))
     A = rng.randn(N, N)
     X = np.dot(A, S)
-    for precon in [1, 2]:
-        Y, W = picard(X, precon=precon, verbose=True)
-        # Get the final gradient norm
-        G = np.inner(np.tanh(Y / 2.), Y) / float(T) - np.eye(N)
-        assert_allclose(G, np.zeros((N, N)), atol=1e-7)
-        assert_equal(Y.shape, X.shape)
-        assert_equal(W.shape, A.shape)
-        WA = np.dot(W, A)
-        WA = get_perm(WA)[1]  # Permute and scale
-        assert_allclose(WA, np.eye(N), rtol=1e-2, atol=1e-2)
+    _, W, Y = picard(X, algorithm='standard', verbose=True)
+    # Get the final gradient norm
+    G = np.inner(np.tanh(Y / 2.), Y) / float(T) - np.eye(N)
+    assert_allclose(G, np.zeros((N, N)), atol=1e-7)
+    assert_equal(Y.shape, X.shape)
+    assert_equal(W.shape, A.shape)
+    WA = np.dot(W, A)
+    WA = get_perm(WA)[1]  # Permute and scale
+    assert_allclose(WA, np.eye(N), rtol=1e-2, atol=1e-2)
 
 
 def test_picardo():
@@ -59,7 +58,7 @@ def test_picardo():
     A = rng.randn(N, N)
     X = np.dot(A, S)
 
-    Y, W = picardo(X, verbose=2)
+    _, W, Y = picard(X, algorithm='ortho', verbose=True)
     # Get the final gradient norm
     G = np.inner(np.tanh(Y), Y) / float(T) - np.eye(N)
     G = (G - G.T)  # take skew-symmetric part

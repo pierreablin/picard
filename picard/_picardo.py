@@ -10,8 +10,8 @@ from time import time
 import numpy as np
 from scipy.linalg import expm
 
-from .tools import (gradient, proj_hessian_approx, regularize_hessian,
-                    l_bfgs_direction, line_search, score, score_der, whitening)
+from tools import (gradient, proj_hessian_approx, regularize_hessian,
+                   l_bfgs_direction, line_search, score, score_der, whitening)
 
 
 def picardo(X, m=7, maxiter=100, tol=1e-9, lambda_min=0.01,

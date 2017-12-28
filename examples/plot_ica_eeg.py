@@ -19,7 +19,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import mne
 from mne.datasets import sample
-from sklearn.decomposition import PCA
 from scipy.stats import kurtosis
 
 from picard import picard
@@ -41,20 +40,9 @@ random_state = 0
 data = raw[picks, :][0]
 data = data[:, ::2]  # decimate a bit
 
-# Center
-data -= np.mean(data, axis=1, keepdims=True)
+# Run ICA on data, after reducing the dimension
 
-# Apply PCA for dimension reduction and whitenning.
-
-n_components = 30
-pca = PCA(n_components=n_components, whiten=True, svd_solver='full')
-pca.fit(data)
-
-X = pca.components_ * np.sqrt(data.shape[1])
-
-# Run ICA on X
-
-Y, W = picard(X)
+K, W, Y = picard(data, n_components=30)
 
 ###############################################################################
 # Plot results

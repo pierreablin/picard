@@ -12,7 +12,7 @@ Blind source separation using Picard and Picard-O
 import numpy as np
 import matplotlib.pyplot as plt
 
-from picard import picard, picardo
+from picard import picard
 
 print(__doc__)
 
@@ -34,8 +34,8 @@ A = np.array([[1, 1, 1], [0.5, 2, 1.0], [1.5, 1.0, 2.0]])  # Mixing matrix
 X = np.dot(A, S)  # Generate observations
 
 # Compute ICA
-Y_picard, W_picard = picard(X)
-Y_picardo, W_picardo = picardo(X)
+_, W_picard, Y_picard = picard(X, algorithm='standard')
+_, W_picardo, Y_picardo = picard(X, algorithm='ortho')
 
 ###############################################################################
 # Plot results

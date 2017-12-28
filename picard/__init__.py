@@ -19,4 +19,3 @@
 __version__ = '0.2.dev0'
 
 from .solver import picard  # noqa
-from ._picardo import picardo  # noqa
