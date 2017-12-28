@@ -34,8 +34,8 @@ A = np.array([[1, 1, 1], [0.5, 2, 1.0], [1.5, 1.0, 2.0]])  # Mixing matrix
 X = np.dot(A, S)  # Generate observations
 
 # Compute ICA
-_, W_picard, Y_picard = picard(X, algorithm='standard')
-_, W_picardo, Y_picardo = picard(X, algorithm='ortho')
+_, W_picard, Y_picard = picard(X, ortho=False)
+_, W_picardo, Y_picardo = picard(X, ortho=True)
 
 ###############################################################################
 # Plot results

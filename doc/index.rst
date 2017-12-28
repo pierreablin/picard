@@ -44,14 +44,7 @@ in your script:
    >>> S = np.random.laplace(size=(N, T))
    >>> A = np.random.randn(N, N)
    >>> X = np.dot(A, S)
-   >>> Y, W = picard(X)  # doctest:+ELLIPSIS
-
-and to run PICARD-O:
-
-.. code:: python
-
-   >>> from picard import picardo
-   >>> Y, W = picardo(X)  # doctest:+ELLIPSIS
+   >>> K, W, Y = picard(X)  # doctest:+ELLIPSIS
 
 
 Bug reports

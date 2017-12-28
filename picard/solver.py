@@ -11,7 +11,7 @@ from _picardo import picardo
 from _picard_standard import picard_standard
 
 
-def picard(X, n_components=None, algorithm="ortho", whiten=True,
+def picard(X, n_components=None, ortho=True, whiten=True,
            return_X_mean=False, max_iter=100, tol=1e-07, m=7, ls_tries=10,
            lambda_min=0.01, verbose=False):
     """Perform Independent Component Analysis.
@@ -26,8 +26,8 @@ def picard(X, n_components=None, algorithm="ortho", whiten=True,
         Number of components to extract. If None no dimension reduction
         is performed.
 
-    algorithm : {'ortho', 'standard'}, optional
-        Apply Picard-O or the standard Picard.
+    ortho : bool, optional
+        If True, uses Picard-O. Otherwise, uses the standard Picard.
 
     whiten : boolean, optional
         If True perform an initial whitening of the data.
@@ -105,15 +105,12 @@ def picard(X, n_components=None, algorithm="ortho", whiten=True,
         # 2.0 and the line below
         X1 = X.astype('float')
 
-    if algorithm == 'ortho':
+    if ortho:
         Y, W = picardo(X1, m, max_iter, tol, lambda_min, ls_tries, False,
                        verbose)
-    elif algorithm == 'standard':
+    else:
         Y, W = picard_standard(X1, m, max_iter, 2, tol, lambda_min, ls_tries,
                                verbose)
-    else:
-        raise ValueError('Invalid algorithm: must be either `ortho` or'
-                         ' `standard`.')
     del X1
 
     if not whiten:

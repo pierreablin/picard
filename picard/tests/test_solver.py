@@ -40,7 +40,7 @@ def test_picard():
     S = rng.laplace(size=(N, T))
     A = rng.randn(N, N)
     X = np.dot(A, S)
-    K, W, Y = picard(X, algorithm='standard', verbose=True)
+    K, W, Y = picard(X, ortho=False, verbose=True)
     # Get the final gradient norm
     G = np.inner(np.tanh(Y / 2.), Y) / float(T) - np.eye(N)
     assert_allclose(G, np.zeros((N, N)), atol=1e-7)
@@ -59,7 +59,7 @@ def test_picardo():
     A = rng.randn(N, N)
     X = np.dot(A, S)
 
-    K, W, Y = picard(X, algorithm='ortho', verbose=True)
+    K, W, Y = picard(X, ortho=True, verbose=True)
     # Get the final gradient norm
     G = np.inner(np.tanh(Y), Y) / float(T) - np.eye(N)
     G = (G - G.T)  # take skew-symmetric part
