@@ -7,8 +7,8 @@
 import numpy as np
 from scipy import linalg
 
-from _picardo import picardo
-from _picard_standard import picard_standard
+from ._picardo import picardo
+from ._picard_standard import picard_standard
 
 
 def picard(X, n_components=None, ortho=True, whiten=True,

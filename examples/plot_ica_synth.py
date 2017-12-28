@@ -3,6 +3,20 @@
 Blind source separation using Picard and Picard-O
 =================================================
 
+The example runs the Picard algorithm proposed in:
+
+Pierre Ablin, Jean-Francois Cardoso, Alexandre Gramfort
+Faster independent component analysis by preconditioning with Hessian approximations
+ArXiv Preprint, June 2017
+https://arxiv.org/abs/1706.08171
+
+and Picard-O algorithm proposed in:
+
+Pierre Ablin, Jean-François Cardoso, Alexandre Gramfort
+Faster ICA under orthogonal constraint
+ArXiv Preprint, Nov 2017
+https://arxiv.org/abs/1711.10873
+
 """
 
 # Author: Pierre Ablin <pierre.ablin@inria.fr>

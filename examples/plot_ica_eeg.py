@@ -3,11 +3,12 @@
 Blind source separation using preconditioned ICA on EEG
 =======================================================
 
-The examples runs the Picard algorithm proposed in:
+The example runs the Picard-O algorithm proposed in:
 
-Pierre Ablin, Jean-Francois Cardoso, and Alexandre Gramfort
-Faster independent component analysis by preconditioning with Hessian approximations
-ArXiv Preprint, June 2017
+Pierre Ablin, Jean-François Cardoso, Alexandre Gramfort
+Faster ICA under orthogonal constraint
+ArXiv Preprint, Nov 2017
+https://arxiv.org/abs/1711.10873
 
 """  # noqa
 
@@ -42,17 +43,17 @@ data = data[:, ::2]  # decimate a bit
 
 # Run ICA on data, after reducing the dimension
 
-K, W, Y = picard(data, n_components=30)
+K, W, Y = picard(data, n_components=30, ortho=True)
 
 ###############################################################################
 # Plot results
-###############################################################################
 
 n_plots = 10
 order = np.argsort(kurtosis(Y[:, :1000], axis=1))[::-1]
 models = [data[:n_plots], Y[order[:n_plots][::-1]]]
 names = ['Observations (raw EEG)',
          'ICA recovered sources']
+
 fig, axes = plt.subplots(2, 1, figsize=(7, 7))
 for ii, (model, name, ax) in enumerate(zip(models, names, axes)):
     ax.set_title(name)

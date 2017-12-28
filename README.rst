@@ -9,11 +9,10 @@ Picard : Preconditioned ICA for Real Data
 .. |Codecov| image:: http://codecov.io/github/pierreablin/picard/coverage.svg?branch=master
 .. _Codecov: http://codecov.io/github/pierreablin/picard?branch=master
 
-This repository hosts code of the Preconditioned ICA for Real Data (Picard)
-and Picard-O algorithms.
+This repository hosts Python/Octave/Matlab code of the Preconditioned ICA
+for Real Data (Picard) and Picard-O algorithms.
 
 See the `documentation <https://pierreablin.github.io/picard/index.html>`_.
-
 
 Algorithm
 ---------
@@ -41,6 +40,7 @@ or to get the latest version of the code::
 
   $ pip install git+https://github.com/pierreablin/picard.git#egg=picard
 
+The Matlab/Octave version of Picard and Picard-O is [available here](https://github.com/pierreablin/picard/tree/master/matlab_octave).
 
 Quickstart
 ----------
@@ -89,7 +89,9 @@ If you use this code in your project, please cite::
     Pierre Ablin, Jean-Francois Cardoso, Alexandre Gramfort
     Faster independent component analysis by preconditioning with Hessian approximations
     ArXiv Preprint, June 2017
+    https://arxiv.org/abs/1706.08171
 
     Pierre Ablin, Jean-François Cardoso, Alexandre Gramfort
     Faster ICA under orthogonal constraint
     ArXiv Preprint, Nov 2017
+    https://arxiv.org/abs/1711.10873
