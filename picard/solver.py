@@ -106,10 +106,8 @@ def picard(X, n_components=None, ortho=True, whiten=True,
         # X must be casted to floats to avoid typing issues with numpy
         # 2.0 and the line below
         X1 = X.astype('float')
-
     if ortho:
-        Y, W = picardo(X1, m, max_iter, tol, lambda_min, ls_tries, False,
-                       verbose)
+        Y, W = picardo(X1, m, max_iter, tol, lambda_min, ls_tries, verbose)
     else:
         Y, W = picard_standard(X1, m, max_iter, 2, tol, lambda_min, ls_tries,
                                verbose)

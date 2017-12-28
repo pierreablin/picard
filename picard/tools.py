@@ -5,7 +5,6 @@
 # License: BSD (3-clause)
 
 import numpy as np
-import numpy.linalg as linalg
 
 from scipy.linalg import expm
 
@@ -26,21 +25,6 @@ def gradient(Y, psiY):
     '''
     _, T = Y.shape
     return np.inner(psiY, Y) / float(T)
-
-
-def whitening(Y, mode='sph'):
-    '''
-    Whitens the data Y using sphering or pca
-    '''
-    R = np.dot(Y, Y.T) / Y.shape[1]
-    U, D, _ = linalg.svd(R)
-    if mode == 'pca':
-        W = U.T / np.sqrt(D)[:, None]
-        Z = np.dot(W, Y)
-    elif mode == 'sph':
-        W = np.dot(U, U.T / np.sqrt(D)[:, None])
-        Z = np.dot(W, Y)
-    return Z, W
 
 
 def proj_hessian_approx(Y, psidY_mean, G):

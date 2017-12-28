@@ -5,17 +5,16 @@
 # License: BSD (3-clause)
 
 from __future__ import print_function
-from time import time
 
 import numpy as np
 from scipy.linalg import expm
 
 from tools import (gradient, proj_hessian_approx, regularize_hessian,
-                   l_bfgs_direction, line_search, score, score_der, whitening)
+                   l_bfgs_direction, line_search, score, score_der)
 
 
 def picardo(X, m=7, maxiter=100, tol=1e-9, lambda_min=0.01,
-            ls_tries=10, whiten=True, verbose=0, callback=None):
+            ls_tries=10, verbose=0):
     '''Runs the Picard-O algorithm
 
 
@@ -46,10 +45,6 @@ def picardo(X, m=7, maxiter=100, tol=1e-9, lambda_min=0.01,
         number is exceeded, the direction is thrown away and the gradient
         is used instead.
 
-    whiten : bool
-        If true, the algorithm whitens the input signals. If False, the input
-        signals should already by white.
-
     verbose : boolean
         If true, prints the informations about the algorithm.
 
@@ -63,19 +58,14 @@ def picardo(X, m=7, maxiter=100, tol=1e-9, lambda_min=0.01,
     '''
     # Init
     N, T = X.shape
-    if whiten:
-        Y, W = whitening(X)
-    else:
-        W = np.eye(N)
-        Y = X.copy()
+    W = np.eye(N)
+    Y = X.copy()
     s_list = []
     y_list = []
     r_list = []
     current_loss = None
-    t0 = time()
     sign_change = False
     for n in range(maxiter):
-        timing = time() - t0
         # Compute the score function
         psiY = score(Y)
         psidY_mean = score_der(psiY)
@@ -86,7 +76,7 @@ def picardo(X, m=7, maxiter=100, tol=1e-9, lambda_min=0.01,
         signs = np.sign(K)
         if n > 0:
             sign_change = np.any(signs != old_signs)  # noqa
-        old_signs = signs
+        old_signs = signs  # noqa
         # Update the gradient
         g *= signs[:, None]
         psidY_mean *= signs
@@ -133,6 +123,4 @@ def picardo(X, m=7, maxiter=100, tol=1e-9, lambda_min=0.01,
             info = 'iteration %d, gradient norm = %.4g' % (n, gradient_norm)
             ending = '\r' if verbose == 1 else '\n'
             print(info, end=ending)
-        if callback is not None:
-            callback(locals())
     return Y, W
