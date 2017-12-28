@@ -27,6 +27,9 @@ Picard-O uses an adaptation of that strategy to solve the same problem under the
 constraint of whiteness of the signals. It solves the same problem as
 FastICA, but faster.
 
+Picard-O tends to converge in fewer iterations than Picard, and is able to recover both super-Gaussian and sub-Gaussian sources.
+
+
 Installation
 ------------
 
@@ -57,17 +60,10 @@ And then feed Picard with it:
 .. code:: python
 
    >>> from picard import picard
-   >>> Y, W = picard(X)
+   >>> K, W, Y = picard(X)
 
-or Picard-O:
-
-.. code:: python
-
-   >>> from picard import picardo
-   >>> Y, W = picardo(X)
-
-Picard or Picard-O output the estimated sources, Y, and estimated
-unmixing matrix, W.
+Picard outputs the whitening matrix, K, the estimated unmixing matrix, W, and
+the estimated sources Y.
 
 
 Dependencies

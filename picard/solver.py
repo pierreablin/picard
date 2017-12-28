@@ -27,7 +27,9 @@ def picard(X, n_components=None, ortho=True, whiten=True,
         is performed.
 
     ortho : bool, optional
-        If True, uses Picard-O. Otherwise, uses the standard Picard.
+        If True, uses Picard-O. Otherwise, uses the standard Picard. Picard-O
+        tends to converge in fewer iterations, and finds both super Gaussian and
+        sub Gaussian sources.
 
     whiten : boolean, optional
         If True perform an initial whitening of the data.
