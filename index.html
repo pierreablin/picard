@@ -125,8 +125,8 @@
   
   <div class="section" id="picard">
 <h1>Picard<a class="headerlink" href="#picard" title="Permalink to this headline">¶</a></h1>
-<p>This is a library to run the Preconditioned ICA for Real Data (PICARD) algorithm
-and its orthogonal version (PICARD-O). These algorithms show fast convergence even
+<p>This is a library to run the Preconditioned ICA for Real Data (PICARD) algorithm [1]
+and its orthogonal version (PICARD-O) [2]. These algorithms show fast convergence even
 on real data for which sources independence do not perfectly hold.</p>
 <div class="section" id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
@@ -156,12 +156,7 @@ in your script:</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">S</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">laplace</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">T</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">S</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">Y</span><span class="p">,</span> <span class="n">W</span> <span class="o">=</span> <span class="n">picard</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>  
-</pre></div>
-</div>
-<p>and to run PICARD-O:</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">picard</span> <span class="k">import</span> <span class="n">picardo</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">Y</span><span class="p">,</span> <span class="n">W</span> <span class="o">=</span> <span class="n">picardo</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="n">K</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">picard</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>  
 </pre></div>
 </div>
 </div>
@@ -172,9 +167,13 @@ in your script:</p>
 <div class="section" id="cite">
 <h2>Cite<a class="headerlink" href="#cite" title="Permalink to this headline">¶</a></h2>
 <blockquote>
-<div>[1] Pierre Ablin, Jean-Francois Cardoso, and Alexandre Gramfort
+<div><p>[1] Pierre Ablin, Jean-Francois Cardoso, and Alexandre Gramfort
 Faster independent component analysis by preconditioning with Hessian approximations
-ArXiv Preprint, June 2017, <a class="reference external" href="https://arxiv.org/abs/1706.08171">https://arxiv.org/abs/1706.08171</a></div></blockquote>
+ArXiv Preprint, June 2017, <a class="reference external" href="https://arxiv.org/abs/1706.08171">https://arxiv.org/abs/1706.08171</a></p>
+<p>[2] Pierre Ablin, Jean-Francois Cardoso, and Alexandre Gramfort
+Faster ICA under orthogonal constraint
+ArXiv Preprint, Nov 2017, <a class="reference external" href="https://arxiv.org/abs/1711.10873">https://arxiv.org/abs/1711.10873</a></p>
+</div></blockquote>
 </div>
 <div class="section" id="api">
 <h2>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>

@@ -13,7 +13,7 @@ Examples Gallery
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="">
+    <div class="sphx-glr-thumbcontainer" tooltip="The example runs the Picard algorithm proposed in:">
 
 .. only:: html
 
@@ -33,7 +33,7 @@ Examples Gallery
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="The examples runs the Picard algorithm proposed in:">
+    <div class="sphx-glr-thumbcontainer" tooltip="The example runs the Picard-O algorithm proposed in:">
 
 .. only:: html
 
@@ -50,26 +50,6 @@ Examples Gallery
    :hidden:
 
    /auto_examples/plot_ica_eeg
-
-.. raw:: html
-
-    <div class="sphx-glr-thumbcontainer" tooltip="">
-
-.. only:: html
-
-    .. figure:: /auto_examples/images/thumb/sphx_glr_plot_picardo_eeg_thumb.png
-
-        :ref:`sphx_glr_auto_examples_plot_picardo_eeg.py`
-
-.. raw:: html
-
-    </div>
-
-
-.. toctree::
-   :hidden:
-
-   /auto_examples/plot_picardo_eeg
 .. raw:: html
 
     <div style='clear:both'></div>

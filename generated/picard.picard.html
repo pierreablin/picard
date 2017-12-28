@@ -120,71 +120,90 @@
 <h1>picard.picard<a class="headerlink" href="#picard-picard" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="picard.picard">
-<code class="descclassname">picard.</code><code class="descname">picard</code><span class="sig-paren">(</span><em>X</em>, <em>m=7</em>, <em>maxiter=1000</em>, <em>precon=1</em>, <em>tol=1e-07</em>, <em>lambda_min=0.01</em>, <em>ls_tries=10</em>, <em>verbose=False</em><span class="sig-paren">)</span><a class="headerlink" href="#picard.picard" title="Permalink to this definition">¶</a></dt>
-<dd><p>Runs the Picard algorithm</p>
-<p>The algorithm is detailed in:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Pierre</span> <span class="n">Ablin</span><span class="p">,</span> <span class="n">Jean</span><span class="o">-</span><span class="n">Francois</span> <span class="n">Cardoso</span><span class="p">,</span> <span class="ow">and</span> <span class="n">Alexandre</span> <span class="n">Gramfort</span>
-<span class="n">Faster</span> <span class="n">independent</span> <span class="n">component</span> <span class="n">analysis</span> <span class="n">by</span> <span class="n">preconditioning</span> <span class="k">with</span> <span class="n">Hessian</span>
-<span class="n">approximations</span>
-<span class="n">ArXiv</span> <span class="n">Preprint</span><span class="p">,</span> <span class="n">June</span> <span class="mi">2017</span>
-<span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">arxiv</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="nb">abs</span><span class="o">/</span><span class="mf">1706.08171</span>
-</pre></div>
-</div>
+<code class="descclassname">picard.</code><code class="descname">picard</code><span class="sig-paren">(</span><em>X</em>, <em>n_components=None</em>, <em>ortho=True</em>, <em>whiten=True</em>, <em>return_X_mean=False</em>, <em>max_iter=100</em>, <em>tol=1e-07</em>, <em>m=7</em>, <em>ls_tries=10</em>, <em>lambda_min=0.01</em>, <em>verbose=False</em><span class="sig-paren">)</span><a class="headerlink" href="#picard.picard" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform Independent Component Analysis.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : array, shape (N, T)</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : array-like, shape (n_features, n_samples)</p>
 <blockquote>
-<div><p>Matrix containing the signals that have to be unmixed. N is the
-number of signals, T is the number of samples. X has to be centered</p>
+<div><p>Training vector, where n_samples is the number of samples and
+n_features is the number of features.</p>
 </div></blockquote>
-<p><strong>m</strong> : int</p>
+<p><strong>n_components</strong> : int, optional</p>
 <blockquote>
-<div><p>Size of L-BFGS’s memory. Typical values for m are in the range 3-15</p>
+<div><p>Number of components to extract. If None no dimension reduction
+is performed.</p>
 </div></blockquote>
-<p><strong>maxiter</strong> : int</p>
+<p><strong>ortho</strong> : bool, optional</p>
 <blockquote>
-<div><p>Maximal number of iterations for the algorithm</p>
+<div><p>If True, uses Picard-O. Otherwise, uses the standard Picard. Picard-O
+tends to converge in fewer iterations, and finds both super Gaussian
+and sub Gaussian sources.</p>
 </div></blockquote>
-<p><strong>precon</strong> : 1 or 2</p>
+<p><strong>whiten</strong> : boolean, optional</p>
 <blockquote>
-<div><p>Chooses which Hessian approximation is used as preconditioner.
-1 -&gt; H1
-2 -&gt; H2
-H2 is more costly to compute but can greatly accelerate convergence
-(See the paper for details).</p>
+<div><p>If True perform an initial whitening of the data.
+If False, the data is assumed to have already been
+preprocessed: it should be centered, normed and white.
+Otherwise you will get incorrect results.
+In this case the parameter n_components will be ignored.</p>
 </div></blockquote>
-<p><strong>tol</strong> : float</p>
+<p><strong>return_X_mean</strong> : bool, optional</p>
 <blockquote>
-<div><p>tolerance for the stopping criterion. Iterations stop when the norm
-of the gradient gets smaller than tol.</p>
+<div><p>If True, X_mean is returned too.</p>
 </div></blockquote>
-<p><strong>lambda_min</strong> : float</p>
+<p><strong>max_iter</strong> : int, optional</p>
 <blockquote>
-<div><p>Constant used to regularize the Hessian approximations. The
-eigenvalues of the approximation that are below lambda_min are
-shifted to lambda_min.</p>
+<div><p>Maximum number of iterations to perform.</p>
 </div></blockquote>
-<p><strong>ls_tries</strong> : int</p>
+<p><strong>tol</strong> : float, optional</p>
 <blockquote>
-<div><p>Number of tries allowed for the backtracking line-search. When that
-number is exceeded, the direction is thrown away and the gradient
-is used instead.</p>
+<div><p>A positive scalar giving the tolerance at which the
+un-mixing matrix is considered to have converged.</p>
 </div></blockquote>
-<p><strong>verbose</strong> : boolean</p>
+<p><strong>m</strong> : int, optional</p>
 <blockquote>
-<div><p>If true, prints the informations about the algorithm.</p>
+<div><p>Size of L-BFGS’s memory.</p>
+</div></blockquote>
+<p><strong>ls_tries</strong> : int, optional</p>
+<blockquote>
+<div><p>Number of attempts during the backtracking line-search.</p>
+</div></blockquote>
+<p><strong>lambda_min</strong> : float, optional</p>
+<blockquote>
+<div><p>Threshold on the eigenvalues of the Hessian approximation. Any
+eigenvalue below lambda_min is shifted to lambda_min.</p>
+</div></blockquote>
+<p><strong>verbose</strong> : bool, optional</p>
+<blockquote>
+<div><p>Prints informations about the state of the algorithm if True.</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>Y</strong> : array, shape (N, T)</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>K</strong> : array, shape (n_components, n_features) | None.</p>
 <blockquote>
-<div><p>The estimated source matrix</p>
+<div><p>If whiten is ‘True’, K is the pre-whitening matrix that projects data
+onto the first n_components principal components. If whiten is ‘False’,
+K is ‘None’.</p>
 </div></blockquote>
-<p><strong>W</strong> : array, shape (N, N)</p>
+<p><strong>W</strong> : array, shape (n_components, n_components)</p>
+<blockquote>
+<div><p>Estimated un-mixing matrix.
+The mixing matrix can be obtained by:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">K</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+<span class="n">A</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">T</span> <span class="o">*</span> <span class="p">(</span><span class="n">w</span> <span class="o">*</span> <span class="n">w</span><span class="o">.</span><span class="n">T</span><span class="p">)</span><span class="o">.</span><span class="n">I</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><strong>Y</strong> : array, shape (n_components, n_samples) | None</p>
+<blockquote>
+<div><p>Estimated source matrix</p>
+</div></blockquote>
+<p><strong>X_mean</strong> : array, shape (n_features, )</p>
 <blockquote class="last">
-<div><p>The estimated unmixing matrix, such that Y = WX.</p>
+<div><p>The mean over features. Returned only if return_X_mean is True.</p>
 </div></blockquote>
 </td>
 </tr>

@@ -81,10 +81,7 @@
   <ul class="dropdown-menu localtoc"
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
-<li><a class="reference internal" href="#">Blind source separation using preconditioned ICA on EEG</a><ul>
-<li><a class="reference internal" href="#plot-results">Plot results</a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#">Blind source separation using preconditioned ICA on EEG</a></li>
 </ul>
 </ul>
 </li>
@@ -120,10 +117,11 @@
   
   <div class="section" id="blind-source-separation-using-preconditioned-ica-on-eeg">
 <span id="sphx-glr-auto-examples-plot-ica-eeg-py"></span><h1>Blind source separation using preconditioned ICA on EEG<a class="headerlink" href="#blind-source-separation-using-preconditioned-ica-on-eeg" title="Permalink to this headline">¶</a></h1>
-<p>The examples runs the Picard algorithm proposed in:</p>
-<p>Pierre Ablin, Jean-Francois Cardoso, and Alexandre Gramfort
-Faster independent component analysis by preconditioning with Hessian approximations
-ArXiv Preprint, June 2017</p>
+<p>The example runs the Picard-O algorithm proposed in:</p>
+<p>Pierre Ablin, Jean-François Cardoso, Alexandre Gramfort
+Faster ICA under orthogonal constraint
+ArXiv Preprint, Nov 2017
+<a class="reference external" href="https://arxiv.org/abs/1711.10873">https://arxiv.org/abs/1711.10873</a></p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Author: Pierre Ablin &lt;pierre.ablin@inria.fr&gt;</span>
 <span class="c1">#         Alexandre Gramfort &lt;alexandre.gramfort@inria.fr&gt;</span>
 <span class="c1"># License: BSD 3 clause</span>
@@ -132,7 +130,6 @@ ArXiv Preprint, June 2017</p>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">mne</span>
 <span class="kn">from</span> <span class="nn">mne.datasets</span> <span class="kn">import</span> <span class="n">sample</span>
-<span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">PCA</span>
 <span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">kurtosis</span>
 
 <span class="kn">from</span> <span class="nn">picard</span> <span class="kn">import</span> <span class="n">picard</span>
@@ -154,29 +151,18 @@ ArXiv Preprint, June 2017</p>
 <span class="n">data</span> <span class="o">=</span> <span class="n">raw</span><span class="p">[</span><span class="n">picks</span><span class="p">,</span> <span class="p">:][</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,</span> <span class="p">::</span><span class="mi">2</span><span class="p">]</span>  <span class="c1"># decimate a bit</span>
 
-<span class="c1"># Center</span>
-<span class="n">data</span> <span class="o">-=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="c1"># Run ICA on data, after reducing the dimension</span>
 
-<span class="c1"># Apply PCA for dimension reduction and whitenning.</span>
-
-<span class="n">n_components</span> <span class="o">=</span> <span class="mi">30</span>
-<span class="n">pca</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="n">n_components</span><span class="p">,</span> <span class="n">whiten</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">svd_solver</span><span class="o">=</span><span class="s1">&#39;full&#39;</span><span class="p">)</span>
-<span class="n">pca</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-
-<span class="n">X</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">components_</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-
-<span class="c1"># Run ICA on X</span>
-
-<span class="n">Y</span><span class="p">,</span> <span class="n">W</span> <span class="o">=</span> <span class="n">picard</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">K</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">picard</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">n_components</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">ortho</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="section" id="plot-results">
-<h2>Plot results<a class="headerlink" href="#plot-results" title="Permalink to this headline">¶</a></h2>
+<p>Plot results</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">n_plots</span> <span class="o">=</span> <span class="mi">10</span>
 <span class="n">order</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">kurtosis</span><span class="p">(</span><span class="n">Y</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">1000</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 <span class="n">models</span> <span class="o">=</span> <span class="p">[</span><span class="n">data</span><span class="p">[:</span><span class="n">n_plots</span><span class="p">],</span> <span class="n">Y</span><span class="p">[</span><span class="n">order</span><span class="p">[:</span><span class="n">n_plots</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">]]]</span>
 <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Observations (raw EEG)&#39;</span><span class="p">,</span>
          <span class="s1">&#39;ICA recovered sources&#39;</span><span class="p">]</span>
+
 <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
 <span class="k">for</span> <span class="n">ii</span><span class="p">,</span> <span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">ax</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="n">names</span><span class="p">,</span> <span class="n">axes</span><span class="p">)):</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
@@ -191,7 +177,7 @@ ArXiv Preprint, June 2017</p>
 </pre></div>
 </div>
 <img alt="../_images/sphx_glr_plot_ica_eeg_001.png" class="align-center" src="../_images/sphx_glr_plot_ica_eeg_001.png" />
-<p><strong>Total running time of the script:</strong> ( 0 minutes  5.606 seconds)</p>
+<p><strong>Total running time of the script:</strong> ( 0 minutes  3.940 seconds)</p>
 <div class="sphx-glr-footer docutils container">
 <div class="sphx-glr-download docutils container">
 <a class="reference download internal" href="../_downloads/plot_ica_eeg.py" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_ica_eeg.py</span></code></a></div>
@@ -199,7 +185,6 @@ ArXiv Preprint, June 2017</p>
 <a class="reference download internal" href="../_downloads/plot_ica_eeg.ipynb" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_ica_eeg.ipynb</span></code></a></div>
 </div>
 <p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.readthedocs.io">Gallery generated by Sphinx-Gallery</a></p>
-</div>
 </div>
 
 

@@ -3,6 +3,20 @@
 Blind source separation using Picard and Picard-O
 =================================================
 
+The example runs the Picard algorithm proposed in:
+
+Pierre Ablin, Jean-Francois Cardoso, Alexandre Gramfort
+Faster independent component analysis by preconditioning with Hessian approximations
+ArXiv Preprint, June 2017
+https://arxiv.org/abs/1706.08171
+
+and Picard-O algorithm proposed in:
+
+Pierre Ablin, Jean-François Cardoso, Alexandre Gramfort
+Faster ICA under orthogonal constraint
+ArXiv Preprint, Nov 2017
+https://arxiv.org/abs/1711.10873
+
 """
 
 # Author: Pierre Ablin <pierre.ablin@inria.fr>
@@ -12,7 +26,7 @@ Blind source separation using Picard and Picard-O
 import numpy as np
 import matplotlib.pyplot as plt
 
-from picard import picard, picardo
+from picard import picard
 
 print(__doc__)
 
@@ -34,8 +48,8 @@ A = np.array([[1, 1, 1], [0.5, 2, 1.0], [1.5, 1.0, 2.0]])  # Mixing matrix
 X = np.dot(A, S)  # Generate observations
 
 # Compute ICA
-Y_picard, W_picard = picard(X)
-Y_picardo, W_picardo = picardo(X)
+_, W_picard, Y_picard = picard(X, ortho=False)
+_, W_picardo, Y_picardo = picard(X, ortho=True)
 
 ###############################################################################
 # Plot results
