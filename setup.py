@@ -34,6 +34,7 @@ def package_tree(pkgroot):
                if '__init__.py' in i[2]]
     return sorted(subdirs)
 
+
 if __name__ == "__main__":
     setup(name=DISTNAME,
           maintainer=MAINTAINER,
