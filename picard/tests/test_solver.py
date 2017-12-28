@@ -6,7 +6,7 @@
 import numpy as np
 from numpy.testing import assert_allclose
 
-from nose.tools import assert_raises, assert_equal
+from nose.tools import assert_equal
 
 from picard import picard
 
@@ -40,13 +40,14 @@ def test_picard():
     S = rng.laplace(size=(N, T))
     A = rng.randn(N, N)
     X = np.dot(A, S)
-    _, W, Y = picard(X, algorithm='standard', verbose=True)
+    K, W, Y = picard(X, algorithm='standard', verbose=True)
     # Get the final gradient norm
     G = np.inner(np.tanh(Y / 2.), Y) / float(T) - np.eye(N)
     assert_allclose(G, np.zeros((N, N)), atol=1e-7)
     assert_equal(Y.shape, X.shape)
     assert_equal(W.shape, A.shape)
-    WA = np.dot(W, A)
+    assert_equal(K.shape, A.shape)
+    WA = W.dot(K).dot(A)
     WA = get_perm(WA)[1]  # Permute and scale
     assert_allclose(WA, np.eye(N), rtol=1e-2, atol=1e-2)
 
@@ -58,22 +59,14 @@ def test_picardo():
     A = rng.randn(N, N)
     X = np.dot(A, S)
 
-    _, W, Y = picard(X, algorithm='ortho', verbose=True)
+    K, W, Y = picard(X, algorithm='ortho', verbose=True)
     # Get the final gradient norm
     G = np.inner(np.tanh(Y), Y) / float(T) - np.eye(N)
     G = (G - G.T)  # take skew-symmetric part
     assert_allclose(G, np.zeros((N, N)), atol=1e-7)
     assert_equal(Y.shape, X.shape)
     assert_equal(W.shape, A.shape)
-    WA = np.dot(W, A)
+    assert_equal(K.shape, A.shape)
+    WA = W.dot(K).dot(A)
     WA = get_perm(WA)[1]  # Permute and scale
     assert_allclose(WA, np.eye(N), rtol=1e-2, atol=1e-2)
-
-
-def test_lbgfs_crash():
-    N, T = 2, 1000
-    rng = np.random.RandomState(42)
-    S = rng.laplace(size=(N, T))
-    A = rng.randn(N, N)
-    X = np.dot(A, S)
-    assert_raises(ValueError, picard, X, precon=18)
