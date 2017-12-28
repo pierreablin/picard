@@ -70,7 +70,7 @@ def solve_hessian(G, h):
 
 def loss(Y, signs):
     '''
-    Returns the loss function, evaluated for the current signals
+    Returns the loss function
     '''
     output = 0.
     _, T = Y.shape
