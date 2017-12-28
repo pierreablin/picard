@@ -40,7 +40,7 @@ or to get the latest version of the code::
 
   $ pip install git+https://github.com/pierreablin/picard.git#egg=picard
 
-The Matlab/Octave version of Picard and Picard-O is [available here](https://github.com/pierreablin/picard/tree/master/matlab_octave).
+The Matlab/Octave version of Picard and Picard-O is `available here <https://github.com/pierreablin/picard/tree/master/matlab_octave>`_.
 
 Quickstart
 ----------
