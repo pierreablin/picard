@@ -111,7 +111,7 @@ def picard(X, density=tanh(), n_components=None, ortho=True, whiten=True,
         Y, W = picardo(X1, density, m, max_iter, tol, lambda_min, ls_tries,
                        verbose)
     else:
-        Y, W = picard_standard(X1, density, m, max_iter, 2, tol, lambda_min,
+        Y, W = picard_standard(X1, density, m, max_iter, tol, lambda_min,
                                ls_tries, verbose)
     del X1
 

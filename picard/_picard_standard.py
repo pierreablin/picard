@@ -10,7 +10,7 @@ import numpy as np
 from .densities import tanh
 
 
-def picard_standard(X, density=tanh(), m=7, maxiter=1000, precon=2, tol=1e-7,
+def picard_standard(X, density=tanh(), m=7, maxiter=1000, tol=1e-7,
                     lambda_min=0.01, ls_tries=10, verbose=False):
     '''Runs the Picard algorithm
 
@@ -96,7 +96,7 @@ def picard_standard(X, density=tanh(), m=7, maxiter=1000, precon=2, tol=1e-7,
         G_old = G # noqa
         # Find the L-BFGS direction
         direction = _l_bfgs_direction(Y, psidY, G, s_list, y_list, r_list,
-                                      precon, lambda_min)
+                                      lambda_min)
         # Do a line_search in that direction:
         converged, new_Y, new_W, new_loss, direction =\
             _line_search(Y, W, density, direction, current_loss, ls_tries,
@@ -148,34 +148,24 @@ def _line_search(Y, W, density, direction, current_loss, ls_tries, verbose):
         return False, Y_new, W_new, new_loss, alpha * direction
 
 
-def _l_bfgs_direction(Y, psidY, G, s_list, y_list, r_list, precon, lambda_min):
+def _l_bfgs_direction(Y, psidY, G, s_list, y_list, r_list, lambda_min):
     q = copy(G)
     a_list = []
     for s, y, r in zip(reversed(s_list), reversed(y_list), reversed(r_list)):
         alpha = r * np.sum(s * q)
         a_list.append(alpha)
         q -= alpha * y
-    z = _solve_hessian(q, Y, psidY, precon, lambda_min)
+    z = _solve_hessian(q, Y, psidY, lambda_min)
     for s, y, r, alpha in zip(s_list, y_list, r_list, reversed(a_list)):
         beta = r * np.sum(y * z)
         z += (alpha - beta) * s
     return -z
 
 
-def _solve_hessian(G, Y, psidY, precon, lambda_min):
+def _solve_hessian(G, Y, psidY, lambda_min):
     N, T = Y.shape
     # Build the diagonal of the Hessian, a.
-    Y_squared = Y ** 2
-    if precon == 2:
-        a = np.inner(psidY, Y_squared) / float(T)
-    elif precon == 1:
-        sigma2 = np.mean(Y_squared, axis=1)
-        psidY_mean = np.mean(psidY, axis=1)
-        a = psidY_mean[:, None] * sigma2[None, :]
-        diagonal_term = np.mean(Y_squared * psidY) + 1.
-        a[np.diag_indices_from(a)] = diagonal_term
-    else:
-        raise ValueError('precon should be 1 or 2')
+    a = np.inner(psidY, Y ** 2) / float(T)
     # Compute the eigenvalues of the Hessian
     eigenvalues = 0.5 * (a + a.T - np.sqrt((a - a.T) ** 2 + 4.))
     # Regularize

@@ -37,11 +37,15 @@ def get_perm(A):
 def test_picard():
     N, T = 3, 20000
     rng = np.random.RandomState(42)
-    S = rng.laplace(size=(N, T))
-    A = rng.randn(N, N)
-    X = np.dot(A, S)
-    names = ['tanh', 'exp', 'cube']
-    for j, density in enumerate([tanh()]):
+    names = ['tanh', 'cube']
+    for j, density in enumerate([tanh(), cube()]):
+        if j == 0:
+            S = rng.laplace(size=(N, T))
+        else:
+            S = rng.uniform(low=-1, high=1, size=(N, T))
+        A = rng.randn(N, N)
+        X = np.dot(A, S)
+
         K, W, Y = picard(X.copy(), density=density, ortho=False, verbose=True)
         # Get the final gradient norm
         G = np.inner(density.score(Y), Y) / float(T) - np.eye(N)
