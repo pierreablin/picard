@@ -9,9 +9,10 @@ from scipy import linalg
 
 from ._picardo import picardo
 from ._picard_standard import picard_standard
+from .densities import tanh
 
 
-def picard(X, n_components=None, ortho=True, whiten=True,
+def picard(X, density=tanh(), n_components=None, ortho=True, whiten=True,
            return_X_mean=False, max_iter=100, tol=1e-07, m=7, ls_tries=10,
            lambda_min=0.01, verbose=False):
     """Perform Independent Component Analysis.
@@ -107,10 +108,11 @@ def picard(X, n_components=None, ortho=True, whiten=True,
         # 2.0 and the line below
         X1 = X.astype('float')
     if ortho:
-        Y, W = picardo(X1, m, max_iter, tol, lambda_min, ls_tries, verbose)
+        Y, W = picardo(X1, density, m, max_iter, tol, lambda_min, ls_tries,
+                       verbose)
     else:
-        Y, W = picard_standard(X1, m, max_iter, 2, tol, lambda_min, ls_tries,
-                               verbose)
+        Y, W = picard_standard(X1, density, m, max_iter, 2, tol, lambda_min,
+                               ls_tries, verbose)
     del X1
 
     if not whiten:

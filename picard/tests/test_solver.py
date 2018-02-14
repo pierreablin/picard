@@ -8,7 +8,7 @@ from numpy.testing import assert_allclose
 
 from nose.tools import assert_equal
 
-from picard import picard
+from picard import picard, tanh, exp, cube
 
 
 def get_perm(A):
@@ -35,38 +35,54 @@ def get_perm(A):
 
 
 def test_picard():
-    N, T = 2, 10000
+    N, T = 3, 20000
     rng = np.random.RandomState(42)
     S = rng.laplace(size=(N, T))
     A = rng.randn(N, N)
     X = np.dot(A, S)
-    K, W, Y = picard(X, ortho=False, verbose=True)
-    # Get the final gradient norm
-    G = np.inner(np.tanh(Y / 2.), Y) / float(T) - np.eye(N)
-    assert_allclose(G, np.zeros((N, N)), atol=1e-7)
-    assert_equal(Y.shape, X.shape)
-    assert_equal(W.shape, A.shape)
-    assert_equal(K.shape, A.shape)
-    WA = W.dot(K).dot(A)
-    WA = get_perm(WA)[1]  # Permute and scale
-    assert_allclose(WA, np.eye(N), rtol=1e-2, atol=1e-2)
+    names = ['tanh', 'exp', 'cube']
+    for j, density in enumerate([tanh()]):
+        K, W, Y = picard(X.copy(), density=density, ortho=False, verbose=True)
+        # Get the final gradient norm
+        G = np.inner(density.score(Y), Y) / float(T) - np.eye(N)
+        err_msg = 'density %s, gradient norm greater than tol' % names[j]
+        assert_allclose(G, np.zeros((N, N)), atol=1e-7,
+                        err_msg=err_msg)
+        assert_equal(Y.shape, X.shape)
+        assert_equal(W.shape, A.shape)
+        assert_equal(K.shape, A.shape)
+        WA = W.dot(K).dot(A)
+        WA = get_perm(WA)[1]  # Permute and scale
+        err_msg = 'density %s, wrong unmixing matrix' % names[j]
+        assert_allclose(WA, np.eye(N), rtol=0, atol=5e-2,
+                        err_msg=err_msg)
 
 
 def test_picardo():
-    N, T = 2, 10000
+    N, T = 3, 20000
     rng = np.random.RandomState(42)
     S = rng.laplace(size=(N, T))
     A = rng.randn(N, N)
     X = np.dot(A, S)
+    names = ['tanh', 'exp', 'cube']
+    for j, density in enumerate([tanh(), exp(), cube()]):
+        K, W, Y = picard(X.copy(), density=density, ortho=True, verbose=2)
+        # Get the final gradient norm
+        G = np.inner(density.score(Y), Y) / float(T) - np.eye(N)
+        G = (G - G.T) / 2.  # take skew-symmetric part
+        err_msg = 'density %s, gradient norm greater than tol' % names[j]
+        assert_allclose(G, np.zeros((N, N)), atol=1e-7,
+                        err_msg=err_msg)
+        assert_equal(Y.shape, X.shape)
+        assert_equal(W.shape, A.shape)
+        assert_equal(K.shape, A.shape)
+        WA = W.dot(K).dot(A)
+        WA = get_perm(WA)[1]  # Permute and scale
+        err_msg = 'density %s, wrong unmixing matrix' % names[j]
+        assert_allclose(WA, np.eye(N), rtol=0, atol=5e-2,
+                        err_msg=err_msg)
 
-    K, W, Y = picard(X, ortho=True, verbose=True)
-    # Get the final gradient norm
-    G = np.inner(np.tanh(Y), Y) / float(T) - np.eye(N)
-    G = (G - G.T)  # take skew-symmetric part
-    assert_allclose(G, np.zeros((N, N)), atol=1e-7)
-    assert_equal(Y.shape, X.shape)
-    assert_equal(W.shape, A.shape)
-    assert_equal(K.shape, A.shape)
-    WA = W.dot(K).dot(A)
-    WA = get_perm(WA)[1]  # Permute and scale
-    assert_allclose(WA, np.eye(N), rtol=1e-2, atol=1e-2)
+
+def test_density():
+    for density in [tanh(), exp(), cube()]:
+        density.check()

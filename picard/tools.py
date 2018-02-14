@@ -8,16 +8,6 @@ import numpy as np
 
 from scipy.linalg import expm
 
-import numexpr as ne
-
-
-def score(Y):
-    return ne.evaluate('tanh(Y)')
-
-
-def score_der(psiY):
-    return -np.mean(psiY ** 2, axis=1) + 1.
-
 
 def gradient(Y, psiY):
     '''
@@ -52,14 +42,14 @@ def solve_hessian(G, h):
     return G / h
 
 
-def loss(Y, signs):
+def loss(Y, signs, density):
     '''
     Returns the loss function
     '''
     output = 0.
     _, T = Y.shape
     for y, s in zip(Y, signs):
-        output += s * ne.evaluate('sum(abs(y) + log1p(exp(-2. * abs(y))))') / T
+        output += s * np.mean(density.log_lik(y))
     return output
 
 
@@ -77,17 +67,17 @@ def l_bfgs_direction(G, h, s_list, y_list, r_list):
     return -z
 
 
-def line_search(Y, signs, direction, current_loss, ls_tries):
+def line_search(Y, signs, density, direction, current_loss, ls_tries):
     '''
     Performs a backtracking line search, starting from Y and W, in the
     direction direction.
     '''
     alpha = 1.
     if current_loss is None:
-        current_loss = loss(Y, signs)
+        current_loss = loss(Y, signs, density)
     for _ in range(ls_tries):
         Y_new = np.dot(expm(alpha * direction), Y)
-        new_loss = loss(Y_new, signs)
+        new_loss = loss(Y_new, signs, density)
         if new_loss < current_loss:
             return True, Y_new, new_loss, alpha
         alpha /= 2.

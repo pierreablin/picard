@@ -10,10 +10,12 @@ import numpy as np
 from scipy.linalg import expm
 
 from .tools import (gradient, proj_hessian_approx, regularize_hessian,
-                    l_bfgs_direction, line_search, score, score_der)
+                    l_bfgs_direction, line_search)
+
+from .densities import tanh
 
 
-def picardo(X, m=7, maxiter=100, tol=1e-9, lambda_min=0.01,
+def picardo(X, density=tanh(), m=7, maxiter=100, tol=1e-9, lambda_min=0.01,
             ls_tries=10, verbose=0):
     '''Runs the Picard-O algorithm
 
@@ -67,8 +69,9 @@ def picardo(X, m=7, maxiter=100, tol=1e-9, lambda_min=0.01,
     sign_change = False
     for n in range(maxiter):
         # Compute the score function
-        psiY = score(Y)
-        psidY_mean = score_der(psiY)
+        psiY, psidY = density.score_and_der(Y)
+        psidY_mean = np.mean(psidY, axis=1)
+        del psidY
         # Compute the relative gradient
         g = gradient(Y, psiY)
         # Compute the signs of the kurtosis
@@ -108,13 +111,14 @@ def picardo(X, m=7, maxiter=100, tol=1e-9, lambda_min=0.01,
         direction = l_bfgs_direction(G, h, s_list, y_list, r_list)
         # Do a line_search in that direction :
         converged, new_Y, new_loss, alpha =\
-            line_search(Y, signs, direction, current_loss, ls_tries)
+            line_search(Y, signs, density, direction, current_loss, ls_tries)
         # If the line search fails, restart in the gradient direction
         if not converged:
             direction = -G
             s_list, y_list, r_list = [], [], []
             _, new_Y, new_loss, alpha =\
-                line_search(Y, signs, direction, current_loss, ls_tries)
+                line_search(Y, signs, density, direction, current_loss,
+                            ls_tries)
         direction *= alpha
         Y = new_Y
         W = expm(direction).dot(W)

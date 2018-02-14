@@ -6,11 +6,12 @@
 
 from copy import copy
 import numpy as np
-import numexpr as ne
+
+from .densities import tanh
 
 
-def picard_standard(X, m=7, maxiter=1000, precon=1, tol=1e-7, lambda_min=0.01,
-                    ls_tries=10, verbose=False):
+def picard_standard(X, density=tanh(), m=7, maxiter=1000, precon=2, tol=1e-7,
+                    lambda_min=0.01, ls_tries=10, verbose=False):
     '''Runs the Picard algorithm
 
     The algorithm is detailed in::
@@ -72,12 +73,12 @@ def picard_standard(X, m=7, maxiter=1000, precon=1, tol=1e-7, lambda_min=0.01,
     s_list = []
     y_list = []
     r_list = []
-    current_loss = _loss(Y, W)
+    current_loss = _loss(Y, W, density)
     for n in range(maxiter):
         # Compute the score function
-        thY = ne.evaluate('tanh(Y / 2.)')
+        psiY, psidY = density.score_and_der(Y)
         # Compute the relative gradient
-        G = np.inner(thY, Y) / float(T) - np.eye(N)
+        G = np.inner(psiY, Y) / float(T) - np.eye(N)
         # Stopping criterion
         G_norm = np.max(np.abs(G))
         if G_norm < tol:
@@ -94,16 +95,17 @@ def picard_standard(X, m=7, maxiter=1000, precon=1, tol=1e-7, lambda_min=0.01,
                 r_list.pop(0)
         G_old = G # noqa
         # Find the L-BFGS direction
-        direction = _l_bfgs_direction(Y, thY, G, s_list, y_list, r_list,
+        direction = _l_bfgs_direction(Y, psidY, G, s_list, y_list, r_list,
                                       precon, lambda_min)
         # Do a line_search in that direction:
         converged, new_Y, new_W, new_loss, direction =\
-            _line_search(Y, W, direction, current_loss, ls_tries, verbose)
+            _line_search(Y, W, density, direction, current_loss, ls_tries,
+                         verbose)
         if not converged:
             direction = -G
             s_list, y_list, r_list = [], [], []
             _, new_Y, new_W, new_loss, direction =\
-                _line_search(Y, W, direction, current_loss, 10, False)
+                _line_search(Y, W, density, direction, current_loss, 10, False)
         Y = new_Y
         W = new_W
         current_loss = new_loss
@@ -113,7 +115,7 @@ def picard_standard(X, m=7, maxiter=1000, precon=1, tol=1e-7, lambda_min=0.01,
     return Y, W
 
 
-def _loss(Y, W):
+def _loss(Y, W, density):
     '''
     Computes the loss function for Y, W
     '''
@@ -121,11 +123,11 @@ def _loss(Y, W):
     loss = - np.linalg.slogdet(W)[1]
     for n in range(N):
         y = Y[n]  # noqa
-        loss += np.mean(ne.evaluate('abs(y) + 2. * log1p(exp(-abs(y)))'))
+        loss += np.mean(density.log_lik(Y))
     return loss
 
 
-def _line_search(Y, W, direction, current_loss, ls_tries, verbose):
+def _line_search(Y, W, density, direction, current_loss, ls_tries, verbose):
     '''
     Performs a backtracking line search, starting from Y and W, in the
     direction direction. I
@@ -136,7 +138,7 @@ def _line_search(Y, W, direction, current_loss, ls_tries, verbose):
     for _ in range(ls_tries):
         Y_new = np.dot(np.eye(N) + alpha * direction, Y)
         W_new = W + alpha * projected_W
-        new_loss = _loss(Y_new, W_new)
+        new_loss = _loss(Y_new, W_new, density)
         if new_loss < current_loss:
             return True, Y_new, W_new, new_loss, alpha * direction
         alpha /= 2.
@@ -146,24 +148,22 @@ def _line_search(Y, W, direction, current_loss, ls_tries, verbose):
         return False, Y_new, W_new, new_loss, alpha * direction
 
 
-def _l_bfgs_direction(Y, thY, G, s_list, y_list, r_list, precon, lambda_min):
+def _l_bfgs_direction(Y, psidY, G, s_list, y_list, r_list, precon, lambda_min):
     q = copy(G)
     a_list = []
     for s, y, r in zip(reversed(s_list), reversed(y_list), reversed(r_list)):
         alpha = r * np.sum(s * q)
         a_list.append(alpha)
         q -= alpha * y
-    z = _solve_hessian(q, Y, thY, precon, lambda_min)
+    z = _solve_hessian(q, Y, psidY, precon, lambda_min)
     for s, y, r, alpha in zip(s_list, y_list, r_list, reversed(a_list)):
         beta = r * np.sum(y * z)
         z += (alpha - beta) * s
     return -z
 
 
-def _solve_hessian(G, Y, thY, precon, lambda_min):
+def _solve_hessian(G, Y, psidY, precon, lambda_min):
     N, T = Y.shape
-    # Compute the derivative of the score
-    psidY = ne.evaluate('(- thY ** 2 + 1.) / 2.')  # noqa
     # Build the diagonal of the Hessian, a.
     Y_squared = Y ** 2
     if precon == 2:
