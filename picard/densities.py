@@ -7,18 +7,6 @@ from numpy.testing import assert_allclose
 
 
 class density:
-    def __init__(self):
-        pass
-
-    def log_lik(self, Y):
-        pass
-
-    def score(self, Y):
-        pass
-
-    def score_der(self, Y):
-        pass
-
     def score_and_der(self, Y):
         return self.score(Y), self.score_der(Y)
 
@@ -104,8 +92,3 @@ class cube(density):
 
     def score_der(self, Y):
         return ne.evaluate('3 * Y ** 2')
-
-
-if __name__ == '__main__':
-    for dens in [tanh(), exp(), cube()]:
-        dens.check()

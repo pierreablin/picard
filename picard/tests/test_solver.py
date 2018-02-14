@@ -38,15 +38,20 @@ def test_picard():
     N, T = 3, 20000
     rng = np.random.RandomState(42)
     names = ['tanh', 'cube']
-    for j, density in enumerate([tanh(), cube()]):
+    for j, density in enumerate([tanh(params=dict(alpha=0.5)), 'cube']):
         if j == 0:
             S = rng.laplace(size=(N, T))
         else:
             S = rng.uniform(low=-1, high=1, size=(N, T))
         A = rng.randn(N, N)
         X = np.dot(A, S)
-
         K, W, Y = picard(X.copy(), density=density, ortho=False, verbose=True)
+        if density == 'tanh':
+            density = tanh()
+        elif density == 'exp':
+            density = exp()
+        elif density == 'cube':
+            density = cube()
         # Get the final gradient norm
         G = np.inner(density.score(Y), Y) / float(T) - np.eye(N)
         err_msg = 'density %s, gradient norm greater than tol' % names[j]
@@ -69,12 +74,18 @@ def test_picardo():
     A = rng.randn(N, N)
     X = np.dot(A, S)
     names = ['tanh', 'exp', 'cube']
-    for j, density in enumerate([tanh(), exp(), cube()]):
+    for density in names:
         K, W, Y = picard(X.copy(), density=density, ortho=True, verbose=2)
+        if density == 'tanh':
+            density = tanh()
+        elif density == 'exp':
+            density = exp()
+        elif density == 'cube':
+            density = cube()
         # Get the final gradient norm
         G = np.inner(density.score(Y), Y) / float(T) - np.eye(N)
         G = (G - G.T) / 2.  # take skew-symmetric part
-        err_msg = 'density %s, gradient norm greater than tol' % names[j]
+        err_msg = 'density %s, gradient norm greater than tol' % density
         assert_allclose(G, np.zeros((N, N)), atol=1e-7,
                         err_msg=err_msg)
         assert_equal(Y.shape, X.shape)
@@ -82,7 +93,7 @@ def test_picardo():
         assert_equal(K.shape, A.shape)
         WA = W.dot(K).dot(A)
         WA = get_perm(WA)[1]  # Permute and scale
-        err_msg = 'density %s, wrong unmixing matrix' % names[j]
+        err_msg = 'density %s, wrong unmixing matrix' % density
         assert_allclose(WA, np.eye(N), rtol=0, atol=5e-2,
                         err_msg=err_msg)
 
