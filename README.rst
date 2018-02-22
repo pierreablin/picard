@@ -26,7 +26,7 @@ Picard-O uses an adaptation of that strategy to solve the same problem under the
 constraint of whiteness of the signals. It solves the same problem as
 FastICA, but faster.
 
-Picard-O tends to converge in fewer iterations than Picard, and is able to recover both super-Gaussian and sub-Gaussian sources.
+Picard-O is able to recover both super-Gaussian and sub-Gaussian sources.
 
 
 Installation
@@ -74,12 +74,12 @@ These are the dependencies to use Picard:
 * numpy (>=1.8)
 * matplotlib (>=1.3)
 * numexpr (>= 2.0)
+* scipy (>=0.19)
+
 
 These are the dependencies to run the EEG example:
 
 * mne (>=0.14)
-* scikit-learn (>=0.18)
-* scipy (>=0.19)
 
 Cite
 ----

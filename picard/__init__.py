@@ -16,7 +16,7 @@
 # Dev branch marker is: 'X.Y.devN' where N is an integer.
 #
 
-__version__ = '0.2.dev0'
+__version__ = '0.1.dev2'
 
 from .solver import picard  # noqa
 from .densities import tanh, exp, cube, density
