@@ -45,7 +45,7 @@ The Matlab/Octave version of Picard and Picard-O is `available here <https://git
 Quickstart
 ----------
 
-To get started, you can build a synthetic signals matrix:
+To get started, you can build a synthetic mixed signals matrix:
 
 .. code:: python
 
@@ -55,7 +55,7 @@ To get started, you can build a synthetic signals matrix:
    >>> A = np.random.randn(N, N)
    >>> X = np.dot(A, S)
 
-And then feed Picard with it:
+And then use Picard to separate the signals:
 
 .. code:: python
 

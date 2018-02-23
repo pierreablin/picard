@@ -13,13 +13,14 @@ on real data for which sources independence do not perfectly hold.
 Installation
 ------------
 
-We recommend the `Anaconda Python distribution <https://www.continuum.io/downloads>`_. To install ``picard``, you first need to install its dependencies::
+We recommend the `Anaconda Python distribution <https://www.continuum.io/downloads>`_.
+Otherwise, to install ``picard``, you first need to install its dependencies::
 
-	$ pip install numpy matplotlib numexpr
+	$ pip install numpy matplotlib numexpr scipy
 
 Then install Picard::
 
-	$ pip install git+https://github.com/pierreablin/picard.git#egg=picard
+	$ pip install python-picard
 
 If you do not have admin privileges on the computer, use the ``--user`` flag
 with `pip`. To upgrade, use the ``--upgrade`` flag provided by `pip`.
