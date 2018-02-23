@@ -5,10 +5,10 @@
 
 import numpy as np
 from numpy.testing import assert_allclose
-
 from nose.tools import assert_equal
 
-from picard import picard, tanh, exp, cube
+from picard import picard, density
+from picard.densities import tanh, exp, cube
 
 
 def get_perm(A):
@@ -38,23 +38,23 @@ def test_picard():
     N, T = 3, 20000
     rng = np.random.RandomState(42)
     names = ['tanh', 'cube']
-    for j, density in enumerate([tanh(params=dict(alpha=0.5)), 'cube']):
+    for j, fun in enumerate([tanh(params=dict(alpha=0.5)), 'cube']):
         if j == 0:
             S = rng.laplace(size=(N, T))
         else:
             S = rng.uniform(low=-1, high=1, size=(N, T))
         A = rng.randn(N, N)
         X = np.dot(A, S)
-        K, W, Y = picard(X.copy(), density=density, ortho=False, verbose=True)
-        if density == 'tanh':
-            density = tanh()
-        elif density == 'exp':
-            density = exp()
-        elif density == 'cube':
-            density = cube()
+        K, W, Y = picard(X.copy(), fun=fun, ortho=False, verbose=True)
+        if fun == 'tanh':
+            fun = tanh()
+        elif fun == 'exp':
+            fun = exp()
+        elif fun == 'cube':
+            fun = cube()
         # Get the final gradient norm
-        G = np.inner(density.score(Y), Y) / float(T) - np.eye(N)
-        err_msg = 'density %s, gradient norm greater than tol' % names[j]
+        G = np.inner(fun.score(Y), Y) / float(T) - np.eye(N)
+        err_msg = 'fun %s, gradient norm greater than tol' % names[j]
         assert_allclose(G, np.zeros((N, N)), atol=1e-7,
                         err_msg=err_msg)
         assert_equal(Y.shape, X.shape)
@@ -62,9 +62,24 @@ def test_picard():
         assert_equal(K.shape, A.shape)
         WA = W.dot(K).dot(A)
         WA = get_perm(WA)[1]  # Permute and scale
-        err_msg = 'density %s, wrong unmixing matrix' % names[j]
+        err_msg = 'fun %s, wrong unmixing matrix' % names[j]
         assert_allclose(WA, np.eye(N), rtol=0, atol=5e-2,
                         err_msg=err_msg)
+
+
+def test_shift():
+    N, T = 5, 10000
+    rng = np.random.RandomState(42)
+    S = rng.laplace(size=(N, T))
+    A = rng.randn(N, N)
+    offset = rng.randn(N)
+    X = np.dot(A, S) + offset[:, None]
+    _, W, Y, X_mean = picard(X.copy(), ortho=False, verbose=2, whiten=False,
+                             return_X_mean=True)
+    assert_allclose(offset, X_mean, rtol=0, atol=0.1)
+    WA = W.dot(A)
+    WA = get_perm(WA)[1]
+    assert_allclose(WA, np.eye(N), rtol=0, atol=0.1)
 
 
 def test_picardo():
@@ -74,18 +89,18 @@ def test_picardo():
     A = rng.randn(N, N)
     X = np.dot(A, S)
     names = ['tanh', 'exp', 'cube']
-    for density in names:
-        K, W, Y = picard(X.copy(), density=density, ortho=True, verbose=2)
-        if density == 'tanh':
-            density = tanh()
-        elif density == 'exp':
-            density = exp()
-        elif density == 'cube':
-            density = cube()
+    for fun in names:
+        K, W, Y = picard(X.copy(), fun=fun, ortho=True, verbose=2)
+        if fun == 'tanh':
+            fun = tanh()
+        elif fun == 'exp':
+            fun = exp()
+        elif fun == 'cube':
+            fun = cube()
         # Get the final gradient norm
-        G = np.inner(density.score(Y), Y) / float(T) - np.eye(N)
+        G = np.inner(fun.score(Y), Y) / float(T) - np.eye(N)
         G = (G - G.T) / 2.  # take skew-symmetric part
-        err_msg = 'density %s, gradient norm greater than tol' % density
+        err_msg = 'fun %s, gradient norm greater than tol' % fun
         assert_allclose(G, np.zeros((N, N)), atol=1e-7,
                         err_msg=err_msg)
         assert_equal(Y.shape, X.shape)
@@ -93,11 +108,46 @@ def test_picardo():
         assert_equal(K.shape, A.shape)
         WA = W.dot(K).dot(A)
         WA = get_perm(WA)[1]  # Permute and scale
-        err_msg = 'density %s, wrong unmixing matrix' % density
+        err_msg = 'fun %s, wrong unmixing matrix' % fun
         assert_allclose(WA, np.eye(N), rtol=0, atol=5e-2,
                         err_msg=err_msg)
 
 
-def test_density():
-    for density in [tanh(), exp(), cube()]:
-        density.check()
+def test_dimension_reduction():
+    N, T = 5, 10000
+    n_components = 3
+    rng = np.random.RandomState(42)
+    S = rng.laplace(size=(N, T))
+    A = rng.randn(N, N)
+    X = np.dot(A, S)
+    K, W, Y = picard(X.copy(), n_components=n_components, ortho=False)
+    assert_equal(K.shape, (n_components, N))
+    assert_equal(W.shape, (n_components, n_components))
+    assert_equal(Y.shape, (n_components, T))
+    K, W, Y = picard(X.copy(), n_components=n_components, ortho=False,
+                     whiten=False)
+
+
+def test_bad_custom_density():
+    class bad_density(density):
+            def log_lik(self, Y):
+                return Y ** 4 / 4
+
+            def score(self, Y):
+                return Y ** 3
+
+            def score_der(self, Y):
+                return 3 * Y ** 2 + 2.
+    fun = bad_density()
+    X = np.random.randn(2, 10)
+    try:
+        picard(X, fun=fun, check_fun=True)
+    except AssertionError:
+        pass
+    else:
+        raise(AssertionError, 'Bad function undetected')
+
+
+def test_fun():
+    for fun in [tanh(), exp(), cube()]:
+        fun.check()

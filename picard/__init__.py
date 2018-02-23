@@ -19,4 +19,4 @@
 __version__ = '0.1.dev2'
 
 from .solver import picard  # noqa
-from .densities import tanh, exp, cube, density
+from .densities import density
