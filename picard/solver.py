@@ -50,7 +50,6 @@ def picard(X, density='tanh', n_components=None, ortho=True, whiten=True,
         Otherwise you will get incorrect results.
         In this case the parameter n_components will be ignored.
 
-
     return_X_mean : bool, optional
         If True, X_mean is returned too.
 
@@ -84,13 +83,14 @@ def picard(X, density='tanh', n_components=None, ortho=True, whiten=True,
     W : array, shape (n_components, n_components)
         Estimated un-mixing matrix.
         The mixing matrix can be obtained by::
+
             w = np.dot(W, K.T)
             A = w.T * (w * w.T).I
 
     Y : array, shape (n_components, n_samples) | None
         Estimated source matrix
 
-    X_mean : array, shape (n_features, )
+    X_mean : array, shape (n_features,)
         The mean over features. Returned only if return_X_mean is True.
     """
     n, p = X.shape
