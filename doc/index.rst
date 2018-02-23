@@ -46,6 +46,12 @@ in your script:
    >>> X = np.dot(A, S)
    >>> K, W, Y = picard(X)  # doctest:+ELLIPSIS
 
+Picard outputs the whitening matrix, `K`, the estimated unmixing matrix, `W`, and
+the estimated sources `Y`. It means that:
+
+.. math::
+
+    Y = W K X
 
 Bug reports
 -----------

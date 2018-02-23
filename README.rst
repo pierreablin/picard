@@ -63,8 +63,11 @@ And then feed Picard with it:
    >>> K, W, Y = picard(X)
 
 Picard outputs the whitening matrix, K, the estimated unmixing matrix, W, and
-the estimated sources Y.
+the estimated sources Y. It means that:
 
+.. math::
+
+    Y = W K X
 
 Dependencies
 ------------
