@@ -68,7 +68,8 @@ author = u'Pierre Ablin'
 # built documents.
 #
 # The short X.Y version.
-from picard import __version__ as version
+from picard import __version__ as version  # noqa
+print(version)
 # version = u'0.1.dev0'
 # The full version, including alpha/beta/rc tags.
 release = version

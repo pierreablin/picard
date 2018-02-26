@@ -91,7 +91,7 @@ def picardo(X, density=tanh(), m=7, maxiter=100, tol=1e-9, lambda_min=0.01,
             break
         # Update the memory
         if n > 0:
-            s_list.append(direction) # noqa
+            s_list.append(direction)  # noqa
             y = G - G_old  # noqa
             y_list.append(y)
             r_list.append(1. / (np.sum(direction * y)))  # noqa
@@ -99,7 +99,7 @@ def picardo(X, density=tanh(), m=7, maxiter=100, tol=1e-9, lambda_min=0.01,
                 s_list.pop(0)
                 y_list.pop(0)
                 r_list.pop(0)
-        G_old = G # noqa
+        G_old = G  # noqa
         # Flush the memory if there is a sign change.
         if sign_change:
             current_loss = None

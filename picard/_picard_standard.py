@@ -85,7 +85,7 @@ def picard_standard(X, density=tanh(), m=7, maxiter=1000, tol=1e-7,
             break
         # Update the memory
         if n > 0:
-            s_list.append(direction) # noqa
+            s_list.append(direction)  # noqa
             y = G - G_old  # noqa
             y_list.append(y)
             r_list.append(1. / (np.sum(direction * y)))  # noqa
@@ -93,7 +93,7 @@ def picard_standard(X, density=tanh(), m=7, maxiter=1000, tol=1e-7,
                 s_list.pop(0)
                 y_list.pop(0)
                 r_list.pop(0)
-        G_old = G # noqa
+        G_old = G  # noqa
         # Find the L-BFGS direction
         direction = _l_bfgs_direction(Y, psidY, G, s_list, y_list, r_list,
                                       lambda_min)
