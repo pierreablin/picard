@@ -50,6 +50,26 @@ Examples Gallery
    :hidden:
 
    /auto_examples/plot_ica_eeg
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example compares FastICA and Picard-O:">
+
+.. only:: html
+
+    .. figure:: /auto_examples/images/thumb/sphx_glr_plot_faces_decomposition_thumb.png
+
+        :ref:`sphx_glr_auto_examples_plot_faces_decomposition.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/plot_faces_decomposition
 .. raw:: html
 
     <div style='clear:both'></div>

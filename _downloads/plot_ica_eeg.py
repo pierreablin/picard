@@ -6,7 +6,7 @@ Blind source separation using preconditioned ICA on EEG
 The example runs the Picard-O algorithm proposed in:
 
 Pierre Ablin, Jean-François Cardoso, Alexandre Gramfort
-Faster ICA under orthogonal constraint
+"Faster ICA under orthogonal constraint"
 ArXiv Preprint, Nov 2017
 https://arxiv.org/abs/1711.10873
 
@@ -41,6 +41,7 @@ random_state = 0
 data = raw[picks, :][0]
 data = data[:, ::2]  # decimate a bit
 
+###############################################################################
 # Run ICA on data, after reducing the dimension
 
 K, W, Y = picard(data, n_components=30, ortho=True)
