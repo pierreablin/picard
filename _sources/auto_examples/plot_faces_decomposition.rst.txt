@@ -3,9 +3,9 @@
 .. _sphx_glr_auto_examples_plot_faces_decomposition.py:
 
 
-=======================================================
-Blind source separation using preconditioned ICA on EEG
-=======================================================
+=========================================================
+Blind source separation using preconditioned ICA on faces
+=========================================================
 
 This example compares FastICA and Picard-O:
 
@@ -152,7 +152,7 @@ Run Picard-O and FastICA, and show the results
     Running FastICA
 
 
-**Total running time of the script:** ( 0 minutes  0.922 seconds)
+**Total running time of the script:** ( 0 minutes  0.913 seconds)
 
 
 

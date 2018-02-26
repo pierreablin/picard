@@ -1,7 +1,7 @@
 """
-=======================================================
-Blind source separation using preconditioned ICA on EEG
-=======================================================
+=========================================================
+Blind source separation using preconditioned ICA on faces
+=========================================================
 
 This example compares FastICA and Picard-O:
 
