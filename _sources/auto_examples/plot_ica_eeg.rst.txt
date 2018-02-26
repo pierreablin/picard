@@ -67,6 +67,24 @@ Generate sample EEG data
 
 
 
+.. rst-class:: sphx-glr-script-out
+
+ Out::
+
+    Opening raw data file /home/pierre/mne_data/MNE-sample-data/MEG/sample/sample_audvis_filt-0-40_raw.fif...
+        Read a total of 4 projection items:
+            PCA-v1 (1 x 102)  idle
+            PCA-v2 (1 x 102)  idle
+            PCA-v3 (1 x 102)  idle
+            Average EEG reference (1 x 60)  idle
+        Range : 6450 ... 48149 =     42.956 ...   320.665 secs
+    Ready.
+    Current compensation grade : 0
+    Reading 0 ... 41699  =      0.000 ...   277.709 secs...
+    Setting up band-pass filter from 1 - 40 Hz
+    l_trans_bandwidth chosen to be 1.0 Hz
+    h_trans_bandwidth chosen to be 10.0 Hz
+    Filter length of 497 samples (3.310 sec) selected
 
 
 Plot results
@@ -77,7 +95,8 @@ Plot results
 
 
     n_plots = 10
-    order = np.argsort(kurtosis(Y[:, :1000], axis=1))[::-1]
+    T_plots = 1000
+    order = np.argsort(kurtosis(Y[:, :T_plots], axis=1))[::-1]
     models = [data[:n_plots], Y[order[:n_plots][::-1]]]
     names = ['Observations (raw EEG)',
              'ICA recovered sources']
@@ -89,7 +108,7 @@ Plot results
         ax.get_yaxis().set_visible(False)
         offsets = np.max(model, axis=1) - np.min(model, axis=1)
         offsets = np.cumsum(offsets)
-        ax.plot((model[:, :1000] + offsets[:, np.newaxis]).T, 'k')
+        ax.plot((model[:, :T_plots] + offsets[:, np.newaxis]).T, 'k')
 
     fig.tight_layout()
     plt.show()
@@ -102,7 +121,7 @@ Plot results
 
 
 
-**Total running time of the script:** ( 0 minutes  3.940 seconds)
+**Total running time of the script:** ( 0 minutes  2.537 seconds)
 
 
 

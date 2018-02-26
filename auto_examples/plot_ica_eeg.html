@@ -4,14 +4,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Blind source separation using preconditioned ICA on EEG &#8212; picard 0.2.dev0 documentation</title>
+    <title>Blind source separation using preconditioned ICA on EEG &#8212; picard 0.1.dev2 documentation</title>
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.2.dev0',
+        VERSION:     '0.1.dev2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -47,7 +47,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           picard</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.2.dev0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.dev2</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -156,9 +156,27 @@ ArXiv Preprint, Nov 2017
 <span class="n">K</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">picard</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">n_components</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">ortho</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </pre></div>
 </div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-default"><div class="highlight"><pre><span></span><span class="n">Opening</span> <span class="n">raw</span> <span class="n">data</span> <span class="n">file</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">pierre</span><span class="o">/</span><span class="n">mne_data</span><span class="o">/</span><span class="n">MNE</span><span class="o">-</span><span class="n">sample</span><span class="o">-</span><span class="n">data</span><span class="o">/</span><span class="n">MEG</span><span class="o">/</span><span class="n">sample</span><span class="o">/</span><span class="n">sample_audvis_filt</span><span class="o">-</span><span class="mi">0</span><span class="o">-</span><span class="mi">40</span><span class="n">_raw</span><span class="o">.</span><span class="n">fif</span><span class="o">...</span>
+    <span class="n">Read</span> <span class="n">a</span> <span class="n">total</span> <span class="n">of</span> <span class="mi">4</span> <span class="n">projection</span> <span class="n">items</span><span class="p">:</span>
+        <span class="n">PCA</span><span class="o">-</span><span class="n">v1</span> <span class="p">(</span><span class="mi">1</span> <span class="n">x</span> <span class="mi">102</span><span class="p">)</span>  <span class="n">idle</span>
+        <span class="n">PCA</span><span class="o">-</span><span class="n">v2</span> <span class="p">(</span><span class="mi">1</span> <span class="n">x</span> <span class="mi">102</span><span class="p">)</span>  <span class="n">idle</span>
+        <span class="n">PCA</span><span class="o">-</span><span class="n">v3</span> <span class="p">(</span><span class="mi">1</span> <span class="n">x</span> <span class="mi">102</span><span class="p">)</span>  <span class="n">idle</span>
+        <span class="n">Average</span> <span class="n">EEG</span> <span class="n">reference</span> <span class="p">(</span><span class="mi">1</span> <span class="n">x</span> <span class="mi">60</span><span class="p">)</span>  <span class="n">idle</span>
+    <span class="n">Range</span> <span class="p">:</span> <span class="mi">6450</span> <span class="o">...</span> <span class="mi">48149</span> <span class="o">=</span>     <span class="mf">42.956</span> <span class="o">...</span>   <span class="mf">320.665</span> <span class="n">secs</span>
+<span class="n">Ready</span><span class="o">.</span>
+<span class="n">Current</span> <span class="n">compensation</span> <span class="n">grade</span> <span class="p">:</span> <span class="mi">0</span>
+<span class="n">Reading</span> <span class="mi">0</span> <span class="o">...</span> <span class="mi">41699</span>  <span class="o">=</span>      <span class="mf">0.000</span> <span class="o">...</span>   <span class="mf">277.709</span> <span class="n">secs</span><span class="o">...</span>
+<span class="n">Setting</span> <span class="n">up</span> <span class="n">band</span><span class="o">-</span><span class="k">pass</span> <span class="nb">filter</span> <span class="kn">from</span> <span class="mi">1</span> <span class="o">-</span> <span class="mi">40</span> <span class="n">Hz</span>
+<span class="n">l_trans_bandwidth</span> <span class="n">chosen</span> <span class="n">to</span> <span class="n">be</span> <span class="mf">1.0</span> <span class="n">Hz</span>
+<span class="n">h_trans_bandwidth</span> <span class="n">chosen</span> <span class="n">to</span> <span class="n">be</span> <span class="mf">10.0</span> <span class="n">Hz</span>
+<span class="n">Filter</span> <span class="n">length</span> <span class="n">of</span> <span class="mi">497</span> <span class="n">samples</span> <span class="p">(</span><span class="mf">3.310</span> <span class="n">sec</span><span class="p">)</span> <span class="n">selected</span>
+</pre></div>
+</div>
 <p>Plot results</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">n_plots</span> <span class="o">=</span> <span class="mi">10</span>
-<span class="n">order</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">kurtosis</span><span class="p">(</span><span class="n">Y</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">1000</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">T_plots</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">order</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">kurtosis</span><span class="p">(</span><span class="n">Y</span><span class="p">[:,</span> <span class="p">:</span><span class="n">T_plots</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 <span class="n">models</span> <span class="o">=</span> <span class="p">[</span><span class="n">data</span><span class="p">[:</span><span class="n">n_plots</span><span class="p">],</span> <span class="n">Y</span><span class="p">[</span><span class="n">order</span><span class="p">[:</span><span class="n">n_plots</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">]]]</span>
 <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Observations (raw EEG)&#39;</span><span class="p">,</span>
          <span class="s1">&#39;ICA recovered sources&#39;</span><span class="p">]</span>
@@ -170,14 +188,14 @@ ArXiv Preprint, Nov 2017
     <span class="n">ax</span><span class="o">.</span><span class="n">get_yaxis</span><span class="p">()</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
     <span class="n">offsets</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">offsets</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">offsets</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">((</span><span class="n">model</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">1000</span><span class="p">]</span> <span class="o">+</span> <span class="n">offsets</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">])</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="s1">&#39;k&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">((</span><span class="n">model</span><span class="p">[:,</span> <span class="p">:</span><span class="n">T_plots</span><span class="p">]</span> <span class="o">+</span> <span class="n">offsets</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">])</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="s1">&#39;k&#39;</span><span class="p">)</span>
 
 <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 <img alt="../_images/sphx_glr_plot_ica_eeg_001.png" class="align-center" src="../_images/sphx_glr_plot_ica_eeg_001.png" />
-<p><strong>Total running time of the script:</strong> ( 0 minutes  3.940 seconds)</p>
+<p><strong>Total running time of the script:</strong> ( 0 minutes  2.537 seconds)</p>
 <div class="sphx-glr-footer docutils container">
 <div class="sphx-glr-download docutils container">
 <a class="reference download internal" href="../_downloads/plot_ica_eeg.py" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_ica_eeg.py</span></code></a></div>

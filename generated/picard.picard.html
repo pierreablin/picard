@@ -4,14 +4,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>picard.picard &#8212; picard 0.2.dev0 documentation</title>
+    <title>picard.picard &#8212; picard 0.1.dev2 documentation</title>
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.2.dev0',
+        VERSION:     '0.1.dev2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -48,7 +48,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           picard</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.2.dev0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.dev2</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -120,7 +120,7 @@
 <h1>picard.picard<a class="headerlink" href="#picard-picard" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="picard.picard">
-<code class="descclassname">picard.</code><code class="descname">picard</code><span class="sig-paren">(</span><em>X</em>, <em>n_components=None</em>, <em>ortho=True</em>, <em>whiten=True</em>, <em>return_X_mean=False</em>, <em>max_iter=100</em>, <em>tol=1e-07</em>, <em>m=7</em>, <em>ls_tries=10</em>, <em>lambda_min=0.01</em>, <em>verbose=False</em><span class="sig-paren">)</span><a class="headerlink" href="#picard.picard" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">picard.</code><code class="descname">picard</code><span class="sig-paren">(</span><em>X</em>, <em>fun='tanh'</em>, <em>n_components=None</em>, <em>ortho=True</em>, <em>whiten=True</em>, <em>return_X_mean=False</em>, <em>max_iter=100</em>, <em>tol=1e-07</em>, <em>m=7</em>, <em>ls_tries=10</em>, <em>lambda_min=0.01</em>, <em>verbose=False</em><span class="sig-paren">)</span><a class="headerlink" href="#picard.picard" title="Permalink to this definition">¶</a></dt>
 <dd><p>Perform Independent Component Analysis.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -130,6 +130,17 @@
 <blockquote>
 <div><p>Training vector, where n_samples is the number of samples and
 n_features is the number of features.</p>
+</div></blockquote>
+<p><strong>fun</strong> : str or instance of the density class, optional</p>
+<blockquote>
+<div><p>Either a built in density model (‘tanh’, ‘exp’ and ‘cube’), or a custom
+density.
+Should contain three methods called ‘log_lik’, ‘score’ and ‘score_der’,
+corresponding to the log_likelihood, score and score derivative
+functions. To test that the functions are correct, run the
+check() method. ‘score_and_der’ is an optionnal method, for when there
+is an efficient way to compute the score and its derivative at the same
+time. See examples in the densities.py file.</p>
 </div></blockquote>
 <p><strong>n_components</strong> : int, optional</p>
 <blockquote>
@@ -201,7 +212,7 @@ The mixing matrix can be obtained by:</p>
 <blockquote>
 <div><p>Estimated source matrix</p>
 </div></blockquote>
-<p><strong>X_mean</strong> : array, shape (n_features, )</p>
+<p><strong>X_mean</strong> : array, shape (n_features,)</p>
 <blockquote class="last">
 <div><p>The mean over features. Returned only if return_X_mean is True.</p>
 </div></blockquote>

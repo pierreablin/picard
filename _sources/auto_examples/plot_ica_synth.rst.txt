@@ -66,8 +66,8 @@ Generate sample data
     X = np.dot(A, S)  # Generate observations
 
     # Compute ICA
-    _, W_picard, Y_picard = picard(X, ortho=False)
-    _, W_picardo, Y_picardo = picard(X, ortho=True)
+    _, _, Y_picard = picard(X, ortho=False)
+    _, _, Y_picardo = picard(X, ortho=True)
 
 
 
@@ -125,7 +125,7 @@ Plot results
 
 
 
-**Total running time of the script:** ( 0 minutes  0.445 seconds)
+**Total running time of the script:** ( 0 minutes  0.322 seconds)
 
 
 

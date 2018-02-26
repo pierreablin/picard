@@ -49,7 +49,8 @@ K, W, Y = picard(data, n_components=30, ortho=True)
 # Plot results
 
 n_plots = 10
-order = np.argsort(kurtosis(Y[:, :1000], axis=1))[::-1]
+T_plots = 1000
+order = np.argsort(kurtosis(Y[:, :T_plots], axis=1))[::-1]
 models = [data[:n_plots], Y[order[:n_plots][::-1]]]
 names = ['Observations (raw EEG)',
          'ICA recovered sources']
@@ -61,7 +62,7 @@ for ii, (model, name, ax) in enumerate(zip(models, names, axes)):
     ax.get_yaxis().set_visible(False)
     offsets = np.max(model, axis=1) - np.min(model, axis=1)
     offsets = np.cumsum(offsets)
-    ax.plot((model[:, :1000] + offsets[:, np.newaxis]).T, 'k')
+    ax.plot((model[:, :T_plots] + offsets[:, np.newaxis]).T, 'k')
 
 fig.tight_layout()
 plt.show()
