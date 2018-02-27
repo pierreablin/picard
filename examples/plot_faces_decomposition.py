@@ -10,6 +10,9 @@ Pierre Ablin, Jean-François Cardoso, Alexandre Gramfort
 ArXiv Preprint, Nov 2017
 https://arxiv.org/abs/1711.10873
 
+
+On the figure, the number above each bar corresponds to the final gradient
+norm.
 """  # noqa
 
 # Author: Pierre Ablin <pierre.ablin@inria.fr>
@@ -62,7 +65,7 @@ print("Dataset consists of %d faces" % n_samples)
 # elapsed time.
 
 
-dimensions = [5, 20, 40]
+dimensions = [5, 10, 40, 60]
 
 algorithms = [picard, fastica]
 names = ['PicardO', 'FastICA']
