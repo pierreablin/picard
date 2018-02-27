@@ -1,7 +1,7 @@
 """
-=========================================================
-Blind source separation using preconditioned ICA on faces
-=========================================================
+================================================
+Comparison of Picard-O and FastICA on faces data
+================================================
 
 This example compares FastICA and Picard-O:
 
@@ -79,7 +79,6 @@ def plot_gallery(title, images, n_col=n_col, n_row=n_row):
 algorithms = [('Picard-O', picard),
               ('FastICA', fastica)]
 for name, algorithm in algorithms:
-    print("Running %s" % name)
     if name == 'FastICA':
         X = faces_centered.T
     else:
