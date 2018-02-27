@@ -10,7 +10,7 @@ class Density(object):
 
     These elements can be passed in the ``fun`` argument of Picard.
 
-    It must implement a method `̀ log_lik`` which evaluates the
+    It must implement a method  ``log_lik`` which evaluates the
     log-likelihood for the samples.
     It must also contain either two methods ``score`` and ``score_der``
     which respectively return the score and its derivative,
