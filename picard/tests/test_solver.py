@@ -7,7 +7,7 @@ import numpy as np
 from numpy.testing import assert_allclose
 from nose.tools import assert_equal
 
-from picard import picard
+from picard import picard, Density
 from picard.densities import Tanh, Exp, Cube, check_density
 
 
@@ -131,14 +131,13 @@ def test_dimension_reduction():
 
 
 def test_bad_custom_density():
-    class bad_density(object):
-            def log_lik(self, Y):
-                return Y ** 4 / 4
+    def log_lik(self, Y):
+        return Y ** 4 / 4
 
-            def score_and_der(self, Y):
-                return Y ** 3, 3 * Y ** 2 + 2.
+    def score_and_der(self, Y):
+        return Y ** 3, 3 * Y ** 2 + 2.
 
-    fun = bad_density()
+    fun = Density(log_lik, score_and_der=score_and_der)
     X = np.random.randn(2, 10)
     try:
         picard(X, fun=fun, check_fun=True)
