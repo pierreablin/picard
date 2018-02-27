@@ -132,7 +132,7 @@ Plot results
 
 
 
-**Total running time of the script:** ( 0 minutes  2.472 seconds)
+**Total running time of the script:** ( 0 minutes  2.288 seconds)
 
 
 

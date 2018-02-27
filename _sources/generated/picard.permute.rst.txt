@@ -1,0 +1,6 @@
+picard\.permute
+===============
+
+.. currentmodule:: picard
+
+.. autofunction:: permute

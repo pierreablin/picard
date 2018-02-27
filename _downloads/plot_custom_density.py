@@ -13,7 +13,7 @@ This example shows how to use custom densities using Picard
 
 import numpy as np
 import matplotlib.pyplot as plt
-from picard import Density, picard
+from picard import picard, permute
 
 print(__doc__)
 
@@ -21,16 +21,16 @@ print(__doc__)
 # Build a custom density where the score function is x + tanh(x)
 
 
-def log_lik(Y):
-    return Y ** 2 / 2 + np.log(np.cosh(Y))
+class CustomDensity(object):
+    def log_lik(self, Y):
+        return Y ** 2 / 2 + np.log(np.cosh(Y))
+
+    def score_and_der(self, Y):
+        tanhY = np.tanh(Y)
+        return Y + tanhY, 2 - tanhY ** 2
 
 
-def score_and_der(Y):
-    tanhY = np.tanh(Y)
-    return Y + tanhY, 2 - tanhY ** 2
-
-
-custom_density = Density(log_lik=log_lik, score_and_der=score_and_der)
+custom_density = CustomDensity()
 
 ###############################################################################
 # Plot the corresponding functions
@@ -58,6 +58,6 @@ A = rng.randn(N, N)
 X = np.dot(A, S)
 K, W, Y = picard(X, fun=custom_density)
 plt.figure()
-plt.imshow(W.dot(K).dot(A), interpolation='nearest')
+plt.imshow(permute(W.dot(K).dot(A)), interpolation='nearest')
 plt.title('Difference between the mix and the estimated matrix')
 plt.show()
