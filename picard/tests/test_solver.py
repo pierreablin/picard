@@ -8,7 +8,7 @@ from numpy.testing import assert_allclose
 from nose.tools import assert_equal
 
 from picard import picard
-from picard._densities import Tanh, Exp, Cube, check_density
+from picard.densities import Tanh, Exp, Cube, check_density
 
 
 def get_perm(A):

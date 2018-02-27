@@ -7,7 +7,7 @@
 from copy import copy
 import numpy as np
 
-from ._densities import Tanh
+from .densities import Tanh
 
 
 def picard_standard(X, density=Tanh(), m=7, maxiter=1000, tol=1e-7,

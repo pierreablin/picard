@@ -10,7 +10,7 @@ from scipy import linalg
 
 from ._picardo import picardo
 from ._picard_standard import picard_standard
-from ._densities import Tanh, Exp, Cube, check_density
+from .densities import Tanh, Exp, Cube, check_density
 
 
 def picard(X, fun='tanh', n_components=None, ortho=True, whiten=True,
@@ -28,7 +28,7 @@ def picard(X, fun='tanh', n_components=None, ortho=True, whiten=True,
         Either a built in density model ('tanh', 'exp' and 'cube'), or a custom
         density.
         A custom density is a class that should contain two methods called
-        'log_lik' and 'score_and_der'. See examples in the _densities.py file.
+        'log_lik' and 'score_and_der'. See examples in the densities.py file.
 
 
     n_components : int, optional
