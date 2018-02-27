@@ -13,6 +13,26 @@ Examples Gallery
 
 .. raw:: html
 
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to use custom densities using Picard">
+
+.. only:: html
+
+    .. figure:: /auto_examples/images/thumb/sphx_glr_plot_custom_density_thumb.png
+
+        :ref:`sphx_glr_auto_examples_plot_custom_density.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/plot_custom_density
+
+.. raw:: html
+
     <div class="sphx-glr-thumbcontainer" tooltip="The example runs the Picard algorithm proposed in:">
 
 .. only:: html

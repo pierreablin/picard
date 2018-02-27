@@ -29,6 +29,7 @@
     <link rel="shortcut icon" href="../_static/picard_logo.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="picard.Density" href="picard.Density.html" />
     <link rel="prev" title="API Documentation" href="../api.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
@@ -132,16 +133,12 @@
 <div><p>Training vector, where n_samples is the number of samples and
 n_features is the number of features.</p>
 </div></blockquote>
-<p><strong>fun</strong> : str or instance of the density class, optional</p>
+<p><strong>fun</strong> : str or class, optional</p>
 <blockquote>
 <div><p>Either a built in density model (‘tanh’, ‘exp’ and ‘cube’), or a custom
 density.
-Should contain three methods called ‘log_lik’, ‘score’ and ‘score_der’,
-corresponding to the log_likelihood, score and score derivative
-functions. To test that the functions are correct, run the
-check() method. ‘score_and_der’ is an optionnal method, for when there
-is an efficient way to compute the score and its derivative at the same
-time. See examples in the densities.py file.</p>
+A custom density is a class that should contain two methods called
+‘log_lik’ and ‘score_and_der’. See examples in the densities.py file.</p>
 </div></blockquote>
 <p><strong>n_components</strong> : int, optional</p>
 <blockquote>

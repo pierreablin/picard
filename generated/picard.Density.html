@@ -1,0 +1,220 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>picard.Density &#8212; picard 0.3.dev0 documentation</title>
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.3.dev0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
+    <link rel="shortcut icon" href="../_static/picard_logo.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="picard.picard" href="picard.picard.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../index.html">
+          picard</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.3.dev0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="../auto_examples/index.html">Examples</a></li>
+                <li><a href="../api.html">API</a></li>
+                <li><a href="https://github.com/pierreablin/picard">GitHub</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">API Documentation</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">picard.Density</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm">
+<div id="sourcelink">
+  <a href="../_sources/generated/picard.Density.rst.txt"
+     rel="nofollow">Source</a>
+</div></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container content-container">
+  
+  <div class="section" id="picard-density">
+<h1>picard.Density<a class="headerlink" href="#picard-density" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="picard.Density">
+<em class="property">class </em><code class="descclassname">picard.</code><code class="descname">Density</code><span class="sig-paren">(</span><em>log_lik</em>, <em>score=None</em>, <em>score_der=None</em>, <em>score_and_der=None</em><span class="sig-paren">)</span><a class="headerlink" href="#picard.Density" title="Permalink to this definition">¶</a></dt>
+<dd><p>Interface to use custom densities for Picard</p>
+<p>These elements can be passed in the <code class="docutils literal"><span class="pre">fun</span></code> argument of Picard.</p>
+<p>It must implement a method <cite>̀ log_lik`</cite> which evaluates the
+log-likelihood for the samples.
+It must also contain either two methods <code class="docutils literal"><span class="pre">score</span></code> and <code class="docutils literal"><span class="pre">score_der</span></code>
+which respectively return the score and its derivative,
+or a method <code class="docutils literal"><span class="pre">score_and_der</span></code> which returns both in a tuple of numpy
+arrays. In many cases, computing the score and its derivative at the same
+time can save some computations (see the example).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>log_lik</strong> : callable f(Y)</p>
+<blockquote>
+<div><p>Returns an array containing the log-likelihood for each sample in Y.</p>
+</div></blockquote>
+<p><strong>score</strong> : callable f(Y)</p>
+<blockquote>
+<div><p>Returns an array containing the score for each sample in Y.</p>
+</div></blockquote>
+<p><strong>score_der</strong> : callable f(Y)</p>
+<blockquote>
+<div><p>Returns an array containing the derivative of the score for each sample
+in Y.</p>
+</div></blockquote>
+<p><strong>score_and_der</strong> : callable f(Y)</p>
+<blockquote class="last">
+<div><p>Returns a tuple of arrays (psiY, psidY), where psiY contains the score
+for each sample of Y and psidY contains the derivative of the score for
+each sample in Y.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">picard</span> <span class="k">import</span> <span class="n">Density</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">log_lik</span><span class="p">(</span><span class="n">Y</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">Y</span> <span class="o">**</span> <span class="mi">4</span> <span class="o">/</span> <span class="mi">4</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">score</span><span class="p">(</span><span class="n">Y</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">Y</span> <span class="o">**</span> <span class="mi">3</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">score_der</span><span class="p">(</span><span class="n">Y</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">Y</span> <span class="o">**</span> <span class="mi">2</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_density</span> <span class="o">=</span> <span class="n">Density</span><span class="p">(</span><span class="n">log_lik</span><span class="o">=</span><span class="n">log_lik</span><span class="p">,</span> <span class="n">score</span><span class="o">=</span><span class="n">score</span><span class="p">,</span> <span class="n">score_der</span><span class="o">=</span><span class="n">score_der</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_density</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<span class="go">array([0, 1, 8])</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="picard.Density.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>log_lik</em>, <em>score=None</em>, <em>score_der=None</em>, <em>score_and_der=None</em><span class="sig-paren">)</span><a class="headerlink" href="#picard.Density.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#picard.Density.__init__" title="picard.Density.__init__"><code class="xref py py-obj docutils literal"><span class="pre">__init__</span></code></a>(log_lik[,&nbsp;score,&nbsp;score_der,&nbsp;…])</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+</div>
+
+<!-- Github "fork me" ribbon -->
+<a href="https://github.com/pierreablin/picard"><img style="position: absolute; top: 50px; right: 0; border: 0;" 
+src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67"
+alt="Fork me on GitHub"
+data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png"></a>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2017, Pierre Ablin.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

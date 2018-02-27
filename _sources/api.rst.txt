@@ -15,3 +15,4 @@ Functions
    :toctree: generated/
 
    picard
+   Density
