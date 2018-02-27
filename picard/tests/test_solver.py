@@ -131,10 +131,10 @@ def test_dimension_reduction():
 
 
 def test_bad_custom_density():
-    def log_lik(self, Y):
+    def log_lik(Y):
         return Y ** 4 / 4
 
-    def score_and_der(self, Y):
+    def score_and_der(Y):
         return Y ** 3, 3 * Y ** 2 + 2.
 
     fun = Density(log_lik, score_and_der=score_and_der)
