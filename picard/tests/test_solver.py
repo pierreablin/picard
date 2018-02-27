@@ -7,8 +7,8 @@ import numpy as np
 from numpy.testing import assert_allclose
 from nose.tools import assert_equal
 
-from picard import picard, density
-from picard.densities import tanh, exp, cube
+from picard import picard
+from picard._densities import Tanh, Exp, Cube, check_density
 
 
 def get_perm(A):
@@ -38,7 +38,7 @@ def test_picard():
     N, T = 3, 20000
     rng = np.random.RandomState(42)
     names = ['tanh', 'cube']
-    for j, fun in enumerate([tanh(params=dict(alpha=0.5)), 'cube']):
+    for j, fun in enumerate([Tanh(params=dict(alpha=0.5)), 'cube']):
         if j == 0:
             S = rng.laplace(size=(N, T))
         else:
@@ -47,13 +47,14 @@ def test_picard():
         X = np.dot(A, S)
         K, W, Y = picard(X.copy(), fun=fun, ortho=False, verbose=True)
         if fun == 'tanh':
-            fun = tanh()
+            fun = Tanh()
         elif fun == 'exp':
-            fun = exp()
+            fun = Exp()
         elif fun == 'cube':
-            fun = cube()
+            fun = Cube()
         # Get the final gradient norm
-        G = np.inner(fun.score(Y), Y) / float(T) - np.eye(N)
+        psiY = fun.score_and_der(Y)[0]
+        G = np.inner(psiY, Y) / float(T) - np.eye(N)
         err_msg = 'fun %s, gradient norm greater than tol' % names[j]
         assert_allclose(G, np.zeros((N, N)), atol=1e-7,
                         err_msg=err_msg)
@@ -92,13 +93,14 @@ def test_picardo():
     for fun in names:
         K, W, Y = picard(X.copy(), fun=fun, ortho=True, verbose=2)
         if fun == 'tanh':
-            fun = tanh()
+            fun = Tanh()
         elif fun == 'exp':
-            fun = exp()
+            fun = Exp()
         elif fun == 'cube':
-            fun = cube()
+            fun = Cube()
         # Get the final gradient norm
-        G = np.inner(fun.score(Y), Y) / float(T) - np.eye(N)
+        psiY = fun.score_and_der(Y)[0]
+        G = np.inner(psiY, Y) / float(T) - np.eye(N)
         G = (G - G.T) / 2.  # take skew-symmetric part
         err_msg = 'fun %s, gradient norm greater than tol' % fun
         assert_allclose(G, np.zeros((N, N)), atol=1e-7,
@@ -129,15 +131,13 @@ def test_dimension_reduction():
 
 
 def test_bad_custom_density():
-    class bad_density(density):
+    class bad_density(object):
             def log_lik(self, Y):
                 return Y ** 4 / 4
 
-            def score(self, Y):
-                return Y ** 3
+            def score_and_der(self, Y):
+                return Y ** 3, 3 * Y ** 2 + 2.
 
-            def score_der(self, Y):
-                return 3 * Y ** 2 + 2.
     fun = bad_density()
     X = np.random.randn(2, 10)
     try:
@@ -149,5 +149,5 @@ def test_bad_custom_density():
 
 
 def test_fun():
-    for fun in [tanh(), exp(), cube()]:
-        fun.check()
+    for fun in [Tanh(), Exp(), Cube()]:
+        check_density(fun)

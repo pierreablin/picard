@@ -9,13 +9,13 @@ from __future__ import print_function
 import numpy as np
 from scipy.linalg import expm
 
-from .tools import (gradient, proj_hessian_approx, regularize_hessian,
-                    l_bfgs_direction, line_search)
+from ._tools import (gradient, proj_hessian_approx, regularize_hessian,
+                     l_bfgs_direction, line_search)
 
-from .densities import tanh
+from ._densities import Tanh
 
 
-def picardo(X, density=tanh(), m=7, maxiter=100, tol=1e-9, lambda_min=0.01,
+def picardo(X, density=Tanh(), m=7, maxiter=100, tol=1e-9, lambda_min=0.01,
             ls_tries=10, verbose=0):
     '''Runs the Picard-O algorithm
 

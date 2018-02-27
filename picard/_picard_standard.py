@@ -7,10 +7,10 @@
 from copy import copy
 import numpy as np
 
-from .densities import tanh
+from ._densities import Tanh
 
 
-def picard_standard(X, density=tanh(), m=7, maxiter=1000, tol=1e-7,
+def picard_standard(X, density=Tanh(), m=7, maxiter=1000, tol=1e-7,
                     lambda_min=0.01, ls_tries=10, verbose=False):
     '''Runs the Picard algorithm
 
