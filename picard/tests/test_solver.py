@@ -7,31 +7,8 @@ import numpy as np
 from numpy.testing import assert_allclose
 from nose.tools import assert_equal
 
-from picard import picard, Density
+from picard import picard, permute
 from picard.densities import Tanh, Exp, Cube, check_density
-
-
-def get_perm(A):
-    '''
-    returns a list of permutaion indices ind such that A[idx, idx] is close to
-    identity, as well as the output matrix
-    '''
-    n = A.shape[0]
-    idx = np.arange(n)
-    done = False
-    while not done:
-        done = True
-        for i in range(n):
-            for j in range(i):
-                if A[i, i] ** 2 + A[j, j] ** 2 < A[i, j] ** 2 + A[j, i] ** 2:
-                    A[(i, j), :] = A[(j, i), :]
-                    idx[i], idx[j] = idx[j], idx[i]
-                    done = False
-    A /= np.diag(A)
-    order_sort = np.argsort(np.sum(np.abs(A), axis=0))
-    A = A[order_sort, :]
-    A = A[:, order_sort]
-    return idx, A
 
 
 def test_picard():
@@ -62,7 +39,7 @@ def test_picard():
         assert_equal(W.shape, A.shape)
         assert_equal(K.shape, A.shape)
         WA = W.dot(K).dot(A)
-        WA = get_perm(WA)[1]  # Permute and scale
+        WA = permute(WA)  # Permute and scale
         err_msg = 'fun %s, wrong unmixing matrix' % names[j]
         assert_allclose(WA, np.eye(N), rtol=0, atol=5e-2,
                         err_msg=err_msg)
@@ -109,7 +86,7 @@ def test_picardo():
         assert_equal(W.shape, A.shape)
         assert_equal(K.shape, A.shape)
         WA = W.dot(K).dot(A)
-        WA = get_perm(WA)[1]  # Permute and scale
+        WA = permute(WA)  # Permute and scale
         err_msg = 'fun %s, wrong unmixing matrix' % fun
         assert_allclose(WA, np.eye(N), rtol=0, atol=5e-2,
                         err_msg=err_msg)
@@ -131,16 +108,18 @@ def test_dimension_reduction():
 
 
 def test_bad_custom_density():
-    def log_lik(Y):
-        return Y ** 4 / 4
 
-    def score_and_der(Y):
-        return Y ** 3, 3 * Y ** 2 + 2.
+    class CustomDensity(object):
+        def log_lik(self, Y):
+            return Y ** 4 / 4
 
-    fun = Density(log_lik, score_and_der=score_and_der)
+        def score_and_der(self, Y):
+            return Y ** 3, 3 * Y ** 2 + 2.
+
+    fun = CustomDensity()
     X = np.random.randn(2, 10)
     try:
-        picard(X, fun=fun, check_fun=True)
+        picard(X, fun=fun)
     except AssertionError:
         pass
     else:

@@ -83,3 +83,35 @@ def line_search(Y, signs, density, direction, current_loss, ls_tries):
         alpha /= 2.
     else:
         return False, Y_new, new_loss, alpha
+
+
+def permute(A):
+    '''Get a permutation to diagonalize and scale a matrix
+
+    Parameters
+    ----------
+    A : ndarray, shape (n_features, n_features)
+        A matrix close from a permutation and scale matrix.
+
+    Returns
+    -------
+    A : ndarray, shape (n_features, n_features)
+        A permuted matrix.
+    '''
+    A = A.copy()
+    n = A.shape[0]
+    idx = np.arange(n)
+    done = False
+    while not done:
+        done = True
+        for i in range(n):
+            for j in range(i):
+                if A[i, i] ** 2 + A[j, j] ** 2 < A[i, j] ** 2 + A[j, i] ** 2:
+                    A[(i, j), :] = A[(j, i), :]
+                    idx[i], idx[j] = idx[j], idx[i]
+                    done = False
+    A /= np.diag(A)
+    order_sort = np.argsort(np.sum(np.abs(A), axis=0))
+    A = A[order_sort, :]
+    A = A[:, order_sort]
+    return A

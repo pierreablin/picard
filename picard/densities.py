@@ -1,69 +1,14 @@
+# Authors: Pierre Ablin <pierre.ablin@inria.fr>
+#          Alexandre Gramfort <alexandre.gramfort@inria.fr>
+#          Jean-Francois Cardoso <cardoso@iap.fr>
+#
+# License: BSD (3-clause)
+
 import numpy as np
 import numexpr as ne
 
 from scipy.optimize import check_grad
 from numpy.testing import assert_allclose
-
-
-class Density(object):
-    """Interface to use custom densities for Picard
-
-    These elements can be passed in the ``fun`` argument of Picard.
-
-    It must implement a method  ``log_lik`` which evaluates the
-    log-likelihood for the samples.
-    It must also contain either two methods ``score`` and ``score_der``
-    which respectively return the score and its derivative,
-    or a method ``score_and_der`` which returns both in a tuple of numpy
-    arrays. In many cases, computing the score and its derivative at the same
-    time can save some computations (see the example).
-
-    Parameters
-    ----------
-    log_lik : callable f(Y)
-        Returns an array containing the log-likelihood for each sample in Y.
-    score : callable f(Y)
-        Returns an array containing the score for each sample in Y.
-    score_der : callable f(Y)
-        Returns an array containing the derivative of the score for each sample
-        in Y.
-    score_and_der : callable f(Y)
-        Returns a tuple of arrays (psiY, psidY), where psiY contains the score
-        for each sample of Y and psidY contains the derivative of the score for
-        each sample in Y.
-
-    Examples
-    --------
-    >>> import numpy as np
-    >>> from picard import Density
-    >>> def log_lik(Y):
-    ...     return Y ** 4 / 4
-    ...
-    >>> def score(Y):
-    ...     return Y ** 3
-    ...
-    >>> def score_der(Y):
-    ...     return 3 * Y ** 2
-    ...
-    >>> my_density = Density(log_lik=log_lik, score=score, score_der=score_der)
-    >>> my_density.score(np.arange(3))
-    array([0, 1, 8])
-
-    """
-    def __init__(self, log_lik, score=None, score_der=None,
-                 score_and_der=None):
-        if log_lik is None:
-            raise(ValueError, "A callable log_lik method should be provided")
-        self.log_lik = log_lik
-        if score_and_der is not None:
-            self.score_and_der = score_and_der
-        else:
-            self.score = score
-            self.score_der = score_der
-
-            def score_and_der(Y):
-                return self.score(Y), self.score_der(Y)
-            self.score_and_der = score_and_der
 
 
 def check_density(density, tol=1e-6, n_test=10, rng=None):
