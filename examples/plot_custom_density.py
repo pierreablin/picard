@@ -20,6 +20,7 @@ print(__doc__)
 ###############################################################################
 # Build a custom density where the score function is x + tanh(x)
 
+
 class CustomDensity(object):
     def log_lik(self, Y):
         return Y ** 2 / 2 + np.log(np.cosh(Y))
@@ -27,6 +28,7 @@ class CustomDensity(object):
     def score_and_der(self, Y):
         tanhY = np.tanh(Y)
         return Y + tanhY, 2 - tanhY ** 2
+
 
 custom_density = CustomDensity()
 

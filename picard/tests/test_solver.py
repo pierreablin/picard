@@ -56,7 +56,7 @@ def test_shift():
                              return_X_mean=True)
     assert_allclose(offset, X_mean, rtol=0, atol=0.1)
     WA = W.dot(A)
-    WA = get_perm(WA)[1]
+    WA = permute(WA)
     assert_allclose(WA, np.eye(N), rtol=0, atol=0.1)
 
 
