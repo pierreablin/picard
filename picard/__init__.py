@@ -19,4 +19,4 @@
 __version__ = '0.3.dev0'
 
 from .solver import picard  # noqa
-from densities import Density  # noqa
+from .densities import Density  # noqa
