@@ -56,8 +56,9 @@ N, T = 5, 1000
 S = rng.laplace(size=(N, T))
 A = rng.randn(N, N)
 X = np.dot(A, S)
-K, W, Y = picard(X, fun=custom_density)
+K, W, Y = picard(X, fun=custom_density, random_state=0)
 plt.figure()
 plt.imshow(permute(W.dot(K).dot(A)), interpolation='nearest')
-plt.title('Difference between the mix and the estimated matrix')
+plt.title('Product between the estimated unmixing matrix and the mixing'
+          'matrix')
 plt.show()

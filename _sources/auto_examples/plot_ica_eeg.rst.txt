@@ -90,7 +90,7 @@ Run ICA on data, after reducing the dimension
 .. code-block:: python
 
 
-    K, W, Y = picard(data, n_components=30, ortho=True)
+    K, W, Y = picard(data, n_components=30, ortho=True, random_state=0)
 
 
 
@@ -132,7 +132,7 @@ Plot results
 
 
 
-**Total running time of the script:** ( 0 minutes  2.288 seconds)
+**Total running time of the script:** ( 0 minutes  2.082 seconds)
 
 
 

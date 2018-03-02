@@ -4,14 +4,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>picard.picard &#8212; picard 0.2 documentation</title>
+    <title>picard.picard &#8212; picard 0.3.dev0 documentation</title>
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.2',
+        VERSION:     '0.3.dev0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -50,7 +50,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           picard</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.2</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.3.dev0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -122,7 +122,7 @@
 <h1>picard.picard<a class="headerlink" href="#picard-picard" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="picard.picard">
-<code class="descclassname">picard.</code><code class="descname">picard</code><span class="sig-paren">(</span><em>X</em>, <em>fun='tanh'</em>, <em>n_components=None</em>, <em>ortho=True</em>, <em>whiten=True</em>, <em>return_X_mean=False</em>, <em>max_iter=100</em>, <em>tol=1e-07</em>, <em>m=7</em>, <em>ls_tries=10</em>, <em>lambda_min=0.01</em>, <em>check_fun=True</em>, <em>verbose=False</em><span class="sig-paren">)</span><a class="headerlink" href="#picard.picard" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">picard.</code><code class="descname">picard</code><span class="sig-paren">(</span><em>X</em>, <em>fun='tanh'</em>, <em>n_components=None</em>, <em>ortho=True</em>, <em>whiten=True</em>, <em>return_X_mean=False</em>, <em>max_iter=100</em>, <em>tol=1e-07</em>, <em>m=7</em>, <em>ls_tries=10</em>, <em>lambda_min=0.01</em>, <em>check_fun=True</em>, <em>w_init=None</em>, <em>random_state=None</em>, <em>verbose=False</em><span class="sig-paren">)</span><a class="headerlink" href="#picard.picard" title="Permalink to this definition">¶</a></dt>
 <dd><p>Perform Independent Component Analysis.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -189,6 +189,19 @@ eigenvalue below lambda_min is shifted to lambda_min.</p>
 <blockquote>
 <div><p>Whether to check the fun provided by the user at the beginning of
 the run. Setting it to False is not safe.</p>
+</div></blockquote>
+<p><strong>w_init</strong> : (n_components, n_components) array, optional</p>
+<blockquote>
+<div><p>Initial un-mixing array of dimension (n.comp,n.comp).
+If None (default) then an array of normal r.v.’s is used.</p>
+</div></blockquote>
+<p><strong>random_state</strong> : int, RandomState instance or None, optional (default=None)</p>
+<blockquote>
+<div><p>Used to perform a random initialization when w_init is not provided.
+If int, random_state is the seed used by the random number generator;
+If RandomState instance, random_state is the random number generator;
+If None, the random number generator is the RandomState instance used
+by <cite>np.random</cite>.</p>
 </div></blockquote>
 <p><strong>verbose</strong> : bool, optional</p>
 <blockquote>

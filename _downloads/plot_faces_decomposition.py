@@ -81,7 +81,7 @@ for n_components in dimensions:
                           random_state=rng, max_iter=500, tol=1e-10)
         else:
             kwargs = dict(X=faces_centered, n_components=n_components,
-                          max_iter=500, tol=1e-5)
+                          max_iter=500, tol=1e-5, random_state=rng)
         t0 = time()
         K, W, Y = algorithm(**kwargs)
         running_times[name].append(time() - t0)

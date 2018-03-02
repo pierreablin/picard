@@ -4,14 +4,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Blind source separation using preconditioned ICA on EEG &#8212; picard 0.2 documentation</title>
+    <title>Blind source separation using preconditioned ICA on EEG &#8212; picard 0.3.dev0 documentation</title>
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.2',
+        VERSION:     '0.3.dev0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -48,7 +48,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           picard</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.2</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.3.dev0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -171,7 +171,7 @@ ArXiv Preprint, Nov 2017
 </pre></div>
 </div>
 <p>Run ICA on data, after reducing the dimension</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">K</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <a href="../generated/picard.picard.html#picard.picard" title="View documentation for picard.picard"><span class="n">picard</span></a><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">n_components</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">ortho</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">K</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <a href="../generated/picard.picard.html#picard.picard" title="View documentation for picard.picard"><span class="n">picard</span></a><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">n_components</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">ortho</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Plot results</p>
@@ -196,7 +196,7 @@ ArXiv Preprint, Nov 2017
 </pre></div>
 </div>
 <img alt="../_images/sphx_glr_plot_ica_eeg_001.png" class="align-center" src="../_images/sphx_glr_plot_ica_eeg_001.png" />
-<p><strong>Total running time of the script:</strong> ( 0 minutes  2.288 seconds)</p>
+<p><strong>Total running time of the script:</strong> ( 0 minutes  2.082 seconds)</p>
 <div class="sphx-glr-footer docutils container">
 <div class="sphx-glr-download docutils container">
 <a class="reference download internal" href="../_downloads/plot_ica_eeg.py" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_ica_eeg.py</span></code></a></div>

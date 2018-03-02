@@ -97,10 +97,11 @@ Run Picard on toy dataset using this density
     S = rng.laplace(size=(N, T))
     A = rng.randn(N, N)
     X = np.dot(A, S)
-    K, W, Y = picard(X, fun=custom_density)
+    K, W, Y = picard(X, fun=custom_density, random_state=0)
     plt.figure()
     plt.imshow(permute(W.dot(K).dot(A)), interpolation='nearest')
-    plt.title('Difference between the mix and the estimated matrix')
+    plt.title('Product between the estimated unmixing matrix and the mixing'
+              'matrix')
     plt.show()
 
 
@@ -111,7 +112,7 @@ Run Picard on toy dataset using this density
 
 
 
-**Total running time of the script:** ( 0 minutes  0.135 seconds)
+**Total running time of the script:** ( 0 minutes  0.112 seconds)
 
 
 

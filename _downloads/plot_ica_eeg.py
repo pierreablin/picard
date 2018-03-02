@@ -44,7 +44,7 @@ data = data[:, ::2]  # decimate a bit
 ###############################################################################
 # Run ICA on data, after reducing the dimension
 
-K, W, Y = picard(data, n_components=30, ortho=True)
+K, W, Y = picard(data, n_components=30, ortho=True, random_state=0)
 
 ###############################################################################
 # Plot results
