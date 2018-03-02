@@ -3,7 +3,6 @@
 #          Jean-Francois Cardoso <cardoso@iap.fr>
 #
 # License: BSD (3-clause)
-
 from copy import copy
 import numpy as np
 
@@ -74,6 +73,7 @@ def picard_standard(X, density=Tanh(), m=7, maxiter=1000, tol=1e-7,
     y_list = []
     r_list = []
     current_loss = _loss(Y, W, density)
+    requested_tolerance = False
     for n in range(maxiter):
         # Compute the score function
         psiY, psidY = density.score_and_der(Y)
@@ -82,6 +82,7 @@ def picard_standard(X, density=Tanh(), m=7, maxiter=1000, tol=1e-7,
         # Stopping criterion
         G_norm = np.max(np.abs(G))
         if G_norm < tol:
+            requested_tolerance = True
             break
         # Update the memory
         if n > 0:
@@ -112,7 +113,8 @@ def picard_standard(X, density=Tanh(), m=7, maxiter=1000, tol=1e-7,
         if verbose:
             print('iteration %d, gradient norm = %.4g' %
                   (n + 1, G_norm))
-    return Y, W
+    infos = dict(converged=requested_tolerance, gradient_norm=G_norm)
+    return Y, W, infos
 
 
 def _loss(Y, W, density):

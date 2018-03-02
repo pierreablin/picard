@@ -130,13 +130,19 @@ def picard(X, fun='tanh', n_components=None, ortho=True, whiten=True,
         check_density(fun)
 
     if ortho:
-        Y, W = picardo(X1, fun, m, max_iter, tol, lambda_min, ls_tries,
-                       verbose)
+        Y, W, infos = picardo(X1, fun, m, max_iter, tol, lambda_min, ls_tries,
+                              verbose)
     else:
-        Y, W = picard_standard(X1, fun, m, max_iter, tol, lambda_min,
-                               ls_tries, verbose)
+        Y, W, infos = picard_standard(X1, fun, m, max_iter, tol, lambda_min,
+                                      ls_tries, verbose)
     del X1
-
+    converged = infos['converged']
+    if not converged:
+        gradient_norm = infos['gradient_norm']
+        warnings.warn('Picard did not converge, final gradient norm = %.4g'
+                      ' while the requested tolerance was %.4g. Consider'
+                      'increasing the number of iterations or the tolerance.'
+                      % (gradient_norm, tol))
     if not whiten:
         K = None
     if return_X_mean:

@@ -23,6 +23,7 @@ MAINTAINER_EMAIL = 'pierre.ablin@inria.fr'
 LICENSE = 'BSD (3-clause)'
 DOWNLOAD_URL = 'https://github.com/pierreablin/picard.git'
 VERSION = version
+URL = 'https://pierreablin.github.io/picard'
 
 
 def package_tree(pkgroot):
@@ -42,6 +43,7 @@ if __name__ == "__main__":
           description=DESCRIPTION,
           license=LICENSE,
           version=VERSION,
+          url=URL,
           download_url=DOWNLOAD_URL,
           long_description=open('README.rst').read(),
           classifiers=[

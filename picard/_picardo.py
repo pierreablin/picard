@@ -4,8 +4,6 @@
 #
 # License: BSD (3-clause)
 
-from __future__ import print_function
-
 import numpy as np
 from scipy.linalg import expm
 
@@ -16,7 +14,7 @@ from .densities import Tanh
 
 
 def picardo(X, density=Tanh(), m=7, maxiter=100, tol=1e-9, lambda_min=0.01,
-            ls_tries=10, verbose=0):
+            ls_tries=10, verbose=False):
     '''Runs the Picard-O algorithm
 
 
@@ -67,6 +65,7 @@ def picardo(X, density=Tanh(), m=7, maxiter=100, tol=1e-9, lambda_min=0.01,
     r_list = []
     current_loss = None
     sign_change = False
+    requested_tolerance = False
     for n in range(maxiter):
         # Compute the score function
         psiY, psidY = density.score_and_der(Y)
@@ -88,6 +87,7 @@ def picardo(X, density=Tanh(), m=7, maxiter=100, tol=1e-9, lambda_min=0.01,
         # Stopping criterion
         gradient_norm = np.max(np.abs(G))
         if gradient_norm < tol:
+            requested_tolerance = True
             break
         # Update the memory
         if n > 0:
@@ -124,7 +124,6 @@ def picardo(X, density=Tanh(), m=7, maxiter=100, tol=1e-9, lambda_min=0.01,
         W = expm(direction).dot(W)
         current_loss = new_loss
         if verbose:
-            info = 'iteration %d, gradient norm = %.4g' % (n, gradient_norm)
-            ending = '\r' if verbose == 1 else '\n'
-            print(info, end=ending)
-    return Y, W
+            print('iteration %d, gradient norm = %.4g' % (n, gradient_norm))
+    infos = dict(converged=requested_tolerance, gradient_norm=gradient_norm)
+    return Y, W, infos

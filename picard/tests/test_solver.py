@@ -2,6 +2,7 @@
 #          Alexandre Gramfort <alexandre.gramfort@inria.fr>
 #
 # License: BSD (3-clause)
+import warnings
 
 import numpy as np
 from numpy.testing import assert_allclose
@@ -9,6 +10,16 @@ from nose.tools import assert_equal
 
 from picard import picard, permute
 from picard.densities import Tanh, Exp, Cube, check_density
+
+
+def test_bad_convergence():
+    N, T = 10, 100
+    rng = np.random.RandomState(42)
+    X = rng.randn(N, T)
+    with warnings.catch_warnings(record=True) as w:
+        warnings.simplefilter("always")
+        picard(X, max_iter=1)
+        assert len(w) == 1
 
 
 def test_picard():
@@ -22,7 +33,7 @@ def test_picard():
             S = rng.uniform(low=-1, high=1, size=(N, T))
         A = rng.randn(N, N)
         X = np.dot(A, S)
-        K, W, Y = picard(X.copy(), fun=fun, ortho=False, verbose=True)
+        K, W, Y = picard(X.copy(), fun=fun, ortho=False)
         if fun == 'tanh':
             fun = Tanh()
         elif fun == 'exp':
@@ -52,7 +63,7 @@ def test_shift():
     A = rng.randn(N, N)
     offset = rng.randn(N)
     X = np.dot(A, S) + offset[:, None]
-    _, W, Y, X_mean = picard(X.copy(), ortho=False, verbose=2, whiten=False,
+    _, W, Y, X_mean = picard(X.copy(), ortho=False, whiten=False,
                              return_X_mean=True)
     assert_allclose(offset, X_mean, rtol=0, atol=0.1)
     WA = W.dot(A)
@@ -68,7 +79,7 @@ def test_picardo():
     X = np.dot(A, S)
     names = ['tanh', 'exp', 'cube']
     for fun in names:
-        K, W, Y = picard(X.copy(), fun=fun, ortho=True, verbose=2)
+        K, W, Y = picard(X.copy(), fun=fun, ortho=True)
         if fun == 'tanh':
             fun = Tanh()
         elif fun == 'exp':
@@ -103,8 +114,11 @@ def test_dimension_reduction():
     assert_equal(K.shape, (n_components, N))
     assert_equal(W.shape, (n_components, n_components))
     assert_equal(Y.shape, (n_components, T))
-    K, W, Y = picard(X.copy(), n_components=n_components, ortho=False,
-                     whiten=False)
+    with warnings.catch_warnings(record=True) as w:
+        warnings.simplefilter("always")
+        K, W, Y = picard(X.copy(), n_components=n_components, ortho=False,
+                         whiten=False)
+        assert len(w) == 1
 
 
 def test_bad_custom_density():
