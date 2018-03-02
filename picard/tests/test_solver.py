@@ -18,7 +18,6 @@ def test_bad_convergence():
     rng = np.random.RandomState(42)
     X = rng.randn(N, T)
     with warnings.catch_warnings(record=True) as w:
-        warnings.simplefilter("always")
         picard(X, max_iter=1, random_state=rng)
         assert len(w) == 1
 
@@ -138,7 +137,6 @@ def test_dimension_reduction():
     assert_equal(W.shape, (n_components, n_components))
     assert_equal(Y.shape, (n_components, T))
     with warnings.catch_warnings(record=True) as w:
-        warnings.simplefilter("always")
         K, W, Y = picard(X.copy(), n_components=n_components, ortho=False,
                          whiten=False)
         assert len(w) == 1
