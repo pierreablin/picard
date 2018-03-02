@@ -10,12 +10,14 @@ from scipy import linalg
 
 from ._picardo import picardo
 from ._picard_standard import picard_standard
+from ._tools import check_random_state
 from .densities import Tanh, Exp, Cube, check_density
 
 
 def picard(X, fun='tanh', n_components=None, ortho=True, whiten=True,
            return_X_mean=False, max_iter=100, tol=1e-07, m=7, ls_tries=10,
-           lambda_min=0.01, check_fun=True, verbose=False):
+           lambda_min=0.01, check_fun=True, w_init=None, random_state=None,
+           verbose=False):
     """Perform Independent Component Analysis.
 
     Parameters
@@ -71,6 +73,17 @@ def picard(X, fun='tanh', n_components=None, ortho=True, whiten=True,
         Whether to check the fun provided by the user at the beginning of
         the run. Setting it to False is not safe.
 
+    w_init : (n_components, n_components) array, optional
+        Initial un-mixing array of dimension (n.comp,n.comp).
+        If None (default) then an array of normal r.v.'s is used.
+
+    random_state : int, RandomState instance or None, optional (default=None)
+        Used to perform a random initialization when w_init is not provided.
+        If int, random_state is the seed used by the random number generator;
+        If RandomState instance, random_state is the random number generator;
+        If None, the random number generator is the RandomState instance used
+        by `np.random`.
+
     verbose : bool, optional
         Prints informations about the state of the algorithm if True.
 
@@ -94,7 +107,17 @@ def picard(X, fun='tanh', n_components=None, ortho=True, whiten=True,
     X_mean : array, shape (n_features,)
         The mean over features. Returned only if return_X_mean is True.
     """
+    random_state = check_random_state(random_state)
     n, p = X.shape
+
+    if fun == 'tanh':
+        fun = Tanh()
+    elif fun == 'exp':
+        fun = Exp()
+    elif fun == 'cube':
+        fun = Cube()
+    elif check_fun:
+        check_density(fun)
 
     if not whiten and n_components is not None:
         warnings.warn('Whiten is set to false, ignoring parameter '
@@ -114,34 +137,44 @@ def picard(X, fun='tanh', n_components=None, ortho=True, whiten=True,
         del _
         K = (u / d).T[:n_components]
         del u, d
+        K *= np.sqrt(p)
         X1 = np.dot(K, X)
-        X1 *= np.sqrt(p)
     else:
         # X must be casted to floats to avoid typing issues with numpy
         # 2.0 and the line below
         X1 = X.astype('float')
-    if fun == 'tanh':
-        fun = Tanh()
-    elif fun == 'exp':
-        fun = Exp()
-    elif fun == 'cube':
-        fun = Cube()
-    elif check_fun:
-        check_density(fun)
+
+    # Initialize
+    if w_init is None:
+        w_init = np.asarray(random_state.normal(size=(n_components,
+                            n_components)), dtype=X1.dtype)
+    else:
+        w_init = np.asarray(w_init)
+        if w_init.shape != (n_components, n_components):
+            raise ValueError('w_init has invalid shape -- should be %(shape)s'
+                             % {'shape': (n_components, n_components)})
+    if ortho:
+        # decorrelate w_init to make it white
+        s, u = linalg.eigh(np.dot(w_init, w_init.T))
+        w_init = np.dot(np.dot(u * (1. / np.sqrt(s)), u.T), w_init)
+        del s, u
+
+    X1 = np.dot(w_init, X1)
+
+    args = (fun, m, max_iter, tol, lambda_min, ls_tries, verbose)
 
     if ortho:
-        Y, W, infos = picardo(X1, fun, m, max_iter, tol, lambda_min, ls_tries,
-                              verbose)
+        Y, W, infos = picardo(X1, *args)
     else:
-        Y, W, infos = picard_standard(X1, fun, m, max_iter, tol, lambda_min,
-                                      ls_tries, verbose)
+        Y, W, infos = picard_standard(X1, *args)
     del X1
+    W = np.dot(W, w_init)
     converged = infos['converged']
     if not converged:
         gradient_norm = infos['gradient_norm']
-        warnings.warn('Picard did not converge, final gradient norm = %.4g'
-                      ' while the requested tolerance was %.4g. Consider'
-                      'increasing the number of iterations or the tolerance.'
+        warnings.warn('Picard did not converge. Final gradient norm : %.4g.'
+                      ' Requested tolerance : %.4g. Consider'
+                      ' increasing the number of iterations or the tolerance.'
                       % (gradient_norm, tol))
     if not whiten:
         K = None
