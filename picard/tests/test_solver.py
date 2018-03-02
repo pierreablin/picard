@@ -13,12 +13,21 @@ from picard import picard, permute
 from picard.densities import Tanh, Exp, Cube, check_density
 
 
-def test_bad_convergence():
-    N, T = 10, 100
+def test_dimension_reduction():
+    N, T = 5, 1000
+    n_components = 3
     rng = np.random.RandomState(42)
-    X = rng.randn(N, T)
+    S = rng.laplace(size=(N, T))
+    A = rng.randn(N, N)
+    X = np.dot(A, S)
+    K, W, Y = picard(X.copy(), n_components=n_components, ortho=False,
+                     random_state=rng)
+    assert_equal(K.shape, (n_components, N))
+    assert_equal(W.shape, (n_components, n_components))
+    assert_equal(Y.shape, (n_components, T))
     with warnings.catch_warnings(record=True) as w:
-        picard(X, max_iter=1, random_state=rng)
+        K, W, Y = picard(X.copy(), n_components=n_components, ortho=False,
+                         whiten=False)
         assert len(w) == 1
 
 
@@ -30,10 +39,17 @@ def test_dots():
     X = np.dot(A, S)
     n_components = [N, 3]
     tf = [False, True]
-    for n_component, ortho, whiten in product(n_components, tf, tf):
+    w_inits = [None, 'id']
+    for n_component, ortho, whiten, w_init in product(n_components, tf, tf,
+                                                      w_inits):
+        if w_init == 'id':
+            if whiten:
+                w_init = np.eye(n_component)
+            else:
+                w_init = np.eye(N)
         with warnings.catch_warnings(record=True):
             K, W, Y, X_mean = picard(X.copy(), ortho=ortho, whiten=whiten,
-                                     return_X_mean=True,
+                                     return_X_mean=True, w_init=w_init,
                                      n_components=n_component)
         if not whiten:
             K = np.eye(N)
@@ -122,24 +138,6 @@ def test_picardo():
         err_msg = 'fun %s, wrong unmixing matrix' % fun
         assert_allclose(WA, np.eye(N), rtol=0, atol=0.1,
                         err_msg=err_msg)
-
-
-def test_dimension_reduction():
-    N, T = 5, 1000
-    n_components = 3
-    rng = np.random.RandomState(42)
-    S = rng.laplace(size=(N, T))
-    A = rng.randn(N, N)
-    X = np.dot(A, S)
-    K, W, Y = picard(X.copy(), n_components=n_components, ortho=False,
-                     random_state=rng)
-    assert_equal(K.shape, (n_components, N))
-    assert_equal(W.shape, (n_components, n_components))
-    assert_equal(Y.shape, (n_components, T))
-    with warnings.catch_warnings(record=True) as w:
-        K, W, Y = picard(X.copy(), n_components=n_components, ortho=False,
-                         whiten=False)
-        assert len(w) == 1
 
 
 def test_bad_custom_density():

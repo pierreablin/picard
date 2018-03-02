@@ -121,7 +121,7 @@ def picard(X, fun='tanh', n_components=None, ortho=True, whiten=True,
 
     if not whiten and n_components is not None:
         warnings.warn('Whiten is set to false, ignoring parameter '
-                      'n_components', Warning)
+                      'n_components')
         n_components = None
 
     if n_components is None:
