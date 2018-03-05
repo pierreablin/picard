@@ -42,11 +42,11 @@ picks = mne.pick_types(raw.info, meg=True, eeg=False, eog=False,
 
 ###############################################################################
 # Define a function that fits ICA to the data, identifies bad components
-# related to ECG, and plots the resulting scores.
+# related to ECG, and plots the resulting scores and topographies.
 
-def fit_ica_and_plot_scores(method, random_state):
+def fit_ica_and_plot_scores(method, random_state, tol=1e-4):
     ica = ICA(n_components=0.95, method=method, random_state=random_state,
-              fit_params={'tol': 1e-4}, max_iter=400)
+              fit_params={'tol': tol}, max_iter=400)
     t0 = time()
     ica.fit(raw.copy(), picks=picks, decim=3,
             reject=dict(mag=4e-12, grad=4000e-13), verbose='warning')
@@ -57,10 +57,11 @@ def fit_ica_and_plot_scores(method, random_state):
 
     ecg_inds, scores = ica.find_bads_ecg(ecg_epochs, method='ctps')
     ica.plot_scores(scores, exclude=ecg_inds, title=title)
+    ica.plot_components(ecg_inds, colorbar=True)
 
 
 ###############################################################################
-# Fit ICA using FastICA, with a few iterations, for different initializations
+# Fit ICA using FastICA, with a few iterations, for different initializations :
 n_inits = 3
 method = 'fastica'
 
@@ -68,7 +69,7 @@ for random_state in range(n_inits):
     fit_ica_and_plot_scores(method, random_state)
 
 ###############################################################################
-# Do the same thing with picard
+# Do the same thing with Picard :
 
 method = 'picard'
 
@@ -76,4 +77,6 @@ for random_state in range(n_inits):
     fit_ica_and_plot_scores(method, random_state)
 
 ###############################################################################
-# Picard gives more consistent results, and obtains them quickly.
+# The third topography found by FastICA does not really look like an ECG
+# artifact, and is not consistent across different initializations. Picard
+# finds the same topographies each time, and more consistently.

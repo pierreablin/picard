@@ -154,10 +154,10 @@ run. Picard is faster, and less dependent on the initialization.</p>
 </pre></div>
 </div>
 <p>Define a function that fits ICA to the data, identifies bad components
-related to ECG, and plots the resulting scores.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">fit_ica_and_plot_scores</span><span class="p">(</span><span class="n">method</span><span class="p">,</span> <span class="n">random_state</span><span class="p">):</span>
+related to ECG, and plots the resulting scores and topographies.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">fit_ica_and_plot_scores</span><span class="p">(</span><span class="n">method</span><span class="p">,</span> <span class="n">random_state</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">):</span>
     <span class="n">ica</span> <span class="o">=</span> <span class="n">ICA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">,</span>
-              <span class="n">fit_params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;tol&#39;</span><span class="p">:</span> <span class="mf">1e-4</span><span class="p">},</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">400</span><span class="p">)</span>
+              <span class="n">fit_params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;tol&#39;</span><span class="p">:</span> <span class="n">tol</span><span class="p">},</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">400</span><span class="p">)</span>
     <span class="n">t0</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
     <span class="n">ica</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">raw</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">picks</span><span class="o">=</span><span class="n">picks</span><span class="p">,</span> <span class="n">decim</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
             <span class="n">reject</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">mag</span><span class="o">=</span><span class="mf">4e-12</span><span class="p">,</span> <span class="n">grad</span><span class="o">=</span><span class="mf">4000e-13</span><span class="p">),</span> <span class="n">verbose</span><span class="o">=</span><span class="s1">&#39;warning&#39;</span><span class="p">)</span>
@@ -168,9 +168,10 @@ related to ECG, and plots the resulting scores.</p>
 
     <span class="n">ecg_inds</span><span class="p">,</span> <span class="n">scores</span> <span class="o">=</span> <span class="n">ica</span><span class="o">.</span><span class="n">find_bads_ecg</span><span class="p">(</span><span class="n">ecg_epochs</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;ctps&#39;</span><span class="p">)</span>
     <span class="n">ica</span><span class="o">.</span><span class="n">plot_scores</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="n">exclude</span><span class="o">=</span><span class="n">ecg_inds</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">)</span>
+    <span class="n">ica</span><span class="o">.</span><span class="n">plot_components</span><span class="p">(</span><span class="n">ecg_inds</span><span class="p">,</span> <span class="n">colorbar</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Fit ICA using FastICA, with a few iterations, for different initializations</p>
+<p>Fit ICA using FastICA, with a few iterations, for different initializations :</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">n_inits</span> <span class="o">=</span> <span class="mi">3</span>
 <span class="n">method</span> <span class="o">=</span> <span class="s1">&#39;fastica&#39;</span>
 
@@ -181,12 +182,18 @@ related to ECG, and plots the resulting scores.</p>
 <ul class="sphx-glr-horizontal">
 <li><a class="first reference internal image-reference" href="../_images/sphx_glr_plot_ecg_detection_001.png"><img alt="../_images/sphx_glr_plot_ecg_detection_001.png" src="../_images/sphx_glr_plot_ecg_detection_001.png" style="width: 300.79999999999995px; height: 126.89999999999999px;" /></a>
 </li>
-<li><a class="first reference internal image-reference" href="../_images/sphx_glr_plot_ecg_detection_002.png"><img alt="../_images/sphx_glr_plot_ecg_detection_002.png" src="../_images/sphx_glr_plot_ecg_detection_002.png" style="width: 300.79999999999995px; height: 126.89999999999999px;" /></a>
+<li><a class="first reference internal image-reference" href="../_images/sphx_glr_plot_ecg_detection_002.png"><img alt="../_images/sphx_glr_plot_ecg_detection_002.png" src="../_images/sphx_glr_plot_ecg_detection_002.png" style="width: 169.2px; height: 117.5px;" /></a>
 </li>
 <li><a class="first reference internal image-reference" href="../_images/sphx_glr_plot_ecg_detection_003.png"><img alt="../_images/sphx_glr_plot_ecg_detection_003.png" src="../_images/sphx_glr_plot_ecg_detection_003.png" style="width: 300.79999999999995px; height: 126.89999999999999px;" /></a>
 </li>
+<li><a class="first reference internal image-reference" href="../_images/sphx_glr_plot_ecg_detection_004.png"><img alt="../_images/sphx_glr_plot_ecg_detection_004.png" src="../_images/sphx_glr_plot_ecg_detection_004.png" style="width: 230.29999999999998px; height: 117.5px;" /></a>
+</li>
+<li><a class="first reference internal image-reference" href="../_images/sphx_glr_plot_ecg_detection_005.png"><img alt="../_images/sphx_glr_plot_ecg_detection_005.png" src="../_images/sphx_glr_plot_ecg_detection_005.png" style="width: 300.79999999999995px; height: 126.89999999999999px;" /></a>
+</li>
+<li><a class="first reference internal image-reference" href="../_images/sphx_glr_plot_ecg_detection_006.png"><img alt="../_images/sphx_glr_plot_ecg_detection_006.png" src="../_images/sphx_glr_plot_ecg_detection_006.png" style="width: 230.29999999999998px; height: 117.5px;" /></a>
+</li>
 </ul>
-<p>Do the same thing with picard</p>
+<p>Do the same thing with Picard :</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">method</span> <span class="o">=</span> <span class="s1">&#39;picard&#39;</span>
 
 <span class="k">for</span> <span class="n">random_state</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_inits</span><span class="p">):</span>
@@ -194,15 +201,23 @@ related to ECG, and plots the resulting scores.</p>
 </pre></div>
 </div>
 <ul class="sphx-glr-horizontal">
-<li><a class="first reference internal image-reference" href="../_images/sphx_glr_plot_ecg_detection_004.png"><img alt="../_images/sphx_glr_plot_ecg_detection_004.png" src="../_images/sphx_glr_plot_ecg_detection_004.png" style="width: 300.79999999999995px; height: 126.89999999999999px;" /></a>
+<li><a class="first reference internal image-reference" href="../_images/sphx_glr_plot_ecg_detection_007.png"><img alt="../_images/sphx_glr_plot_ecg_detection_007.png" src="../_images/sphx_glr_plot_ecg_detection_007.png" style="width: 300.79999999999995px; height: 126.89999999999999px;" /></a>
 </li>
-<li><a class="first reference internal image-reference" href="../_images/sphx_glr_plot_ecg_detection_005.png"><img alt="../_images/sphx_glr_plot_ecg_detection_005.png" src="../_images/sphx_glr_plot_ecg_detection_005.png" style="width: 300.79999999999995px; height: 126.89999999999999px;" /></a>
+<li><a class="first reference internal image-reference" href="../_images/sphx_glr_plot_ecg_detection_008.png"><img alt="../_images/sphx_glr_plot_ecg_detection_008.png" src="../_images/sphx_glr_plot_ecg_detection_008.png" style="width: 169.2px; height: 117.5px;" /></a>
 </li>
-<li><a class="first reference internal image-reference" href="../_images/sphx_glr_plot_ecg_detection_006.png"><img alt="../_images/sphx_glr_plot_ecg_detection_006.png" src="../_images/sphx_glr_plot_ecg_detection_006.png" style="width: 300.79999999999995px; height: 126.89999999999999px;" /></a>
+<li><a class="first reference internal image-reference" href="../_images/sphx_glr_plot_ecg_detection_009.png"><img alt="../_images/sphx_glr_plot_ecg_detection_009.png" src="../_images/sphx_glr_plot_ecg_detection_009.png" style="width: 300.79999999999995px; height: 126.89999999999999px;" /></a>
+</li>
+<li><a class="first reference internal image-reference" href="../_images/sphx_glr_plot_ecg_detection_010.png"><img alt="../_images/sphx_glr_plot_ecg_detection_010.png" src="../_images/sphx_glr_plot_ecg_detection_010.png" style="width: 169.2px; height: 117.5px;" /></a>
+</li>
+<li><a class="first reference internal image-reference" href="../_images/sphx_glr_plot_ecg_detection_011.png"><img alt="../_images/sphx_glr_plot_ecg_detection_011.png" src="../_images/sphx_glr_plot_ecg_detection_011.png" style="width: 300.79999999999995px; height: 126.89999999999999px;" /></a>
+</li>
+<li><a class="first reference internal image-reference" href="../_images/sphx_glr_plot_ecg_detection_012.png"><img alt="../_images/sphx_glr_plot_ecg_detection_012.png" src="../_images/sphx_glr_plot_ecg_detection_012.png" style="width: 169.2px; height: 117.5px;" /></a>
 </li>
 </ul>
-<p>Picard gives more consistent results, and obtains them quickly.</p>
-<p><strong>Total running time of the script:</strong> ( 2 minutes  16.583 seconds)</p>
+<p>The third topography found by FastICA does not really look like an ECG
+artifact, and is not consistent across different initializations. Picard
+finds the same topographies each time, and more consistently.</p>
+<p><strong>Total running time of the script:</strong> ( 2 minutes  28.032 seconds)</p>
 <div class="sphx-glr-footer docutils container">
 <div class="sphx-glr-download docutils container">
 <a class="reference download internal" href="../_downloads/plot_ecg_detection.py" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_ecg_detection.py</span></code></a></div>
