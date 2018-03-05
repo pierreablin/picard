@@ -46,6 +46,9 @@ if __name__ == "__main__":
           url=URL,
           download_url=DOWNLOAD_URL,
           long_description=open('README.rst').read(),
+          install_requires=[
+              'numexpr',
+          ],
           classifiers=[
               'Intended Audience :: Science/Research',
               'Intended Audience :: Developers',
