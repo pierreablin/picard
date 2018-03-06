@@ -75,7 +75,7 @@ def picard(X, fun='tanh', n_components=None, ortho=True, whiten=True,
 
     w_init : (n_components, n_components) array, optional
         Initial un-mixing array of dimension (n.comp,n.comp).
-        If None (default) then an array of normal r.v.'s is used.
+        If None (default) then a random rotation is used.
 
     random_state : int, RandomState instance or None, optional (default=None)
         Used to perform a random initialization when w_init is not provided.
@@ -148,16 +148,15 @@ def picard(X, fun='tanh', n_components=None, ortho=True, whiten=True,
     if w_init is None:
         w_init = np.asarray(random_state.normal(size=(n_components,
                             n_components)), dtype=X1.dtype)
+        # decorrelate w_init to make it white
+        s, u = linalg.eigh(np.dot(w_init, w_init.T))
+        w_init = np.dot(np.dot(u * (1. / np.sqrt(s)), u.T), w_init)
+        del s, u
     else:
         w_init = np.asarray(w_init)
         if w_init.shape != (n_components, n_components):
             raise ValueError('w_init has invalid shape -- should be %(shape)s'
                              % {'shape': (n_components, n_components)})
-    if ortho:
-        # decorrelate w_init to make it white
-        s, u = linalg.eigh(np.dot(w_init, w_init.T))
-        w_init = np.dot(np.dot(u * (1. / np.sqrt(s)), u.T), w_init)
-        del s, u
 
     X1 = np.dot(w_init, X1)
 

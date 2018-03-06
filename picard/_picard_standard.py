@@ -67,6 +67,7 @@ def picard_standard(X, density=Tanh(), m=7, maxiter=1000, tol=1e-7,
     '''
     # Init
     N, T = X.shape
+    print(N, T)
     W = np.eye(N)
     Y = copy(X)
     s_list = []
@@ -121,11 +122,9 @@ def _loss(Y, W, density):
     '''
     Computes the loss function for Y, W
     '''
-    N = Y.shape[0]
     loss = - np.linalg.slogdet(W)[1]
-    for n in range(N):
-        y = Y[n]  # noqa
-        loss += np.mean(density.log_lik(Y))
+    for y in Y:
+        loss += np.mean(density.log_lik(y))
     return loss
 
 
