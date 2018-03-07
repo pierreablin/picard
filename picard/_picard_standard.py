@@ -74,7 +74,7 @@ def picard_standard(X, density=Tanh(), m=7, maxiter=1000, tol=1e-7,
     r_list = []
     current_loss = _loss(Y, W, density)
     requested_tolerance = False
-    gradient_norm = 1.
+    G_norm = 1.
     for n in range(maxiter):
         # Compute the score function
         psiY, psidY = density.score_and_der(Y)
