@@ -136,3 +136,31 @@ def check_random_state(seed):
         return seed
     raise ValueError('%r cannot be used to seed a numpy.random.RandomState'
                      ' instance' % seed)
+
+
+def _sym_decorrelation(W):
+    """ Symmetric decorrelation
+    i.e. W <- (W * W.T) ^{-1/2} * W
+    """
+    s, u = np.linalg.eigh(np.dot(W, W.T))
+    return np.dot(np.dot(u * (1. / np.sqrt(s)), u.T), W)
+
+
+def _ica_par(X, fun, max_iter, w_init, verbose):
+    """Parallel FastICA.
+    Used internally by FastICA --main loop
+    """
+    if verbose:
+        print('Running %d iterations of FastICA...' % max_iter)
+    W = _sym_decorrelation(w_init)
+    del w_init
+    p_ = float(X.shape[1])
+    for ii in range(max_iter):
+        gwtx, g_wtx = fun.score_and_der(np.dot(W, X))
+        g_wtx = g_wtx.mean(axis=1)
+        W = _sym_decorrelation(np.dot(gwtx, X.T) / p_ -
+                               g_wtx[:, np.newaxis] * W)
+        del gwtx, g_wtx
+    if verbose:
+        print('Running Picard...')
+    return W

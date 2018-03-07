@@ -59,6 +59,41 @@ def test_dots():
         assert_allclose(Y, Y_prime, atol=1e-7)
 
 
+def test_pre_fastica():
+    N, T = 3, 1000
+    rng = np.random.RandomState(42)
+    names = ['tanh', 'cube']
+    for j, fun in enumerate([Tanh(params=dict(alpha=0.5)), 'cube']):
+        if j == 0:
+            S = rng.laplace(size=(N, T))
+        else:
+            S = rng.uniform(low=-1, high=1, size=(N, T))
+        A = rng.randn(N, N)
+        X = np.dot(A, S)
+        K, W, Y = picard(X.copy(), fun=fun, ortho=False, random_state=0,
+                         fastica_it=10)
+        if fun == 'tanh':
+            fun = Tanh()
+        elif fun == 'exp':
+            fun = Exp()
+        elif fun == 'cube':
+            fun = Cube()
+        # Get the final gradient norm
+        psiY = fun.score_and_der(Y)[0]
+        G = np.inner(psiY, Y) / float(T) - np.eye(N)
+        err_msg = 'fun %s, gradient norm greater than tol' % names[j]
+        assert_allclose(G, np.zeros((N, N)), atol=1e-7,
+                        err_msg=err_msg)
+        assert_equal(Y.shape, X.shape)
+        assert_equal(W.shape, A.shape)
+        assert_equal(K.shape, A.shape)
+        WA = W.dot(K).dot(A)
+        WA = permute(WA)  # Permute and scale
+        err_msg = 'fun %s, wrong unmixing matrix' % names[j]
+        assert_allclose(WA, np.eye(N), rtol=0, atol=1e-1,
+                        err_msg=err_msg)
+
+
 def test_picard():
     N, T = 3, 1000
     rng = np.random.RandomState(42)
@@ -115,29 +150,31 @@ def test_picardo():
     A = rng.randn(N, N)
     X = np.dot(A, S)
     names = ['tanh', 'exp', 'cube']
-    for fun in names:
-        K, W, Y = picard(X.copy(), fun=fun, ortho=True, random_state=rng)
-        if fun == 'tanh':
-            fun = Tanh()
-        elif fun == 'exp':
-            fun = Exp()
-        elif fun == 'cube':
-            fun = Cube()
-        # Get the final gradient norm
-        psiY = fun.score_and_der(Y)[0]
-        G = np.inner(psiY, Y) / float(T) - np.eye(N)
-        G = (G - G.T) / 2.  # take skew-symmetric part
-        err_msg = 'fun %s, gradient norm greater than tol' % fun
-        assert_allclose(G, np.zeros((N, N)), atol=1e-7,
-                        err_msg=err_msg)
-        assert_equal(Y.shape, X.shape)
-        assert_equal(W.shape, A.shape)
-        assert_equal(K.shape, A.shape)
-        WA = W.dot(K).dot(A)
-        WA = permute(WA)  # Permute and scale
-        err_msg = 'fun %s, wrong unmixing matrix' % fun
-        assert_allclose(WA, np.eye(N), rtol=0, atol=0.1,
-                        err_msg=err_msg)
+    for fastica_it in [None, 10]:
+        for fun in names:
+            K, W, Y = picard(X.copy(), fun=fun, ortho=True, random_state=rng,
+                             fastica_it=fastica_it)
+            if fun == 'tanh':
+                fun = Tanh()
+            elif fun == 'exp':
+                fun = Exp()
+            elif fun == 'cube':
+                fun = Cube()
+            # Get the final gradient norm
+            psiY = fun.score_and_der(Y)[0]
+            G = np.inner(psiY, Y) / float(T) - np.eye(N)
+            G = (G - G.T) / 2.  # take skew-symmetric part
+            err_msg = 'fun %s, gradient norm greater than tol' % fun
+            assert_allclose(G, np.zeros((N, N)), atol=1e-7,
+                            err_msg=err_msg)
+            assert_equal(Y.shape, X.shape)
+            assert_equal(W.shape, A.shape)
+            assert_equal(K.shape, A.shape)
+            WA = W.dot(K).dot(A)
+            WA = permute(WA)  # Permute and scale
+            err_msg = 'fun %s, wrong unmixing matrix' % fun
+            assert_allclose(WA, np.eye(N), rtol=0, atol=0.1,
+                            err_msg=err_msg)
 
 
 def test_bad_custom_density():

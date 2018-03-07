@@ -10,14 +10,14 @@ from scipy import linalg
 
 from ._picardo import picardo
 from ._picard_standard import picard_standard
-from ._tools import check_random_state
+from ._tools import check_random_state, _ica_par, _sym_decorrelation
 from .densities import Tanh, Exp, Cube, check_density
 
 
 def picard(X, fun='tanh', n_components=None, ortho=True, whiten=True,
            return_X_mean=False, max_iter=100, tol=1e-07, m=7, ls_tries=10,
-           lambda_min=0.01, check_fun=True, w_init=None, random_state=None,
-           verbose=False):
+           lambda_min=0.01, check_fun=True, w_init=None, fastica_it=None,
+           random_state=None, verbose=False):
     """Perform Independent Component Analysis.
 
     Parameters
@@ -84,6 +84,10 @@ def picard(X, fun='tanh', n_components=None, ortho=True, whiten=True,
         If None, the random number generator is the RandomState instance used
         by `np.random`.
 
+    fastica_it : int or None, optional (default=None)
+        If an int, perform `fastica_it` iterations of FastICA before running
+        Picard. It might help starting from a better point.
+
     verbose : bool, optional
         Prints informations about the state of the algorithm if True.
 
@@ -109,7 +113,6 @@ def picard(X, fun='tanh', n_components=None, ortho=True, whiten=True,
     """
     random_state = check_random_state(random_state)
     n, p = X.shape
-
     if fun == 'tanh':
         fun = Tanh()
     elif fun == 'exp':
@@ -140,8 +143,7 @@ def picard(X, fun='tanh', n_components=None, ortho=True, whiten=True,
         K *= np.sqrt(p)
         X1 = np.dot(K, X)
     else:
-        # X must be casted to floats to avoid typing issues with numpy
-        # 2.0 and the line below
+        # X must be casted to floats to avoid typing issues with numpy 2.0
         X1 = X.astype('float')
 
     # Initialize
@@ -149,19 +151,19 @@ def picard(X, fun='tanh', n_components=None, ortho=True, whiten=True,
         w_init = np.asarray(random_state.normal(size=(n_components,
                             n_components)), dtype=X1.dtype)
         # decorrelate w_init to make it white
-        s, u = linalg.eigh(np.dot(w_init, w_init.T))
-        w_init = np.dot(np.dot(u * (1. / np.sqrt(s)), u.T), w_init)
-        del s, u
+        w_init = _sym_decorrelation(w_init)
     else:
         w_init = np.asarray(w_init)
         if w_init.shape != (n_components, n_components):
             raise ValueError('w_init has invalid shape -- should be %(shape)s'
                              % {'shape': (n_components, n_components)})
 
+    if fastica_it is not None:
+        w_init = _ica_par(X1, fun, fastica_it, w_init, verbose)
+
     X1 = np.dot(w_init, X1)
 
     args = (fun, m, max_iter, tol, lambda_min, ls_tries, verbose)
-
     if ortho:
         Y, W, infos = picardo(X1, *args)
     else:

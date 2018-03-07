@@ -67,7 +67,6 @@ def picard_standard(X, density=Tanh(), m=7, maxiter=1000, tol=1e-7,
     '''
     # Init
     N, T = X.shape
-    print(N, T)
     W = np.eye(N)
     Y = copy(X)
     s_list = []
