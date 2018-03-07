@@ -66,6 +66,7 @@ def picardo(X, density=Tanh(), m=7, maxiter=100, tol=1e-9, lambda_min=0.01,
     current_loss = None
     sign_change = False
     requested_tolerance = False
+    gradient_norm = 1.
     for n in range(maxiter):
         # Compute the score function
         psiY, psidY = density.score_and_der(Y)
