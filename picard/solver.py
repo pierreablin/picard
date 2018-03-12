@@ -112,6 +112,9 @@ def picard(X, fun='tanh', n_components=None, ortho=True, whiten=True,
         The mean over features. Returned only if return_X_mean is True.
     """
     random_state = check_random_state(random_state)
+    if not type(ortho) is bool:
+        warnings.warn('ortho should be a boolean, got (ortho={}).'
+                      'ortho is set to default: ortho=True.'.format(ortho))
     n, p = X.shape
     if fun == 'tanh':
         fun = Tanh()
