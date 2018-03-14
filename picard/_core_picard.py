@@ -90,9 +90,12 @@ def core_picard(X, density=Tanh(), ortho=False, extended=False, m=7,
 
         # Compute the kurtosis and update the gradient accordingly
         if extended:
-            K = np.mean(psidY, axis=1) * np.mean(Y_square, axis=1)
+            K = np.mean(psidY, axis=1)
+            if not ortho:
+                K *= np.mean(Y_square, axis=1)
             K -= np.diag(G)
             signs = np.sign(K)
+            print(signs)
             if n > 0:
                 sign_change = np.any(signs != old_signs)  # noqa
             old_signs = signs  # noqa
@@ -169,14 +172,9 @@ def _line_search(Y, W, density, direction, signs, current_loss, ls_tries,
     direction direction. I
     '''
     alpha = 1.
-    N = W.shape[0]
     if current_loss is None:
         current_loss = _loss(Y, W, density, signs)
     for _ in range(ls_tries):
-        # if ortho:
-        #     transform = expm(alpha * direction)
-        # else:
-        #     transform = np.eye(N) + alpha * direction
         transform = expm(alpha * direction)
         Y_new = np.dot(transform, Y)
         W_new = np.dot(transform, W)
