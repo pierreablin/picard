@@ -152,10 +152,10 @@ def test_picardo():
     A = rng.randn(N, N)
     X = np.dot(A, S)
     names = ['tanh', 'exp', 'cube']
-    for fastica_it in [None, 10]:
+    for fastica_it in [None, 2]:
         for fun in names:
             K, W, Y = picard(X.copy(), fun=fun, ortho=True, random_state=rng,
-                             fastica_it=fastica_it)
+                             fastica_it=fastica_it, verbose=True)
             if fun == 'tanh':
                 fun = Tanh()
             elif fun == 'exp':
@@ -178,6 +178,7 @@ def test_picardo():
             assert_allclose(WA, np.eye(N), rtol=0, atol=0.1,
                             err_msg=err_msg)
 
+test_picardo()
 
 def test_bad_custom_density():
 
