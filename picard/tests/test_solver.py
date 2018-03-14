@@ -4,6 +4,8 @@
 # License: BSD (3-clause)
 import warnings
 from itertools import product
+from time import time
+
 import numpy as np
 from numpy.testing import assert_allclose
 from nose.tools import assert_equal
@@ -47,17 +49,22 @@ def test_dots():
             else:
                 w_init = np.eye(N)
         with warnings.catch_warnings(record=True):
+            t0 = time.time()
             K, W, Y, X_mean = picard(X.copy(), ortho=ortho, whiten=whiten,
                                      return_X_mean=True, w_init=w_init,
                                      n_components=n_component,
                                      random_state=rng, max_iter=100,
-                                     verbose=True)
+                                     verbose=False)
+            print(ortho, whiten, time() - t0)
         if not whiten:
             K = np.eye(N)
         if ortho and whiten:
             assert_allclose(Y.dot(Y.T) / T, np.eye(n_component), atol=1e-8)
         Y_prime = np.dot(W, K).dot(X - X_mean[:, None])
         assert_allclose(Y, Y_prime, atol=1e-7)
+
+
+test_dots()
 
 
 def test_pre_fastica():

@@ -95,7 +95,6 @@ def core_picard(X, density=Tanh(), ortho=False, extended=False, m=7,
                 K *= np.mean(Y_square, axis=1)
             K -= np.diag(G)
             signs = np.sign(K)
-            print(signs)
             if n > 0:
                 sign_change = np.any(signs != old_signs)  # noqa
             old_signs = signs  # noqa
