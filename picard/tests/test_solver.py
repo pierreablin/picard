@@ -50,7 +50,7 @@ def test_dots():
         with warnings.catch_warnings(record=True):
             K, W, Y, X_mean = picard(X.copy(), ortho=ortho, whiten=whiten,
                                      return_X_mean=True, w_init=w_init,
-                                     n_components=n_component)
+                                     n_components=n_component, max_iter=3)
         if not whiten:
             K = np.eye(N)
         if ortho and whiten:
