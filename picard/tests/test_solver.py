@@ -61,9 +61,6 @@ def test_dots():
         assert_allclose(Y, Y_prime, atol=1e-7)
 
 
-test_dots()
-
-
 def test_pre_fastica():
     N, T = 3, 1000
     rng = np.random.RandomState(42)
