@@ -21,14 +21,14 @@ def test_dimension_reduction():
     A = rng.randn(N, N)
     X = np.dot(A, S)
     K, W, Y = picard(X.copy(), n_components=n_components, ortho=False,
-                     random_state=rng)
+                     random_state=rng, max_iter=2)
     assert_equal(K.shape, (n_components, N))
     assert_equal(W.shape, (n_components, n_components))
     assert_equal(Y.shape, (n_components, T))
     with warnings.catch_warnings(record=True) as w:
         K, W, Y = picard(X.copy(), n_components=n_components, ortho=False,
-                         whiten=False)
-        assert len(w) == 1
+                         whiten=False, max_iter=1)
+        assert len(w) == 2
 
 
 def test_dots():
@@ -51,7 +51,7 @@ def test_dots():
             K, W, Y, X_mean = picard(X.copy(), ortho=ortho, whiten=whiten,
                                      return_X_mean=True, w_init=w_init,
                                      n_components=n_component,
-                                     random_state=rng, max_iter=100,
+                                     random_state=rng, max_iter=2,
                                      verbose=False)
         if not whiten:
             K = np.eye(N)
@@ -147,13 +147,14 @@ def test_shift():
 
 def test_picardo():
     N, T = 3, 2000
-    rng = np.random.RandomState(42)
+    rng = np.random.RandomState(4)
     S = rng.laplace(size=(N, T))
     A = rng.randn(N, N)
     X = np.dot(A, S)
     names = ['tanh', 'exp', 'cube']
     for fastica_it in [None, 2]:
         for fun in names:
+            print(fun)
             K, W, Y = picard(X.copy(), fun=fun, ortho=True, random_state=rng,
                              fastica_it=fastica_it, verbose=True)
             if fun == 'tanh':
@@ -178,7 +179,6 @@ def test_picardo():
             assert_allclose(WA, np.eye(N), rtol=0, atol=0.1,
                             err_msg=err_msg)
 
-test_picardo()
 
 def test_bad_custom_density():
 
