@@ -40,7 +40,7 @@ def test_dots():
     n_components = [N, 3]
     tf = [False, True]
     w_inits = [None, 'id']
-    for n_component, ortho, whiten, w_init in product(n_components, tf, tf,
+    for n_component, ortho, whiten, w_init in product(n_components, [True], [False],
                                                       w_inits):
         if w_init == 'id':
             if whiten:
@@ -52,7 +52,8 @@ def test_dots():
             K, W, Y, X_mean = picard(X.copy(), ortho=ortho, whiten=whiten,
                                      return_X_mean=True, w_init=w_init,
                                      n_components=n_component,
-                                     random_state=rng, max_iter=100)
+                                     random_state=rng, max_iter=100,
+                                     verbose=True)
             print(ortho, whiten, time() - t0)
         if not whiten:
             K = np.eye(N)

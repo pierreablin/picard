@@ -82,7 +82,7 @@ def core_picard(X, density=Tanh(), ortho=False, extended=False, m=7,
     for n in range(max_iter):
         # Compute the score function
         psiY, psidY = density.score_and_der(Y)
-        # Compute the relative gradient
+        # Compute the relative gradient and the Hessian off-diagonal
         G = np.inner(psiY, Y) / T
         del psiY
         # Compute the squared signals
@@ -98,6 +98,8 @@ def core_picard(X, density=Tanh(), ortho=False, extended=False, m=7,
             old_signs = signs  # noqa
             G *= signs[:, None]
             psidY *= signs[:, None]
+        # Compute the Hessian off diagonal
+        h_off = np.diag(G).copy()
         # Project the gradient if ortho
         if ortho:
             G = (G - G.T) / 2
@@ -123,12 +125,13 @@ def core_picard(X, density=Tanh(), ortho=False, extended=False, m=7,
         if extended and sign_change:
             current_loss = None
             s_list, y_list, r_list = [], [], []
-        # Compute the Hessian approximation and regularize
+        # Compute the Hessian approximation diagonal and regularize
         h = np.inner(psidY, Y_square) / T
         del psidY, Y_square
-        h = _regularize_hessian(h, lambda_min)
+        h = _regularize_hessian(h, h_off, lambda_min)
         # Find the L-BFGS direction
-        direction = _l_bfgs_direction(G, h, s_list, y_list, r_list, ortho)
+        direction = _l_bfgs_direction(G, h, h_off, s_list, y_list, r_list,
+                                      ortho)
         # Do a line_search in that direction:
         converged, new_Y, new_W, new_loss, direction =\
             _line_search(Y, W, density, direction, signs, current_loss,
@@ -170,10 +173,11 @@ def _line_search(Y, W, density, direction, signs, current_loss, ls_tries,
     if current_loss is None:
         current_loss = _loss(Y, W, density, signs)
     for _ in range(ls_tries):
-        if ortho:
-            transform = expm(alpha * direction)
-        else:
-            transform = np.eye(N) + alpha * direction
+        # if ortho:
+        #     transform = expm(alpha * direction)
+        # else:
+        #     transform = np.eye(N) + alpha * direction
+        transform = expm(alpha * direction)
         Y_new = np.dot(transform, Y)
         W_new = np.dot(transform, W)
         new_loss = _loss(Y_new, W_new, density, signs)
@@ -186,14 +190,14 @@ def _line_search(Y, W, density, direction, signs, current_loss, ls_tries,
         return False, Y_new, W_new, new_loss, alpha * direction
 
 
-def _l_bfgs_direction(G, h, s_list, y_list, r_list, ortho):
+def _l_bfgs_direction(G, h, h_off, s_list, y_list, r_list, ortho):
     q = copy(G)
     a_list = []
     for s, y, r in zip(reversed(s_list), reversed(y_list), reversed(r_list)):
         alpha = r * np.sum(s * q)
         a_list.append(alpha)
         q -= alpha * y
-    z = _solve_hessian(h, q)
+    z = _solve_hessian(h, h_off, q)
     if ortho:
         z = (z - z.T) / 2.
     for s, y, r, alpha in zip(s_list, y_list, r_list, reversed(a_list)):
@@ -202,8 +206,9 @@ def _l_bfgs_direction(G, h, s_list, y_list, r_list, ortho):
     return -z
 
 
-def _regularize_hessian(h, lambda_min):
-    eigenvalues = 0.5 * (h + h.T - np.sqrt((h - h.T) ** 2 + 4.))
+def _regularize_hessian(h, h_off, lambda_min):
+    discr = np.sqrt((h - h.T) ** 2 + 4. * h_off[:, None] * h_off[None, :])
+    eigenvalues = 0.5 * (h + h.T - discr)
     # Regularize
     problematic_locs = eigenvalues < lambda_min
     np.fill_diagonal(problematic_locs, False)
@@ -212,5 +217,6 @@ def _regularize_hessian(h, lambda_min):
     return h
 
 
-def _solve_hessian(h, G):
-    return (h * G - G.T) / (h * h.T - 1)
+def _solve_hessian(h, h_off, G):
+    det = h * h.T - h_off[:, None] * h_off[None, :]
+    return (h.T * G - h_off[:, None] * G.T) / det
