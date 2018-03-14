@@ -4,7 +4,6 @@
 # License: BSD (3-clause)
 import warnings
 from itertools import product
-from time import time
 
 import numpy as np
 from numpy.testing import assert_allclose
@@ -49,13 +48,11 @@ def test_dots():
             else:
                 w_init = np.eye(N)
         with warnings.catch_warnings(record=True):
-            t0 = time()
             K, W, Y, X_mean = picard(X.copy(), ortho=ortho, whiten=whiten,
                                      return_X_mean=True, w_init=w_init,
                                      n_components=n_component,
                                      random_state=rng, max_iter=100,
                                      verbose=False)
-            print(ortho, whiten, time() - t0)
         if not whiten:
             K = np.eye(N)
         if ortho and whiten:
