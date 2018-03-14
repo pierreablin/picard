@@ -8,8 +8,9 @@ import numpy as np
 import warnings
 from scipy import linalg
 
-from ._picardo import picardo
-from ._picard_standard import picard_standard
+# from ._picardo import picardo
+# from ._picard_standard import picard_standard
+from ._core_picard import core_picard
 from ._tools import check_random_state, _ica_par, _sym_decorrelation
 from .densities import Tanh, Exp, Cube, check_density
 
@@ -166,11 +167,19 @@ def picard(X, fun='tanh', n_components=None, ortho=True, whiten=True,
 
     X1 = np.dot(w_init, X1)
 
-    args = (fun, m, max_iter, tol, lambda_min, ls_tries, verbose)
+    # args = (fun, m, max_iter, tol, lambda_min, ls_tries, verbose)
+    # if ortho:
+    #     Y, W, infos = core_picard(X1, *args)
+    # else:
+    #     Y, W, infos = core_picard(X1, *args)
     if ortho:
-        Y, W, infos = picardo(X1, *args)
+        extended = True
     else:
-        Y, W, infos = picard_standard(X1, *args)
+        extended = False
+    kwargs = {'density': fun, 'm': m, 'max_iter': max_iter, 'tol': tol,
+              'lambda_min': lambda_min, 'ls_tries': ls_tries,
+              'verbose': verbose, 'ortho': ortho, 'extended': extended}
+    Y, W, infos = core_picard(X1, **kwargs)
     del X1
     W = np.dot(W, w_init)
     converged = infos['converged']
