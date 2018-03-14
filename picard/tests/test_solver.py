@@ -49,7 +49,7 @@ def test_dots():
             else:
                 w_init = np.eye(N)
         with warnings.catch_warnings(record=True):
-            t0 = time.time()
+            t0 = time()
             K, W, Y, X_mean = picard(X.copy(), ortho=ortho, whiten=whiten,
                                      return_X_mean=True, w_init=w_init,
                                      n_components=n_component,

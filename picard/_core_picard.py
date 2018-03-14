@@ -101,7 +101,10 @@ def core_picard(X, density=Tanh(), ortho=False, extended=False, m=7,
             G *= signs[:, None]
             psidY *= signs[:, None]
         # Compute the Hessian off diagonal
-        h_off = np.diag(G).copy()
+        if ortho:
+            h_off = np.diag(G).copy()
+        else:
+            h_off = np.ones(N)
         # Project the gradient if ortho
         if ortho:
             G = (G - G.T) / 2
@@ -170,11 +173,15 @@ def _line_search(Y, W, density, direction, signs, current_loss, ls_tries,
     Performs a backtracking line search, starting from Y and W, in the
     direction direction. I
     '''
+    N = W.shape[0]
     alpha = 1.
     if current_loss is None:
         current_loss = _loss(Y, W, density, signs)
     for _ in range(ls_tries):
-        transform = expm(alpha * direction)
+        if ortho:
+            transform = expm(alpha * direction)
+        else:
+            transform = np.eye(N) + alpha * direction
         Y_new = np.dot(transform, Y)
         W_new = np.dot(transform, W)
         new_loss = _loss(Y_new, W_new, density, signs)
