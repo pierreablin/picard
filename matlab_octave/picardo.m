@@ -131,7 +131,7 @@ for n=1:maxiter
     W = expm(direction) * W;
     current_loss = new_loss;
     if verbose
-        sprintf('iteration %d, gradient norm = %.4g', n, gradient_norm)
+        fprintf('iteration %d, gradient norm = %.4g\n', n, gradient_norm)
     end
 end
 
