@@ -50,7 +50,7 @@ def picard(X, fun='tanh', n_components=None, ortho=True, whiten=True,
         In this case the parameter n_components will be ignored.
 
     return_X_mean : bool, optional
-        If True, X_mean is returned too.
+        If True, X_mean is returned too. Equals to 0 if centering is False.
 
     centering : bool, optional
         If True, X is mean corrected.
