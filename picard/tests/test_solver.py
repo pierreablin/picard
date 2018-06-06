@@ -143,6 +143,10 @@ def test_shift():
     WA = W.dot(A)
     WA = permute(WA)
     assert_allclose(WA, np.eye(N), rtol=0, atol=0.2)
+    _, W, Y, X_mean = picard(X.copy(), ortho=False, whiten=False,
+                             centering=False,  return_X_mean=True,
+                             random_state=rng)
+    assert_allclose(X_mean, 0)
 
 
 def test_picardo():

@@ -15,9 +15,9 @@ from .densities import Tanh, Exp, Cube, check_density
 
 
 def picard(X, fun='tanh', n_components=None, ortho=True, whiten=True,
-           return_X_mean=False, max_iter=100, tol=1e-07, m=7, ls_tries=10,
-           lambda_min=0.01, check_fun=True, w_init=None, fastica_it=None,
-           random_state=None, verbose=False):
+           return_X_mean=False, centering=True, max_iter=100, tol=1e-07, m=7,
+           ls_tries=10, lambda_min=0.01, check_fun=True, w_init=None,
+           fastica_it=None, random_state=None, verbose=False):
     """Perform Independent Component Analysis.
 
     Parameters
@@ -51,6 +51,9 @@ def picard(X, fun='tanh', n_components=None, ortho=True, whiten=True,
 
     return_X_mean : bool, optional
         If True, X_mean is returned too.
+
+    centering : bool, optional
+        If True, X is mean corrected.
 
     max_iter : int, optional
         Maximum number of iterations to perform.
@@ -132,13 +135,14 @@ def picard(X, fun='tanh', n_components=None, ortho=True, whiten=True,
 
     if n_components is None:
         n_components = min(n, p)
-    if whiten:
+
+    if centering:
         # Center the columns (ie the variables)
         X_mean = X.mean(axis=-1)
         X -= X_mean[:, np.newaxis]
+    if whiten:
         # Whitening and preprocessing by PCA
         u, d, _ = linalg.svd(X, full_matrices=False)
-
         del _
         K = (u / d).T[:n_components]
         del u, d
@@ -182,8 +186,9 @@ def picard(X, fun='tanh', n_components=None, ortho=True, whiten=True,
     if not whiten:
         K = None
     if return_X_mean:
-        if not whiten:
-            return K, W, Y, X.mean(axis=-1)
-        return K, W, Y, X_mean
+        if centering:
+            return K, W, Y, X_mean
+        else:
+            return K, W, Y, np.zeros(p)
     else:
         return K, W, Y
