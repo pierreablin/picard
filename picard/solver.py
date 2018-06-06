@@ -132,11 +132,10 @@ def picard(X, fun='tanh', n_components=None, ortho=True, whiten=True,
 
     if n_components is None:
         n_components = min(n, p)
-
-    # Centering the columns (ie the variables)
-    X_mean = X.mean(axis=-1)
-    X -= X_mean[:, np.newaxis]
     if whiten:
+        # Center the columns (ie the variables)
+        X_mean = X.mean(axis=-1)
+        X -= X_mean[:, np.newaxis]
         # Whitening and preprocessing by PCA
         u, d, _ = linalg.svd(X, full_matrices=False)
 
@@ -183,6 +182,8 @@ def picard(X, fun='tanh', n_components=None, ortho=True, whiten=True,
     if not whiten:
         K = None
     if return_X_mean:
+        if not whiten:
+            return K, W, Y, X.mean(axis=-1)
         return K, W, Y, X_mean
     else:
         return K, W, Y
