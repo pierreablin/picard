@@ -206,3 +206,32 @@ def test_bad_custom_density():
 def test_fun():
     for fun in [Tanh(), Exp(), Cube()]:
         check_density(fun)
+
+
+def test_no_regression():
+    n_tests = 10
+    baseline = {}
+    baseline['lap', True] = 17.
+    baseline['lap', False] = 23.
+    baseline['gauss', True] = 52.
+    baseline['gauss', False] = 60.
+    N, T = 10, 1000
+    for mode in ['lap', 'gauss']:
+        for ortho in [True, False]:
+            n_iters = []
+            for i in range(n_tests):
+                rng = np.random.RandomState(i)
+                if mode == 'lap':
+                    S = rng.laplace(size=(N, T))
+                else:
+                    S = rng.randn(N, T)
+                A = rng.randn(N, N)
+                X = np.dot(A, S)
+                _, _, _, n_iter = picard(X.copy(), return_n_iter=True,
+                                         ortho=ortho, random_state=rng)
+                n_iters.append(n_iter)
+            n_mean = np.mean(n_iters)
+            nb_mean = baseline[mode, ortho]
+            err_msg = 'mode=%s, ortho=%s. %d iterations, expecting <%d.'
+            print(err_msg % (mode, ortho, n_mean, nb_mean))
+            assert n_mean < nb_mean, err_msg % (mode, ortho, n_mean, nb_mean)

@@ -114,7 +114,8 @@ def picard_standard(X, density=Tanh(), m=7, maxiter=1000, tol=1e-7,
         if verbose:
             print('iteration %d, gradient norm = %.4g' %
                   (n + 1, G_norm))
-    infos = dict(converged=requested_tolerance, gradient_norm=G_norm)
+    infos = dict(converged=requested_tolerance, gradient_norm=G_norm,
+                 n_iterations=n)
     return Y, W, infos
 
 

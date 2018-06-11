@@ -126,5 +126,6 @@ def picardo(X, density=Tanh(), m=7, maxiter=100, tol=1e-9, lambda_min=0.01,
         current_loss = new_loss
         if verbose:
             print('iteration %d, gradient norm = %.4g' % (n, gradient_norm))
-    infos = dict(converged=requested_tolerance, gradient_norm=gradient_norm)
+    infos = dict(converged=requested_tolerance, gradient_norm=gradient_norm,
+                 n_iterations=n)
     return Y, W, infos
