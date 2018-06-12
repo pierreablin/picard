@@ -80,6 +80,7 @@ def picard_standard(X, density=Tanh(), m=7, maxiter=1000, tol=1e-7,
         psiY, psidY = density.score_and_der(Y)
         # Compute the relative gradient
         G = np.inner(psiY, Y) / float(T) - np.eye(N)
+        del psiY
         # Stopping criterion
         G_norm = np.max(np.abs(G))
         if G_norm < tol:
@@ -99,6 +100,7 @@ def picard_standard(X, density=Tanh(), m=7, maxiter=1000, tol=1e-7,
         # Find the L-BFGS direction
         direction = _l_bfgs_direction(Y, psidY, G, s_list, y_list, r_list,
                                       lambda_min)
+        del psidY
         # Do a line_search in that direction:
         converged, new_Y, new_W, new_loss, direction =\
             _line_search(Y, W, density, direction, current_loss, ls_tries,

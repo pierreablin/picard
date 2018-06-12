@@ -74,6 +74,7 @@ def picardo(X, density=Tanh(), m=7, maxiter=100, tol=1e-9, lambda_min=0.01,
         del psidY
         # Compute the relative gradient
         g = gradient(Y, psiY)
+        del psiY
         # Compute the signs of the kurtosis
         K = psidY_mean - np.diag(g)
         signs = np.sign(K)
