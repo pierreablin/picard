@@ -145,21 +145,22 @@ def picard(X, fun='tanh', n_components=None, ortho=True, whiten=True,
     if n_components is None:
         n_components = min(n, p)
 
+    X1 = X.copy()
     if centering:
         # Center the columns (ie the variables)
-        X_mean = X.mean(axis=-1)
-        X -= X_mean[:, np.newaxis]
+        X_mean = X1.mean(axis=-1)
+        X1 -= X_mean[:, np.newaxis]
     if whiten:
         # Whitening and preprocessing by PCA
-        u, d, _ = linalg.svd(X, full_matrices=False)
+        u, d, _ = linalg.svd(X1, full_matrices=False)
         del _
         K = (u / d).T[:n_components]
         del u, d
         K *= np.sqrt(p)
-        X1 = np.dot(K, X)
+        X1 = np.dot(K, X1)
     else:
         # X must be casted to floats to avoid typing issues with numpy 2.0
-        X1 = X.astype('float')
+        X1 = X1.astype('float')
 
     # Initialize
     if w_init is None:

@@ -59,7 +59,7 @@ def picardo(X, density=Tanh(), m=7, maxiter=100, tol=1e-9, lambda_min=0.01,
     # Init
     N, T = X.shape
     W = np.eye(N)
-    Y = X.copy()
+    Y = X
     s_list = []
     y_list = []
     r_list = []
