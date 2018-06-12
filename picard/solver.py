@@ -88,7 +88,6 @@ def picard(X, fun='tanh', n_components=None, ortho=True, whiten=True,
         If an int, perform `fastica_it` iterations of FastICA before running
         Picard. It might help starting from a better point.
 
-
     random_state : int, RandomState instance or None, optional (default=None)
         Used to perform a random initialization when w_init is not provided.
         If int, random_state is the seed used by the random number generator;
