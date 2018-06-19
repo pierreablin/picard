@@ -68,7 +68,7 @@ def picard_standard(X, density=Tanh(), m=7, maxiter=1000, tol=1e-7,
     # Init
     N, T = X.shape
     W = np.eye(N)
-    Y = copy(X)
+    Y = X
     s_list = []
     y_list = []
     r_list = []
@@ -80,6 +80,7 @@ def picard_standard(X, density=Tanh(), m=7, maxiter=1000, tol=1e-7,
         psiY, psidY = density.score_and_der(Y)
         # Compute the relative gradient
         G = np.inner(psiY, Y) / float(T) - np.eye(N)
+        del psiY
         # Stopping criterion
         G_norm = np.max(np.abs(G))
         if G_norm < tol:
@@ -99,6 +100,7 @@ def picard_standard(X, density=Tanh(), m=7, maxiter=1000, tol=1e-7,
         # Find the L-BFGS direction
         direction = _l_bfgs_direction(Y, psidY, G, s_list, y_list, r_list,
                                       lambda_min)
+        del psidY
         # Do a line_search in that direction:
         converged, new_Y, new_W, new_loss, direction =\
             _line_search(Y, W, density, direction, current_loss, ls_tries,
@@ -114,7 +116,8 @@ def picard_standard(X, density=Tanh(), m=7, maxiter=1000, tol=1e-7,
         if verbose:
             print('iteration %d, gradient norm = %.4g' %
                   (n + 1, G_norm))
-    infos = dict(converged=requested_tolerance, gradient_norm=G_norm)
+    infos = dict(converged=requested_tolerance, gradient_norm=G_norm,
+                 n_iterations=n)
     return Y, W, infos
 
 
