@@ -14,9 +14,10 @@ from .densities import Tanh, Exp, Cube, check_density
 
 
 def picard(X, fun='tanh', n_components=None, ortho=True, whiten=True,
-           return_X_mean=False, max_iter=100, tol=1e-07, m=7, ls_tries=10,
-           lambda_min=0.01, check_fun=True, w_init=None, fastica_it=None,
-           random_state=None, verbose=False):
+           return_X_mean=False, return_n_iter=False, centering=True,
+           max_iter=100, tol=1e-07, m=7,  ls_tries=10, lambda_min=0.01,
+           check_fun=True, w_init=None, fastica_it=None, random_state=None,
+           verbose=False):
     """Perform Independent Component Analysis.
 
     Parameters
@@ -49,7 +50,13 @@ def picard(X, fun='tanh', n_components=None, ortho=True, whiten=True,
         In this case the parameter n_components will be ignored.
 
     return_X_mean : bool, optional
-        If True, X_mean is returned too.
+        If True, X_mean is returned too. Equals to 0 if centering is False.
+
+    return_n_iter : bool, option
+        Whether or not to return the number of iterations.
+
+    centering : bool, optional
+        If True, X is mean corrected.
 
     max_iter : int, optional
         Maximum number of iterations to perform.
@@ -76,16 +83,16 @@ def picard(X, fun='tanh', n_components=None, ortho=True, whiten=True,
         Initial un-mixing array of dimension (n.comp,n.comp).
         If None (default) then a random rotation is used.
 
+    fastica_it : int or None, optional (default=None)
+        If an int, perform `fastica_it` iterations of FastICA before running
+        Picard. It might help starting from a better point.
+
     random_state : int, RandomState instance or None, optional (default=None)
         Used to perform a random initialization when w_init is not provided.
         If int, random_state is the seed used by the random number generator;
         If RandomState instance, random_state is the random number generator;
         If None, the random number generator is the RandomState instance used
         by `np.random`.
-
-    fastica_it : int or None, optional (default=None)
-        If an int, perform `fastica_it` iterations of FastICA before running
-        Picard. It might help starting from a better point.
 
     verbose : bool, optional
         Prints informations about the state of the algorithm if True.
@@ -109,6 +116,10 @@ def picard(X, fun='tanh', n_components=None, ortho=True, whiten=True,
 
     X_mean : array, shape (n_features,)
         The mean over features. Returned only if return_X_mean is True.
+
+    n_iter : int
+        Number of iterations taken to converge. This is
+        returned only when return_n_iter is set to `True`.
     """
     random_state = check_random_state(random_state)
     if not type(ortho) is bool:
@@ -132,21 +143,22 @@ def picard(X, fun='tanh', n_components=None, ortho=True, whiten=True,
     if n_components is None:
         n_components = min(n, p)
 
-    # Centering the columns (ie the variables)
-    X_mean = X.mean(axis=-1)
-    X -= X_mean[:, np.newaxis]
+    X1 = X.copy()
+    if centering:
+        # Center the columns (ie the variables)
+        X_mean = X1.mean(axis=-1)
+        X1 -= X_mean[:, np.newaxis]
     if whiten:
         # Whitening and preprocessing by PCA
-        u, d, _ = linalg.svd(X, full_matrices=False)
-
+        u, d, _ = linalg.svd(X1, full_matrices=False)
         del _
         K = (u / d).T[:n_components]
         del u, d
         K *= np.sqrt(p)
-        X1 = np.dot(K, X)
+        X1 = np.dot(K, X1)
     else:
         # X must be casted to floats to avoid typing issues with numpy 2.0
-        X1 = X.astype('float')
+        X1 = X1.astype('float')
 
     # Initialize
     if w_init is None:
@@ -164,7 +176,6 @@ def picard(X, fun='tanh', n_components=None, ortho=True, whiten=True,
         w_init = _ica_par(X1, fun, fastica_it, w_init, verbose)
 
     X1 = np.dot(w_init, X1)
-
     if ortho:
         extended = True
     else:
@@ -184,7 +195,20 @@ def picard(X, fun='tanh', n_components=None, ortho=True, whiten=True,
                       % (gradient_norm, tol))
     if not whiten:
         K = None
+    n_iter = infos['n_iterations']
     if return_X_mean:
-        return K, W, Y, X_mean
+        if centering:
+            if return_n_iter:
+                return K, W, Y, X_mean, n_iter
+            else:
+                return K, W, Y, X_mean
+        else:
+            if return_n_iter:
+                return K, W, Y, np.zeros(p), n_iter
+            else:
+                return K, W, Y, np.zeros(p)
     else:
-        return K, W, Y
+        if return_n_iter:
+            return K, W, Y, n_iter
+        else:
+            return K, W, Y

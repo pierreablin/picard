@@ -20,13 +20,13 @@ def test_dimension_reduction():
     S = rng.laplace(size=(N, T))
     A = rng.randn(N, N)
     X = np.dot(A, S)
-    K, W, Y = picard(X.copy(), n_components=n_components, ortho=False,
+    K, W, Y = picard(X, n_components=n_components, ortho=False,
                      random_state=rng, max_iter=2)
     assert_equal(K.shape, (n_components, N))
     assert_equal(W.shape, (n_components, n_components))
     assert_equal(Y.shape, (n_components, T))
     with warnings.catch_warnings(record=True) as w:
-        K, W, Y = picard(X.copy(), n_components=n_components, ortho=False,
+        K, W, Y = picard(X, n_components=n_components, ortho=False,
                          whiten=False, max_iter=1)
         assert len(w) == 2
 
@@ -48,7 +48,7 @@ def test_dots():
             else:
                 w_init = np.eye(N)
         with warnings.catch_warnings(record=True):
-            K, W, Y, X_mean = picard(X.copy(), ortho=ortho, whiten=whiten,
+            K, W, Y, X_mean = picard(X, ortho=ortho, whiten=whiten,
                                      return_X_mean=True, w_init=w_init,
                                      n_components=n_component,
                                      random_state=rng, max_iter=2,
@@ -72,7 +72,7 @@ def test_pre_fastica():
             S = rng.uniform(low=-1, high=1, size=(N, T))
         A = rng.randn(N, N)
         X = np.dot(A, S)
-        K, W, Y = picard(X.copy(), fun=fun, ortho=False, random_state=0,
+        K, W, Y = picard(X, fun=fun, ortho=False, random_state=0,
                          fastica_it=10)
         if fun == 'tanh':
             fun = Tanh()
@@ -107,7 +107,7 @@ def test_picard():
             S = rng.uniform(low=-1, high=1, size=(N, T))
         A = rng.randn(N, N)
         X = np.dot(A, S)
-        K, W, Y = picard(X.copy(), fun=fun, ortho=False, random_state=0)
+        K, W, Y = picard(X, fun=fun, ortho=False, random_state=0)
         if fun == 'tanh':
             fun = Tanh()
         elif fun == 'exp':
@@ -137,12 +137,16 @@ def test_shift():
     A = rng.randn(N, N)
     offset = rng.randn(N)
     X = np.dot(A, S) + offset[:, None]
-    _, W, Y, X_mean = picard(X.copy(), ortho=False, whiten=False,
+    _, W, Y, X_mean = picard(X, ortho=False, whiten=False,
                              return_X_mean=True, random_state=rng)
     assert_allclose(offset, X_mean, rtol=0, atol=0.2)
     WA = W.dot(A)
     WA = permute(WA)
     assert_allclose(WA, np.eye(N), rtol=0, atol=0.2)
+    _, W, Y, X_mean = picard(X, ortho=False, whiten=False,
+                             centering=False,  return_X_mean=True,
+                             random_state=rng)
+    assert_allclose(X_mean, 0)
 
 
 def test_picardo():
@@ -155,7 +159,7 @@ def test_picardo():
     for fastica_it in [None, 2]:
         for fun in names:
             print(fun)
-            K, W, Y = picard(X.copy(), fun=fun, ortho=True, random_state=rng,
+            K, W, Y = picard(X, fun=fun, ortho=True, random_state=rng,
                              fastica_it=fastica_it, verbose=True)
             if fun == 'tanh':
                 fun = Tanh()
@@ -202,3 +206,37 @@ def test_bad_custom_density():
 def test_fun():
     for fun in [Tanh(), Exp(), Cube()]:
         check_density(fun)
+
+
+def test_no_regression():
+    n_tests = 10
+    baseline = {}
+    baseline['lap', True] = 17.
+    baseline['lap', False] = 23.
+    baseline['gauss', True] = 52.
+    baseline['gauss', False] = 60.
+    N, T = 10, 1000
+    for mode in ['lap', 'gauss']:
+        for ortho in [True, False]:
+            n_iters = []
+            for i in range(n_tests):
+                rng = np.random.RandomState(i)
+                if mode == 'lap':
+                    S = rng.laplace(size=(N, T))
+                else:
+                    S = rng.randn(N, T)
+                A = rng.randn(N, N)
+                X = np.dot(A, S)
+                _, _, _, n_iter = picard(X, return_n_iter=True,
+                                         ortho=ortho, random_state=rng)
+                n_iters.append(n_iter)
+            n_mean = np.mean(n_iters)
+            nb_mean = baseline[mode, ortho]
+            err_msg = ('mode=%s, ortho=%s. %d iterations, expecting <%d.' %
+                       (mode, ortho, n_mean, nb_mean))
+            print(err_msg)
+            assert n_mean < nb_mean, err_msg
+
+
+if __name__ == '__main__':
+    test_no_regression()

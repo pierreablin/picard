@@ -87,7 +87,6 @@ def core_picard(X, density=Tanh(), ortho=False, extended=False, m=7,
         del psiY
         # Compute the squared signals
         Y_square = Y ** 2
-
         # Compute the kurtosis and update the gradient accordingly
         if extended:
             K = np.mean(psidY, axis=1)
@@ -105,6 +104,16 @@ def core_picard(X, density=Tanh(), ortho=False, extended=False, m=7,
             h_off = np.diag(G).copy()
         else:
             h_off = np.ones(N)
+        # Compute the Hessian approximation diagonal and regularize
+        if ortho:
+            psidY_mean = np.mean(psidY, axis=1)
+            diag = psidY_mean[:, None] * np.ones(N)[None, :]
+            h = 0.5 * (diag + diag.T - h_off[:, None] - h_off[None, :])
+            h[h < lambda_min] = lambda_min
+        else:
+            h = np.inner(psidY, Y_square) / T
+            h = _regularize_hessian(h, h_off, lambda_min)
+        del psidY, Y_square
         # Project the gradient if ortho
         if ortho:
             G = (G - G.T) / 2
@@ -130,10 +139,6 @@ def core_picard(X, density=Tanh(), ortho=False, extended=False, m=7,
         if extended and sign_change:
             current_loss = None
             s_list, y_list, r_list = [], [], []
-        # Compute the Hessian approximation diagonal and regularize
-        h = np.inner(psidY, Y_square) / T
-        del psidY, Y_square
-        h = _regularize_hessian(h, h_off, lambda_min)
         # Find the L-BFGS direction
         direction = _l_bfgs_direction(G, h, h_off, s_list, y_list, r_list,
                                       ortho)
@@ -153,7 +158,8 @@ def core_picard(X, density=Tanh(), ortho=False, extended=False, m=7,
         if verbose:
             print('iteration %d, gradient norm = %.4g' %
                   (n + 1, gradient_norm))
-    infos = dict(converged=requested_tolerance, gradient_norm=gradient_norm)
+    infos = dict(converged=requested_tolerance, gradient_norm=gradient_norm,
+                 n_iterations=n)
     return Y, W, infos
 
 
@@ -201,9 +207,11 @@ def _l_bfgs_direction(G, h, h_off, s_list, y_list, r_list, ortho):
         alpha = r * np.sum(s * q)
         a_list.append(alpha)
         q -= alpha * y
-    z = _solve_hessian(h, h_off, q)
     if ortho:
+        z = q / h
         z = (z - z.T) / 2.
+    else:
+        z = _solve_hessian(h, h_off, q)
     for s, y, r, alpha in zip(s_list, y_list, r_list, reversed(a_list)):
         beta = r * np.sum(y * z)
         z += (alpha - beta) * s
