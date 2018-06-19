@@ -232,11 +232,5 @@ def test_no_regression():
                 n_iters.append(n_iter)
             n_mean = np.mean(n_iters)
             nb_mean = baseline[mode, ortho]
-            err_msg = ('mode=%s, ortho=%s. %d iterations, expecting <%d.' %
-                       (mode, ortho, n_mean, nb_mean))
-            print(err_msg)
-            assert n_mean < nb_mean, err_msg
-
-
-if __name__ == '__main__':
-    test_no_regression()
+            err_msg = 'mode=%s, ortho=%s. %d iterations, expecting <%d.'
+            assert n_mean < nb_mean, err_msg % (mode, ortho, n_mean, nb_mean)

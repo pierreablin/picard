@@ -106,7 +106,7 @@ for n =1:maxiter
     W = new_W;
     current_loss = new_loss;
     if verbose
-        sprintf('iteration %d, gradient norm = %.4g', n + 1, G_norm)
+        fprintf('iteration %d, gradient norm = %.4g\n', n + 1, G_norm)
     end
 end
 

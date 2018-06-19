@@ -70,6 +70,7 @@ def core_picard(X, density=Tanh(), ortho=False, extended=False, m=7,
     # Init
     N, T = X.shape
     W = np.eye(N)
+<<<<<<< HEAD:picard/_core_picard.py
     Y = copy(X)
     s_list, y_list, r_list = [], [], []
     current_loss = None
@@ -77,11 +78,19 @@ def core_picard(X, density=Tanh(), ortho=False, extended=False, m=7,
         sign_change = False
     else:
         signs = np.ones(N)
+=======
+    Y = X
+    s_list = []
+    y_list = []
+    r_list = []
+    current_loss = _loss(Y, W, density)
+>>>>>>> master:picard/_picard_standard.py
     requested_tolerance = False
     gradient_norm = 1.
     for n in range(max_iter):
         # Compute the score function
         psiY, psidY = density.score_and_der(Y)
+<<<<<<< HEAD:picard/_core_picard.py
         # Compute the relative gradient and the Hessian off-diagonal
         G = np.inner(psiY, Y) / T
         del psiY
@@ -119,6 +128,11 @@ def core_picard(X, density=Tanh(), ortho=False, extended=False, m=7,
             G = (G - G.T) / 2
         else:
             G -= np.eye(N)
+=======
+        # Compute the relative gradient
+        G = np.inner(psiY, Y) / float(T) - np.eye(N)
+        del psiY
+>>>>>>> master:picard/_picard_standard.py
         # Stopping criterion
         gradient_norm = np.max(np.abs(G))
         if gradient_norm < tol:
@@ -140,8 +154,14 @@ def core_picard(X, density=Tanh(), ortho=False, extended=False, m=7,
             current_loss = None
             s_list, y_list, r_list = [], [], []
         # Find the L-BFGS direction
+<<<<<<< HEAD:picard/_core_picard.py
         direction = _l_bfgs_direction(G, h, h_off, s_list, y_list, r_list,
                                       ortho)
+=======
+        direction = _l_bfgs_direction(Y, psidY, G, s_list, y_list, r_list,
+                                      lambda_min)
+        del psidY
+>>>>>>> master:picard/_picard_standard.py
         # Do a line_search in that direction:
         converged, new_Y, new_W, new_loss, direction =\
             _line_search(Y, W, density, direction, signs, current_loss,
@@ -157,8 +177,13 @@ def core_picard(X, density=Tanh(), ortho=False, extended=False, m=7,
         current_loss = new_loss
         if verbose:
             print('iteration %d, gradient norm = %.4g' %
+<<<<<<< HEAD:picard/_core_picard.py
                   (n + 1, gradient_norm))
     infos = dict(converged=requested_tolerance, gradient_norm=gradient_norm,
+=======
+                  (n + 1, G_norm))
+    infos = dict(converged=requested_tolerance, gradient_norm=G_norm,
+>>>>>>> master:picard/_picard_standard.py
                  n_iterations=n)
     return Y, W, infos
 
