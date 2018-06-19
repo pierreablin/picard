@@ -1,13 +1,16 @@
 Picard : Preconditioned ICA for Real Data
 =========================================
 
-|Travis|_ |Codecov|_
+|Travis|_ |Codecov|_ |Downloads|_
 
 .. |Travis| image:: https://api.travis-ci.org/pierreablin/picard.svg?branch=master
 .. _Travis: https://travis-ci.org/pierreablin/picard
 
 .. |Codecov| image:: http://codecov.io/github/pierreablin/picard/coverage.svg?branch=master
 .. _Codecov: http://codecov.io/github/pierreablin/picard?branch=master
+
+.. |Downloads| image:: http://pepy.tech/badge/python-picard
+.. _Downloads: http://pepy.tech/project/python-picard
 
 This repository hosts Python/Octave/Matlab code of the Preconditioned ICA
 for Real Data (Picard) and Picard-O algorithms.
