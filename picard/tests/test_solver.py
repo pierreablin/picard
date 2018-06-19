@@ -213,7 +213,7 @@ def test_no_regression():
     baseline = {}
     baseline['lap', True] = 17.
     baseline['lap', False] = 23.
-    baseline['gauss', True] = 5.
+    baseline['gauss', True] = 58.
     baseline['gauss', False] = 60.
     N, T = 10, 1000
     for mode in ['lap', 'gauss']:
