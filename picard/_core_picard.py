@@ -20,7 +20,7 @@ def core_picard(X, density=Tanh(), ortho=False, extended=False, m=7,
         Pierre Ablin, Jean-Francois Cardoso, and Alexandre Gramfort
         Faster independent component analysis by preconditioning with Hessian
         approximations
-        ArXiv Preprint, June 2017
+        IEEE Transactions on Signal Processing, 2018
         https://arxiv.org/abs/1706.08171
 
     Parameters

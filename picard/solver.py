@@ -109,7 +109,7 @@ def picard(X, fun='tanh', n_components=None, ortho=True, whiten=True,
         The mixing matrix can be obtained by::
 
             w = np.dot(W, K.T)
-            A = w.T * (w * w.T).I
+            A = np.dot(w.T, np.linalg.inv(np.dot(w, w.T)))
 
     Y : array, shape (n_components, n_samples) | None
         Estimated source matrix

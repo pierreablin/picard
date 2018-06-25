@@ -7,14 +7,14 @@ The example runs the Picard algorithm proposed in:
 
 Pierre Ablin, Jean-Francois Cardoso, Alexandre Gramfort
 "Faster independent component analysis by preconditioning with Hessian approximations"
-ArXiv Preprint, June 2017
+IEEE Transactions on Signal Processing, 2018
 https://arxiv.org/abs/1706.08171
 
 and Picard-O algorithm proposed in:
 
 Pierre Ablin, Jean-François Cardoso, Alexandre Gramfort
 "Faster ICA under orthogonal constraint"
-ArXiv Preprint, Nov 2017
+ICASSP, 2018
 https://arxiv.org/abs/1711.10873
 
 """  # noqa

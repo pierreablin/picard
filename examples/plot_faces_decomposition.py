@@ -7,7 +7,7 @@ This example compares FastICA and Picard-O:
 
 Pierre Ablin, Jean-François Cardoso, Alexandre Gramfort
 "Faster ICA under orthogonal constraint"
-ArXiv Preprint, Nov 2017
+ICASSP, 2018
 https://arxiv.org/abs/1711.10873
 
 

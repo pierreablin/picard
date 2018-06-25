@@ -6,14 +6,14 @@ function [Y, W] = picard(X, varargin)
 %     Pierre Ablin, Jean-Francois Cardoso, and Alexandre Gramfort
 %     Faster independent component analysis by preconditioning with Hessian
 %     approximations
-%     ArXiv Preprint, June 2017
+%     IEEE Transactions on Signal Processing, 2018
 %     https://arxiv.org/abs/1706.08171
 %
 % Picard estimates independent components from the 2-D signal matrix X. The
 % rows of X are the input mixed signals. The algorithm outputs [Y, W],
 % where Y corresponds to the estimated source matrix, and W to the
 % estimated unmixing matrix, such that Y =  W * X.
-% 
+%
 % There are several optional parameters which can be provided in the
 % varargin variable.
 %
@@ -27,19 +27,19 @@ function [Y, W] = picard(X, varargin)
 %                             algorithm.
 %                             Default : 100
 %
-% 'mode'                      (string) Chooses to run the orthogonal 
+% 'mode'                      (string) Chooses to run the orthogonal
 %                             (Picard-O) or unconstrained version of
-%                             Picard. 
+%                             Picard.
 %                             Possible values:
-%                             'ortho' (default): runs Picard-O 
+%                             'ortho' (default): runs Picard-O
 %                             'standard'       : runs standard Picard
 %
 % 'tol'                       (float) Tolerance for the stopping criterion.
-%                             Iterations stop when the norm of the gradient 
+%                             Iterations stop when the norm of the gradient
 %                             gets smaller than tol.
 %                             Default: 1e-8
 %
-% 'lambda_min'                (float) Constant used to regularize the 
+% 'lambda_min'                (float) Constant used to regularize the
 %                             Hessian approximation. Eigenvalues of the
 %                             approximation that are below lambda_min are
 %                             shifted to lambda_min.
@@ -149,7 +149,7 @@ else
     X_white = X;
     W_white = eye(N);
 end
-    
+
 % Run ICA
 
 switch mode
@@ -163,4 +163,3 @@ end
 
 W = W * W_white;
 end
-

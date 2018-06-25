@@ -6,7 +6,7 @@ function [Y, W] = picard_standard(X, m, maxiter, precon, tol, lambda_min, ls_tri
 %     Pierre Ablin, Jean-Francois Cardoso, and Alexandre Gramfort
 %     Faster independent component analysis by preconditioning with Hessian
 %     approximations
-%     ArXiv Preprint, June 2017
+%     IEEE Transactions on Signal Processing, 2018
 %     https://arxiv.org/abs/1706.08171
 %
 % Parameters
