@@ -5,7 +5,7 @@ function [Y, W] = picardo(X, m, maxiter, tol, lambda_min, ls_tries, verbose)
 %
 %   Pierre Ablin, Jean-François Cardoso, Alexandre Gramfort
 %   Faster ICA under orthogonal constraint
-%   ICASSP? 2018
+%   ICASSP, 2018
 %   https://arxiv.org/abs/1711.10873
 %
 % Parameters
