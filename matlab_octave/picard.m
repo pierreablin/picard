@@ -108,6 +108,9 @@ lambda_min = 0.01;
 ls_tries = 10;
 whiten = true;
 verbose = false;
+n_components = size(X, 1);
+centering = false;
+whitening_mode = 'sph';
 
 % Read varargin
 
@@ -133,6 +136,11 @@ for i = 1:2:length(varargin)
             ls_tries = value;
         case 'whiten'
             whiten = value;
+        case 'pca'
+            whitening_mode = 'pca';
+            n_components = value;
+        case 'centering'
+            centering = value;
         case 'verbose'
             verbose = value;
         otherwise
@@ -140,11 +148,23 @@ for i = 1:2:length(varargin)
     end
 end
 
+if whiten == false && n_components ~= size(X, 1),
+    error('PCA works only if whiten=true')
+end
+
+if n_components ~= rank(X, 1),
+    warning(['Input matrix is of deficient rank. ' ...
+            'Please consider to reduce dimensionality (pca) prior to ICA.'])
+end
+
+if centering,
+   X_mean = mean(X, 2);
+   X = X - repmat(X_mean, [1 size(X, 2)]);
+end
 
 % Whiten the signals if needed
-
 if whiten,
-    [X_white, W_white] = whitening(X, 'sph');
+    [X_white, W_white] = whitening(X, whitening_mode, n_components);
 else
     X_white = X;
     W_white = eye(N);
