@@ -8,7 +8,7 @@ import numbers
 import numpy as np
 
 
-def permute(A):
+def permute(A, scale=False):
     '''Get a permutation to diagonalize and scale a matrix
 
     Parameters
@@ -16,6 +16,8 @@ def permute(A):
     A : ndarray, shape (n_features, n_features)
         A matrix close from a permutation and scale matrix.
 
+    scale : boolean, optional
+        If True, scales the matrix A wrt its diagonal
     Returns
     -------
     A : ndarray, shape (n_features, n_features)
@@ -33,7 +35,8 @@ def permute(A):
                     A[(i, j), :] = A[(j, i), :]
                     idx[i], idx[j] = idx[j], idx[i]
                     done = False
-    A /= np.diag(A)
+    if scale:
+        A /= np.diag(A)
     order_sort = np.argsort(np.sum(np.abs(A), axis=0))
     A = A[order_sort, :]
     A = A[:, order_sort]
