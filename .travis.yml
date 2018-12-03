@@ -17,7 +17,7 @@ install:
 script:
     - make
     - flake8 --count picard
-    - cd matlab_octave/examples
+    - cd examples/MATLAB
     - octave plot_ica.m
     - octave plot_ica_whiten.m
     - octave plot_ica_pca.m
