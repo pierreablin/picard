@@ -83,8 +83,8 @@ def _ica_par(X, fun, max_iter, w_init, verbose):
     for ii in range(max_iter):
         gwtx, g_wtx = fun.score_and_der(np.dot(W, X))
         g_wtx = g_wtx.mean(axis=1)
-        W = _sym_decorrelation(np.dot(gwtx, X.T) / p_ -
-                               g_wtx[:, np.newaxis] * W)
+        C = np.dot(gwtx, X.T) / p_ - g_wtx[:, np.newaxis] * W
+        W = _sym_decorrelation(C)
         del gwtx, g_wtx
     if verbose:
         print('Running Picard...')
