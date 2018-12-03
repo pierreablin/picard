@@ -1,7 +1,14 @@
+% This example shows:
+% a.) how 'whiten' improves the quality of the decomposition
+% b.) the current 'whiten' implementation does not work on rank deficient data
+
+clear variables; clc
 %% Define parameters
+% PCA parameters
+whiten = 1;         % Set to 1 and picard whitens the data
+
 % Test signal
 rank_deficient = 1; % Set to 1 and you get a rank deficient matrix
-no_offset = 0;      % Set to 1 channels are zero mean
 
 %% Create test signal
 signals = {};
@@ -39,16 +46,12 @@ end
 
 EEG.data = mix_mat * EEG.etc.components;
 
-if no_offset,
-    EEG.data = EEG.data - repmat(mean(EEG.data, 2), [1 size(EEG.data, 2)]);
-end
-
 %% Perform ICA
 eeg_rank = rank(EEG.data(1:EEG.nbchan, :));
 disp(['data rank is: ' num2str(eeg_rank)])
 
 
-EEG_ica = pop_runica(EEG, 'icatype', 'picard');
+EEG_ica = pop_runica(EEG, 'icatype', 'picard', 'whiten', whiten);
 EEG_ica = eeg_checkset(EEG_ica);
 EEG_ica.data = EEG_ica.icawinv * EEG_ica.icaact;
 
