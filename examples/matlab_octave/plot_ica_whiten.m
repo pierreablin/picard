@@ -30,7 +30,7 @@ time = linspace(0, 8, n_samples);
 
 s1 = sin(2*pi*time);
 s2 = 0.1 * randn(size(time));
-s3 = sawtooth(time, 0.012);
+s3 = time;
 
 S = [s1; s2; s3];
 
