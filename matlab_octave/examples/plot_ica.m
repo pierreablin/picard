@@ -22,12 +22,13 @@ S = [s1; s2; s3];
 S = S ./ repmat(std(S, 1, 2), 1, n_samples);  % Standardize data
 % Mix data
 A = [[1, 1, 1]; [0.5, 2, 1.0]; [1.5, 1.0, 2.0]];  % Mixing matrix
+A = [[1, 1, 1]; [0.5, 2, 1.0]; [1.5, 1.0, 2.0]; [1.5, 1.0, 2.0]];  % Mixing matrix
 X = A * S;  % Generate observations
 
-n_sources = size(A, 1);
+n_sources = 3; %size(A, 1);
 
 % Compute ICA
-[Y, W] = picard(X);
+[Y, W] = picard(X, 'whiten', 1);
 
 %% Plot results
 models = {X, S, Y};
@@ -41,7 +42,7 @@ for ii=1:length(models)
     figure;
     for k=1:n_sources
         sig = model(k, :);
-        subplot(3, 1, k)
+        subplot(4, 1, k)
         plot(sig);
         if k == 1; title(name); end
     end
