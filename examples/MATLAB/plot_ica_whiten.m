@@ -21,16 +21,16 @@ addpath('..//../matlab_octave')
 rank_deficient = 0; % Set to 1 and you get a rank deficient matrix
 
 % PCA parameters
-whiten = 0;         % Set to 1 and picard whitens the data
+whiten = 1;         % Set to 1 and picard whitens the data
 
 %% Generate sample data
 rand('seed', 0);
 n_samples = 2000;
 time = linspace(0, 8, n_samples);
 
-s1 = sin(2*pi*t);
-s2 = 0.1 * randn(size(t));
-s3 = sawtooth(t, 0.012);
+s1 = sin(2*pi*time);
+s2 = 0.1 * randn(size(time));
+s3 = sawtooth(time, 0.012);
 
 S = [s1; s2; s3];
 
