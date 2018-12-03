@@ -8,7 +8,7 @@ import numbers
 import numpy as np
 
 
-def permute(A, scale=False):
+def permute(A, scale=True):
     '''Get a permutation to diagonalize and scale a matrix
 
     Parameters
