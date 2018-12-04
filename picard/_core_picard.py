@@ -83,8 +83,6 @@ def core_picard(X, density=Tanh(), ortho=False, extended=False, m=7,
         if covariance is None:  # Need this for extended
             covariance = X.dot(X.T) / T
         C = covariance.copy()
-    else:
-        C = None
     current_loss = _loss(Y, W, density, signs, ortho, extended)
     for n in range(max_iter):
         # Compute the score function

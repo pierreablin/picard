@@ -135,10 +135,7 @@ def picard(X, fun='tanh', n_components=None, ortho=True, extended=None,
 
     # Behaves like Fastica if ortho, standard infomax if not ortho
     if extended is None:
-        if ortho:
-            extended = True
-        else:
-            extended = False
+        extended = ortho
 
     # Avoid possible overflows if the density is not tanh and extended is used.
     if fun != 'tanh' and extended and not ortho:
