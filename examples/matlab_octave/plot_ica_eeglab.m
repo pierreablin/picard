@@ -1,11 +1,12 @@
 %
 % =================================================
-% Blind source separation using Picard and Picard-O
+% Blind source separation using Picard in EEGlab
 % =================================================
 %
 
 % Author: Pierre Ablin <pierre.ablin@inria.fr>
 %         Alexandre Gramfort <alexandre.gramfort@inria.fr>
+%         Lukas Stranger <l.stranger@student.tugraz.at>
 % License: BSD 3 clause
 %
 % This example shows how to use picard with the EEGLAB data structure

@@ -1,11 +1,12 @@
 %
 % =================================================
-% Blind source separation using Picard and Picard-O
+% Picard: Usage of the pca option to deal with rank-deficient data
 % =================================================
 %
 
 % Author: Pierre Ablin <pierre.ablin@inria.fr>
 %         Alexandre Gramfort <alexandre.gramfort@inria.fr>
+%         Lukas Stranger <l.stranger@student.tugraz.at>
 % License: BSD 3 clause
 
 % This example shows:

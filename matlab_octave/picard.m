@@ -72,6 +72,7 @@ function [Y, W] = picard(X, varargin)
 % Authors: Pierre Ablin <pierre.ablin@inria.fr>
 %          Alexandre Gramfort <alexandre.gramfort@inria.fr>
 %          Jean-Francois Cardoso <cardoso@iap.fr>
+%          Lukas Stranger <l.stranger@student.tugraz.at>
 %
 % License: BSD (3-clause)
 
