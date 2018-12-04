@@ -79,7 +79,7 @@ def core_picard(X, density=Tanh(), ortho=False, extended=False, m=7,
     requested_tolerance = False
     sign_change = False
     gradient_norm = 1.
-    if extended and not ortho:
+    if extended:
         if covariance is None:  # Need this for extended
             covariance = X.dot(X.T) / T
         C = covariance.copy()
@@ -93,7 +93,7 @@ def core_picard(X, density=Tanh(), ortho=False, extended=False, m=7,
         Y_square = Y ** 2
         # Compute the kurtosis and update the gradient accordingly
         if extended:
-            K = np.mean(psidY, axis=1) * np.mean(Y_square, axis=1)
+            K = np.mean(psidY, axis=1) * np.diag(C)
             K -= np.diag(G)
             signs = np.sign(K)
             if n > 0:
