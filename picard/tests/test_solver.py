@@ -131,7 +131,7 @@ def test_picard():
 
 
 def test_extended():
-    N, T = 6, 1000
+    N, T = 4, 2000
     n = N // 2
     rng = np.random.RandomState(42)
 
@@ -141,15 +141,8 @@ def test_extended():
     print(S.shape)
     A = rng.randn(N, N)
     X = np.dot(A, S)
-    fun = Tanh()
-    K, W, Y = picard(X, fun=fun, ortho=False, random_state=0,
+    K, W, Y = picard(X, ortho=False, random_state=0,
                      extended=True)
-    # Get the final gradient norm
-    psiY = fun.score_and_der(Y)[0]
-    G = np.inner(psiY, Y) / float(T) - np.eye(N)
-    err_msg = 'gradient norm greater than tol'
-    assert_allclose(G, np.zeros((N, N)), atol=1e-7,
-                    err_msg=err_msg)
     assert_equal(Y.shape, X.shape)
     assert_equal(W.shape, A.shape)
     assert_equal(K.shape, A.shape)

@@ -103,7 +103,7 @@ def core_picard(X, density=Tanh(), ortho=False, extended=False, m=7,
             old_signs = signs  # noqa
             G *= signs[:, None]
             psidY *= signs[:, None]
-            if not ortho:
+            if not ortho:  # Like in extended infomax: change the gradient.
                 G += C
                 psidY += 1
         # Compute the Hessian off diagonal
@@ -163,13 +163,14 @@ def core_picard(X, density=Tanh(), ortho=False, extended=False, m=7,
         W = new_W
         if covariance is not None:
             C = W.dot(covariance).dot(W.T)
-        print(signs)
         current_loss = new_loss
         if verbose:
             print('iteration %d, gradient norm = %.4g, loss = %.4g' %
                   (n + 1, gradient_norm, current_loss))
     infos = dict(converged=requested_tolerance, gradient_norm=gradient_norm,
                  n_iterations=n)
+    if extended:
+        infos['signs'] = signs
     return Y, W, infos
 
 
@@ -183,8 +184,8 @@ def _loss(Y, W, density, signs, ortho, extended, covariance):
         loss = 0.
     for y, s in zip(Y, signs):
         loss += s * np.mean(density.log_lik(y))
-    if extended and not ortho:
-        loss += 0.5 * np.sum(np.diag(covariance))
+        if extended and not ortho:
+            loss += 0.5 * np.mean(y ** 2)
     return loss
 
 

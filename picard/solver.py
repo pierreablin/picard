@@ -127,6 +127,19 @@ def picard(X, fun='tanh', n_components=None, ortho=True, extended=None,
     """
     np.seterr(all='raise')
     random_state = check_random_state(random_state)
+
+    # Behaves like Fastica if ortho, standard infomax if not ortho
+    if extended is None:
+        if ortho:
+            extended = True
+        else:
+            extended = False
+
+    # Avoid possible overflows if the density is not tanh and extended is used.
+    if fun != 'tanh' and extended and not ortho:
+        warnings.warn('Using a different density than tanh for extended ica '
+                      'may result in wrong estimation and overflows')
+
     if not type(ortho) is bool:
         warnings.warn('ortho should be a boolean, got (ortho={}).'
                       'ortho is set to default: ortho=True.'.format(ortho))
@@ -180,11 +193,7 @@ def picard(X, fun='tanh', n_components=None, ortho=True, extended=None,
     if fastica_it is not None:
         w_init = _ica_par(X1, fun, fastica_it, w_init, verbose)
 
-    if extended is None:
-        if ortho:
-            extended = True
-        else:
-            extended = False
+
     X1 = np.dot(w_init, X1)
     kwargs = {'density': fun, 'm': m, 'max_iter': max_iter, 'tol': tol,
               'lambda_min': lambda_min, 'ls_tries': ls_tries,
