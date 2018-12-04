@@ -21,15 +21,19 @@ Algorithm
 ---------
 
 Picard is an algorithm for maximum likelihood independent component analysis.
-It solves the same problem as Infomax, faster.
-It uses a preconditioned L-BFGS strategy, resulting in a very fast convergence.
+It shows state of the art speed of convergence, and solves the same problems as the widely used FastICA, Infomax and extended-Infomax, faster.
 
 
-Picard-O uses an adaptation of that strategy to solve the same problem under the
-constraint of whiteness of the signals. It solves the same problem as
-FastICA, but faster.
+The parameter `ortho` choses whether to work under orthogonal constraint (i.e. enforce the decorrelation of the output) or not.
+It also comes with an extended version just like extended-infomax, which makes separation of both sub and super-Gaussian signals possible.
+It is chosen with the parameter `extended`.
 
-Picard-O is able to recover both super-Gaussian and sub-Gaussian sources.
+* `ortho=False, extended=False`: same solution as Infomax
+* `ortho=False, extended=True`: same solution as extended-Infomax
+* `ortho=True, extended=True`: same solution as FastICA
+* `ortho=True, extended=False`: finds the same solutions as Infomax under orthogonal constraint.
+
+
 
 
 Installation

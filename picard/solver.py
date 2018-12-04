@@ -38,13 +38,18 @@ def picard(X, fun='tanh', n_components=None, ortho=True, extended=None,
         is performed.
 
     ortho : bool, optional
-        If True, uses Picard-O. Otherwise, uses the standard Picard. Picard-O
-        tends to converge in fewer iterations, and finds both super Gaussian
-        and sub Gaussian sources.
+        If True, uses Picard-O. Otherwise, uses the standard Picard.
 
     extended : bool, optional
         If True, uses the extended algorithm to separate sub and super-gaussian
         sources. By default, True if `ortho == True`, `False` otherwise.
+        Using a different density than `'tanh'` may lead to erratic behavior of
+        the algorithm: when `extende=True`, the non-linearity used by the
+        algorithm is `x +/- fun(x)`. The non-linearity should correspond to a
+        density, hence `fun` should be dominated by `x ** 2`. Further,
+        `x + fun(x)` should separate super-Gaussian sources and `x-fun(x)`
+        should separate sub-Gaussian sources. This set of requirement is met by
+        `'tanh'`.
 
     whiten : boolean, optional
         If True perform an initial whitening of the data.
