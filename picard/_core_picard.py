@@ -75,7 +75,7 @@ def core_picard(X, density=Tanh(), ortho=False, extended=False, m=7,
     y_list = []
     r_list = []
     signs = np.ones(N)
-
+    current_loss = _loss(Y, W, density, signs, ortho, extended)
     requested_tolerance = False
     sign_change = False
     gradient_norm = 1.
@@ -83,7 +83,6 @@ def core_picard(X, density=Tanh(), ortho=False, extended=False, m=7,
         if covariance is None:  # Need this for extended
             covariance = X.dot(X.T) / T
         C = covariance.copy()
-    current_loss = _loss(Y, W, density, signs, ortho, extended)
     for n in range(max_iter):
         # Compute the score function
         psiY, psidY = density.score_and_der(Y)
