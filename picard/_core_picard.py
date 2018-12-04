@@ -153,13 +153,13 @@ def core_picard(X, density=Tanh(), ortho=False, extended=False, m=7,
         # Do a line_search in that direction:
         converged, new_Y, new_W, new_loss, direction =\
             _line_search(Y, W, density, direction, signs, current_loss,
-                         ls_tries, verbose, ortho, extended, C)
+                         ls_tries, verbose, ortho, extended)
         if not converged:
             direction = -G
             s_list, y_list, r_list = [], [], []
             _, new_Y, new_W, new_loss, direction =\
                 _line_search(Y, W, density, direction, signs, current_loss,
-                             10, False, ortho, extended, C)
+                             10, False, ortho, extended)
         Y = new_Y
         W = new_W
         if covariance is not None:
@@ -175,7 +175,7 @@ def core_picard(X, density=Tanh(), ortho=False, extended=False, m=7,
     return Y, W, infos
 
 
-def _loss(Y, W, density, signs, ortho, extended, covariance):
+def _loss(Y, W, density, signs, ortho, extended):
     '''
     Computes the loss function for Y, W
     '''
@@ -191,7 +191,7 @@ def _loss(Y, W, density, signs, ortho, extended, covariance):
 
 
 def _line_search(Y, W, density, direction, signs, current_loss, ls_tries,
-                 verbose, ortho, extended, covariance):
+                 verbose, ortho, extended):
     '''
     Performs a backtracking line search, starting from Y and W, in the
     direction direction. I
@@ -199,7 +199,7 @@ def _line_search(Y, W, density, direction, signs, current_loss, ls_tries,
     N = W.shape[0]
     alpha = 1.
     if current_loss is None:
-        current_loss = _loss(Y, W, density, signs, ortho, extended, covariance)
+        current_loss = _loss(Y, W, density, signs, ortho, extended)
     for _ in range(ls_tries):
         if ortho:
             transform = expm(alpha * direction)
@@ -207,8 +207,7 @@ def _line_search(Y, W, density, direction, signs, current_loss, ls_tries,
             transform = np.eye(N) + alpha * direction
         Y_new = np.dot(transform, Y)
         W_new = np.dot(transform, W)
-        new_loss = _loss(Y_new, W_new, density, signs, ortho, extended,
-                         covariance)
+        new_loss = _loss(Y_new, W_new, density, signs, ortho, extended)
         if new_loss < current_loss:
             return True, Y_new, W_new, new_loss, alpha * direction
         alpha /= 2.
