@@ -193,7 +193,6 @@ def picard(X, fun='tanh', n_components=None, ortho=True, extended=None,
     if fastica_it is not None:
         w_init = _ica_par(X1, fun, fastica_it, w_init, verbose)
 
-
     X1 = np.dot(w_init, X1)
     kwargs = {'density': fun, 'm': m, 'max_iter': max_iter, 'tol': tol,
               'lambda_min': lambda_min, 'ls_tries': ls_tries,
