@@ -13,11 +13,11 @@ from ._tools import check_random_state, _ica_par, _sym_decorrelation
 from .densities import Tanh, Exp, Cube, check_density
 
 
-def picard(X, fun='tanh', n_components=None, ortho=True, whiten=True,
-           return_X_mean=False, return_n_iter=False, centering=True,
-           max_iter=100, tol=1e-07, m=7,  ls_tries=10, lambda_min=0.01,
-           check_fun=True, w_init=None, fastica_it=None, random_state=None,
-           verbose=False):
+def picard(X, fun='tanh', n_components=None, ortho=True, extended=None,
+           whiten=True, return_X_mean=False, return_n_iter=False,
+           centering=True, max_iter=100, tol=1e-07, m=7,  ls_tries=10,
+           lambda_min=0.01, check_fun=True, w_init=None, fastica_it=None,
+           random_state=None, verbose=False):
     """Perform Independent Component Analysis.
 
     Parameters
@@ -41,6 +41,10 @@ def picard(X, fun='tanh', n_components=None, ortho=True, whiten=True,
         If True, uses Picard-O. Otherwise, uses the standard Picard. Picard-O
         tends to converge in fewer iterations, and finds both super Gaussian
         and sub Gaussian sources.
+
+    extended : bool, optional
+        If True, uses the extended algorithm to separate sub and super-gaussian
+        sources. By default, True if `ortho == True`, `False` otherwise.
 
     whiten : boolean, optional
         If True perform an initial whitening of the data.
@@ -121,6 +125,7 @@ def picard(X, fun='tanh', n_components=None, ortho=True, whiten=True,
         Number of iterations taken to converge. This is
         returned only when return_n_iter is set to `True`.
     """
+    np.seterr(all='raise')
     random_state = check_random_state(random_state)
     if not type(ortho) is bool:
         warnings.warn('ortho should be a boolean, got (ortho={}).'
@@ -175,11 +180,12 @@ def picard(X, fun='tanh', n_components=None, ortho=True, whiten=True,
     if fastica_it is not None:
         w_init = _ica_par(X1, fun, fastica_it, w_init, verbose)
 
+    if extended is None:
+        if ortho:
+            extended = True
+        else:
+            extended = False
     X1 = np.dot(w_init, X1)
-    if ortho:
-        extended = True
-    else:
-        extended = False
     kwargs = {'density': fun, 'm': m, 'max_iter': max_iter, 'tol': tol,
               'lambda_min': lambda_min, 'ls_tries': ls_tries,
               'verbose': verbose, 'ortho': ortho, 'extended': extended}

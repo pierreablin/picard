@@ -130,6 +130,36 @@ def test_picard():
                         err_msg=err_msg)
 
 
+def test_extended():
+    N, T = 6, 1000
+    n = N // 2
+    rng = np.random.RandomState(42)
+
+    S = np.concatenate((rng.laplace(size=(n, T)),
+                        rng.uniform(low=-1, high=1, size=(n, T))),
+                       axis=0)
+    print(S.shape)
+    A = rng.randn(N, N)
+    X = np.dot(A, S)
+    fun = Tanh()
+    K, W, Y = picard(X, fun=fun, ortho=False, random_state=0,
+                     extended=True)
+    # Get the final gradient norm
+    psiY = fun.score_and_der(Y)[0]
+    G = np.inner(psiY, Y) / float(T) - np.eye(N)
+    err_msg = 'gradient norm greater than tol'
+    assert_allclose(G, np.zeros((N, N)), atol=1e-7,
+                    err_msg=err_msg)
+    assert_equal(Y.shape, X.shape)
+    assert_equal(W.shape, A.shape)
+    assert_equal(K.shape, A.shape)
+    WA = W.dot(K).dot(A)
+    WA = permute(WA)  # Permute and scale
+    err_msg = 'wrong unmixing matrix'
+    assert_allclose(WA, np.eye(N), rtol=0, atol=1e-1,
+                    err_msg=err_msg)
+
+
 def test_shift():
     N, T = 5, 1000
     rng = np.random.RandomState(42)
@@ -160,7 +190,8 @@ def test_picardo():
         for fun in names:
             print(fun)
             K, W, Y = picard(X, fun=fun, ortho=True, random_state=rng,
-                             fastica_it=fastica_it, verbose=True)
+                             fastica_it=fastica_it, verbose=True,
+                             extended=True)
             if fun == 'tanh':
                 fun = Tanh()
             elif fun == 'exp':

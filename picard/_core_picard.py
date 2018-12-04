@@ -12,7 +12,7 @@ from .densities import Tanh
 
 def core_picard(X, density=Tanh(), ortho=False, extended=False, m=7,
                 max_iter=1000, tol=1e-7, lambda_min=0.01, ls_tries=10,
-                verbose=False):
+                verbose=False, covariance=None):
     '''Runs the Picard algorithm
 
     The algorithm is detailed in::
@@ -75,10 +75,16 @@ def core_picard(X, density=Tanh(), ortho=False, extended=False, m=7,
     y_list = []
     r_list = []
     signs = np.ones(N)
-    current_loss = _loss(Y, W, density, signs)
+
     requested_tolerance = False
     sign_change = False
     gradient_norm = 1.
+    if extended and not ortho and covariance is None:  # Need this for extended
+        covariance = X.dot(X.T) / T
+        C = covariance.copy()
+    else:
+        C = None
+    current_loss = _loss(Y, W, density, signs, ortho, extended, covariance)
     for n in range(max_iter):
         # Compute the score function
         psiY, psidY = density.score_and_der(Y)
@@ -89,9 +95,7 @@ def core_picard(X, density=Tanh(), ortho=False, extended=False, m=7,
         Y_square = Y ** 2
         # Compute the kurtosis and update the gradient accordingly
         if extended:
-            K = np.mean(psidY, axis=1)
-            if not ortho:
-                K *= np.mean(Y_square, axis=1)
+            K = np.mean(psidY, axis=1) * np.mean(Y_square, axis=1)
             K -= np.diag(G)
             signs = np.sign(K)
             if n > 0:
@@ -99,6 +103,9 @@ def core_picard(X, density=Tanh(), ortho=False, extended=False, m=7,
             old_signs = signs  # noqa
             G *= signs[:, None]
             psidY *= signs[:, None]
+            if not ortho:
+                G += C
+                psidY += 1
         # Compute the Hessian off diagonal
         if ortho:
             h_off = np.diag(G).copy()
@@ -145,36 +152,44 @@ def core_picard(X, density=Tanh(), ortho=False, extended=False, m=7,
         # Do a line_search in that direction:
         converged, new_Y, new_W, new_loss, direction =\
             _line_search(Y, W, density, direction, signs, current_loss,
-                         ls_tries, verbose, ortho)
+                         ls_tries, verbose, ortho, extended, C)
         if not converged:
             direction = -G
             s_list, y_list, r_list = [], [], []
             _, new_Y, new_W, new_loss, direction =\
                 _line_search(Y, W, density, direction, signs, current_loss,
-                             10, False, ortho)
+                             10, False, ortho, extended, C)
         Y = new_Y
         W = new_W
+        if covariance is not None:
+            C = W.dot(covariance).dot(W.T)
+        print(signs)
         current_loss = new_loss
         if verbose:
-            print('iteration %d, gradient norm = %.4g' %
-                  (n + 1, gradient_norm))
+            print('iteration %d, gradient norm = %.4g, loss = %.4g' %
+                  (n + 1, gradient_norm, current_loss))
     infos = dict(converged=requested_tolerance, gradient_norm=gradient_norm,
                  n_iterations=n)
     return Y, W, infos
 
 
-def _loss(Y, W, density, signs):
+def _loss(Y, W, density, signs, ortho, extended, covariance):
     '''
     Computes the loss function for Y, W
     '''
-    loss = - np.linalg.slogdet(W)[1]
+    if not ortho:
+        loss = - np.linalg.slogdet(W)[1]
+    else:
+        loss = 0.
     for y, s in zip(Y, signs):
         loss += s * np.mean(density.log_lik(y))
+    if extended and not ortho:
+        loss += 0.5 * np.sum(np.diag(covariance))
     return loss
 
 
 def _line_search(Y, W, density, direction, signs, current_loss, ls_tries,
-                 verbose, ortho):
+                 verbose, ortho, extended, covariance):
     '''
     Performs a backtracking line search, starting from Y and W, in the
     direction direction. I
@@ -182,7 +197,7 @@ def _line_search(Y, W, density, direction, signs, current_loss, ls_tries,
     N = W.shape[0]
     alpha = 1.
     if current_loss is None:
-        current_loss = _loss(Y, W, density, signs)
+        current_loss = _loss(Y, W, density, signs, ortho, extended, covariance)
     for _ in range(ls_tries):
         if ortho:
             transform = expm(alpha * direction)
@@ -190,7 +205,8 @@ def _line_search(Y, W, density, direction, signs, current_loss, ls_tries,
             transform = np.eye(N) + alpha * direction
         Y_new = np.dot(transform, Y)
         W_new = np.dot(transform, W)
-        new_loss = _loss(Y_new, W_new, density, signs)
+        new_loss = _loss(Y_new, W_new, density, signs, ortho, extended,
+                         covariance)
         if new_loss < current_loss:
             return True, Y_new, W_new, new_loss, alpha * direction
         alpha /= 2.
