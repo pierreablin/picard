@@ -21,6 +21,7 @@ script:
     - octave plot_ica.m
     - octave plot_ica_whiten.m
     - octave plot_ica_pca.m
+    - octave plot_ica_eeglab.m
     - cd ..//..
 after_success:
   - bash <(curl -s https://codecov.io/bash)
