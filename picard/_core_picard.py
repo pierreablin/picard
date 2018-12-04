@@ -85,7 +85,7 @@ def core_picard(X, density=Tanh(), ortho=False, extended=False, m=7,
         C = covariance.copy()
     else:
         C = None
-    current_loss = _loss(Y, W, density, signs, ortho, extended, covariance)
+    current_loss = _loss(Y, W, density, signs, ortho, extended)
     for n in range(max_iter):
         # Compute the score function
         psiY, psidY = density.score_and_der(Y)
