@@ -11,6 +11,7 @@
 % This example shows how to use picard with the EEGLAB data structure
 
 clear variables; clc
+addpath('..//../matlab_octave')
 %% Define parameters
 % signal
 rank_deficient = 1;

@@ -12,8 +12,8 @@
 % a.) how 'pca' is used and its influence onto the decomposition
 %       (just toggle perform_pca)
 
+clear variables; clc
 addpath('..//../matlab_octave')
-
 %% Define parameters
 % PCA parameters
 perform_pca = 1;    % Set to 1 and picard whitens the data with PCA

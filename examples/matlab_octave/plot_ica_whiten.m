@@ -14,8 +14,8 @@
 % b.) how rank deficiency influences the decomposition
 %       - set rank_deficient=1
 
+clear variables; clc
 addpath('..//../matlab_octave')
-
 %% Define parameters
 % Test signal
 rank_deficient = 0; % Set to 1 and you get a rank deficient matrix

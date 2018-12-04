@@ -8,8 +8,8 @@
 %         Alexandre Gramfort <alexandre.gramfort@inria.fr>
 % License: BSD 3 clause
 
+clear variables; clc
 addpath('..//../matlab_octave')
-
 %% Generate sample data
 rand('seed', 0);
 n_samples = 2000;
