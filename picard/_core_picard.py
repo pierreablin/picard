@@ -79,8 +79,9 @@ def core_picard(X, density=Tanh(), ortho=False, extended=False, m=7,
     requested_tolerance = False
     sign_change = False
     gradient_norm = 1.
-    if extended and not ortho and covariance is None:  # Need this for extended
-        covariance = X.dot(X.T) / T
+    if extended and not ortho:
+        if covariance is None:  # Need this for extended
+            covariance = X.dot(X.T) / T
         C = covariance.copy()
     else:
         C = None

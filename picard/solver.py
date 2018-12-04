@@ -174,9 +174,11 @@ def picard(X, fun='tanh', n_components=None, ortho=True, extended=None,
         del u, d
         K *= np.sqrt(p)
         X1 = np.dot(K, X1)
+        covariance = np.eye(n_components)  # For extended
     else:
         # X must be casted to floats to avoid typing issues with numpy 2.0
         X1 = X1.astype('float')
+        covariance = None  # For extended
 
     # Initialize
     if w_init is None:
@@ -196,7 +198,8 @@ def picard(X, fun='tanh', n_components=None, ortho=True, extended=None,
     X1 = np.dot(w_init, X1)
     kwargs = {'density': fun, 'm': m, 'max_iter': max_iter, 'tol': tol,
               'lambda_min': lambda_min, 'ls_tries': ls_tries,
-              'verbose': verbose, 'ortho': ortho, 'extended': extended}
+              'verbose': verbose, 'ortho': ortho, 'extended': extended,
+              'covariance': covariance}
     Y, W, infos = core_picard(X1, **kwargs)
     del X1
     W = np.dot(W, w_init)
