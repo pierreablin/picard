@@ -1,12 +1,28 @@
 %
 % =================================================
-% Blind source separation using Picard and Picard-O
+% Picard: Usage of the pca option to deal with rank-deficient data
 % =================================================
 %
 
 % Author: Pierre Ablin <pierre.ablin@inria.fr>
 %         Alexandre Gramfort <alexandre.gramfort@inria.fr>
+%         Lukas Stranger <l.stranger@student.tugraz.at>
 % License: BSD 3 clause
+
+% This example shows:
+% a.) how 'pca' is used and its influence onto the decomposition
+%       (just toggle perform_pca)
+
+clear variables; clc
+addpath('..//../matlab_octave')
+%% Define parameters
+% PCA parameters
+perform_pca = 1;    % Set to 1 and picard whitens the data with PCA
+
+% Fixed parameters 
+%   (to show the difference of sphering and pca)
+whiten = 1;
+rank_deficient = 1;
 
 %% Generate sample data
 rand('seed', 0);
@@ -22,12 +38,21 @@ S = [s1; s2; s3];
 S = S ./ repmat(std(S, 1, 2), 1, n_samples);  % Standardize data
 % Mix data
 A = [[1, 1, 1]; [0.5, 2, 1.0]; [1.5, 1.0, 2.0]];  % Mixing matrix
+
+if rank_deficient,
+    A = [A; A(end,:)];
+end
+
 X = A * S;  % Generate observations
 
-n_sources = size(A, 1);
+n_comps = rank(A);
 
 % Compute ICA
-[Y, W] = picard(X);
+if perform_pca,
+    [Y, W] = picard(X, 'whiten', whiten, 'pca', n_comps);
+else
+    [Y, W] = picard(X, 'whiten', whiten);
+end
 
 %% Plot results
 models = {X, S, Y};
@@ -38,10 +63,11 @@ names = {'Observations (mixed signal)',
 for ii=1:length(models)
     model = models{ii};
     name = names{ii};
+    nr_subplots = size(model, 1);
     figure;
-    for k=1:n_sources
+    for k=1:nr_subplots
         sig = model(k, :);
-        subplot(3, 1, k)
+        subplot(nr_subplots, 1, k)
         plot(sig);
         if k == 1; title(name); end
     end

@@ -117,7 +117,7 @@ def picard(X, fun='tanh', n_components=None, ortho=True, extended=None,
         Estimated un-mixing matrix.
         The mixing matrix can be obtained by::
 
-            w = np.dot(W, K.T)
+            w = np.dot(W, K)
             A = np.dot(w.T, np.linalg.inv(np.dot(w, w.T)))
 
     Y : array, shape (n_components, n_samples) | None

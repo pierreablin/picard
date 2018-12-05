@@ -17,8 +17,10 @@ install:
 script:
     - make
     - flake8 --count picard
-    - cd matlab_octave
-    - octave plot_ica_synth.m
-    - cd ..
+    - cd examples/matlab_octave
+    - octave plot_ica.m
+    - octave plot_ica_whiten.m
+    - octave plot_ica_pca.m
+    - cd ..//..
 after_success:
   - bash <(curl -s https://codecov.io/bash)
