@@ -3,6 +3,7 @@ Picard : Preconditioned ICA for Real Data
 
 |Travis|_ |Codecov|_ |Downloads|_
 
+
 .. |Travis| image:: https://api.travis-ci.org/pierreablin/picard.svg?branch=master
 .. _Travis: https://travis-ci.org/pierreablin/picard
 
@@ -23,6 +24,9 @@ Algorithm
 Picard is an algorithm for maximum likelihood independent component analysis.
 It shows state of the art speed of convergence, and solves the same problems as the widely used FastICA, Infomax and extended-Infomax, faster.
 
+.. image:: comparison.png
+  :width: 400
+  :alt: Comparison
 
 The parameter `ortho` choses whether to work under orthogonal constraint (i.e. enforce the decorrelation of the output) or not.
 It also comes with an extended version just like extended-infomax, which makes separation of both sub and super-Gaussian signals possible.
