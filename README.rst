@@ -25,7 +25,7 @@ Picard is an algorithm for maximum likelihood independent component analysis.
 It shows state of the art speed of convergence, and solves the same problems as the widely used FastICA, Infomax and extended-Infomax, faster.
 
 .. image:: comparison.png
-  :width: 20 px
+  :width: 50 %
   :alt: Comparison
   :align: center
 
