@@ -1,6 +1,7 @@
 include *.rst
 include LICENSE
 include picard/__init__.py
+include *.png
 
 recursive-include examples *.py
 recursive-include examples *.txt
