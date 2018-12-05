@@ -13,11 +13,11 @@ from ._tools import check_random_state, _ica_par, _sym_decorrelation
 from .densities import Tanh, Exp, Cube, check_density
 
 
-def picard(X, fun='tanh', n_components=None, ortho=True, whiten=True,
-           return_X_mean=False, return_n_iter=False, centering=True,
-           max_iter=100, tol=1e-07, m=7,  ls_tries=10, lambda_min=0.01,
-           check_fun=True, w_init=None, fastica_it=None, random_state=None,
-           verbose=False):
+def picard(X, fun='tanh', n_components=None, ortho=True, extended=None,
+           whiten=True, return_X_mean=False, return_n_iter=False,
+           centering=True, max_iter=100, tol=1e-07, m=7,  ls_tries=10,
+           lambda_min=0.01, check_fun=True, w_init=None, fastica_it=None,
+           random_state=None, verbose=False):
     """Perform Independent Component Analysis.
 
     Parameters
@@ -38,9 +38,18 @@ def picard(X, fun='tanh', n_components=None, ortho=True, whiten=True,
         is performed.
 
     ortho : bool, optional
-        If True, uses Picard-O. Otherwise, uses the standard Picard. Picard-O
-        tends to converge in fewer iterations, and finds both super Gaussian
-        and sub Gaussian sources.
+        If True, uses Picard-O. Otherwise, uses the standard Picard.
+
+    extended : bool, optional
+        If True, uses the extended algorithm to separate sub and super-gaussian
+        sources. By default, True if `ortho == True`, `False` otherwise.
+        Using a different density than `'tanh'` may lead to erratic behavior of
+        the algorithm: when `extende=True`, the non-linearity used by the
+        algorithm is `x +/- fun(x)`. The non-linearity should correspond to a
+        density, hence `fun` should be dominated by `x ** 2`. Further,
+        `x + fun(x)` should separate super-Gaussian sources and `x-fun(x)`
+        should separate sub-Gaussian sources. This set of requirement is met by
+        `'tanh'`.
 
     whiten : boolean, optional
         If True perform an initial whitening of the data.
@@ -121,7 +130,18 @@ def picard(X, fun='tanh', n_components=None, ortho=True, whiten=True,
         Number of iterations taken to converge. This is
         returned only when return_n_iter is set to `True`.
     """
+    np.seterr(all='raise')
     random_state = check_random_state(random_state)
+
+    # Behaves like Fastica if ortho, standard infomax if not ortho
+    if extended is None:
+        extended = ortho
+
+    # Avoid possible overflows if the density is not tanh and extended is used.
+    if fun != 'tanh' and extended and not ortho:
+        warnings.warn('Using a different density than tanh for extended ica '
+                      'may result in wrong estimation and overflows')
+
     if not type(ortho) is bool:
         warnings.warn('ortho should be a boolean, got (ortho={}).'
                       'ortho is set to default: ortho=True.'.format(ortho))
@@ -156,9 +176,11 @@ def picard(X, fun='tanh', n_components=None, ortho=True, whiten=True,
         del u, d
         K *= np.sqrt(p)
         X1 = np.dot(K, X1)
+        covariance = np.eye(n_components)  # For extended
     else:
         # X must be casted to floats to avoid typing issues with numpy 2.0
         X1 = X1.astype('float')
+        covariance = None  # For extended
 
     # Initialize
     if w_init is None:
@@ -176,13 +198,10 @@ def picard(X, fun='tanh', n_components=None, ortho=True, whiten=True,
         w_init = _ica_par(X1, fun, fastica_it, w_init, verbose)
 
     X1 = np.dot(w_init, X1)
-    if ortho:
-        extended = True
-    else:
-        extended = False
     kwargs = {'density': fun, 'm': m, 'max_iter': max_iter, 'tol': tol,
               'lambda_min': lambda_min, 'ls_tries': ls_tries,
-              'verbose': verbose, 'ortho': ortho, 'extended': extended}
+              'verbose': verbose, 'ortho': ortho, 'extended': extended,
+              'covariance': covariance}
     Y, W, infos = core_picard(X1, **kwargs)
     del X1
     W = np.dot(W, w_init)
