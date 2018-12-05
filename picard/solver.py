@@ -33,18 +33,18 @@ def picard(X, fun='tanh', n_components=None, ortho=True, extended=None,
         'log_lik' and 'score_and_der'. See examples in the densities.py file.
 
 
-    n_components : int, optional
+    n_components : None or int, optional
         Number of components to extract. If None no dimension reduction
         is performed.
 
     ortho : bool, optional
         If True, uses Picard-O. Otherwise, uses the standard Picard.
 
-    extended : bool, optional
+    extended : None or bool, optional
         If True, uses the extended algorithm to separate sub and super-gaussian
         sources. By default, True if `ortho == True`, `False` otherwise.
         Using a different density than `'tanh'` may lead to erratic behavior of
-        the algorithm: when `extende=True`, the non-linearity used by the
+        the algorithm: when `extended=True`, the non-linearity used by the
         algorithm is `x +/- fun(x)`. The non-linearity should correspond to a
         density, hence `fun` should be dominated by `x ** 2`. Further,
         `x + fun(x)` should separate super-Gaussian sources and `x-fun(x)`
@@ -88,7 +88,7 @@ def picard(X, fun='tanh', n_components=None, ortho=True, extended=None,
         Whether to check the fun provided by the user at the beginning of
         the run. Setting it to False is not safe.
 
-    w_init : (n_components, n_components) array, optional
+    w_init : None or (n_components, n_components) array, optional
         Initial un-mixing array of dimension (n.comp,n.comp).
         If None (default) then a random rotation is used.
 
@@ -130,7 +130,6 @@ def picard(X, fun='tanh', n_components=None, ortho=True, extended=None,
         Number of iterations taken to converge. This is
         returned only when return_n_iter is set to `True`.
     """
-    np.seterr(all='raise')
     random_state = check_random_state(random_state)
 
     # Behaves like Fastica if ortho, standard infomax if not ortho
@@ -202,7 +201,10 @@ def picard(X, fun='tanh', n_components=None, ortho=True, extended=None,
               'lambda_min': lambda_min, 'ls_tries': ls_tries,
               'verbose': verbose, 'ortho': ortho, 'extended': extended,
               'covariance': covariance}
-    Y, W, infos = core_picard(X1, **kwargs)
+
+    with np.errstate(all='raise'):  # So code breaks if overflow/Nans
+        Y, W, infos = core_picard(X1, **kwargs)
+
     del X1
     W = np.dot(W, w_init)
     converged = infos['converged']
