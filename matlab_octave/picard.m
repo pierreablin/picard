@@ -186,6 +186,7 @@ W = W * W_white;
 end
 
 function tmprank2 = getrank(tmpdata)
+    % Function originally written in EEGLAB by Arnaud Delorme
     tmprank = rank(tmpdata);
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %Here: alternate computation of the rank by Sven Hoffman
