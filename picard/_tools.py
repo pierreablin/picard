@@ -89,3 +89,13 @@ def _ica_par(X, fun, max_iter, w_init, verbose):
     if verbose:
         print('Running Picard...')
     return W
+
+
+def fuse_mask(mask1, mask2):
+    idx_m2 = 0
+    N = len(mask1)
+    for i in range(N):
+        if not mask1[i]:
+            mask1[i] = mask2[idx_m2]
+            idx_m2 += 1
+    return mask1
