@@ -80,25 +80,25 @@ def core_picard(X, density=Tanh(), ortho=False, extended=False, m=7,
     current_loss = _loss(Y, W, density, signs, ortho, extended)
     requested_tolerance = False
     sign_change = False
+    rejection = ll_reject is not None
     gradient_norm = 1.
     if extended:
         if covariance is None:  # Need this for extended
             covariance = X.dot(X.T) / T
         C = covariance.copy()
-    if ll_reject is not None:  # create a mask
+    if rejection:  # create a mask
         mask = np.zeros(T, dtype=np.bool_)
     for n in range(max_iter):
         # Rejection
-        if ll_reject is not None:
-            if (n + 1) % reject_every == 0:
-                ll = density.log_lik(Y)
-                rejected = np.sum(ll > ll_reject, axis=0) > 0
-                # Exclude rejected data
-                Y = Y[:, ~rejected]
-                # Fuse the mask to keep track of the total mask
-                mask = fuse_mask(mask, rejected)
-                # Compute the new loss
-                current_loss = _loss(Y, W, density, signs, ortho, extended)
+        if rejection and (n + 1) % reject_every == 0:
+            ll = density.log_lik(Y)
+            rejected = np.sum(ll > ll_reject, axis=0) > 0
+            # Exclude rejected data
+            Y = Y[:, ~rejected]
+            # Fuse the mask to keep track of the total mask
+            mask = fuse_mask(mask, rejected)
+            # Compute the new loss
+            current_loss = _loss(Y, W, density, signs, ortho, extended)
         # Compute the score function
         psiY, psidY = density.score_and_der(Y)
         # Compute the relative gradient and the Hessian off-diagonal
@@ -184,7 +184,7 @@ def core_picard(X, density=Tanh(), ortho=False, extended=False, m=7,
                  n_iterations=n)
     if extended:
         infos['signs'] = signs
-    if ll_reject is not None:
+    if rejection:
         infos['rejected'] = mask
     return Y, W, infos
 
