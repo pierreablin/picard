@@ -96,6 +96,31 @@ def test_pre_fastica():
                         err_msg=err_msg)
 
 
+def test_rejection():
+    N, T = 3, 1000
+    rng = np.random.RandomState(42)
+    fun = 'tanh'
+    extended = False
+    A = rng.randn(N, N)
+    S = rng.laplace(size=(N, T))
+    X = np.dot(A, S)
+    # Add some strong artifacts
+    X[1, 10] = 1e2
+    X[2, 20] = 1e2
+    X[0, 20] = -1e2
+    X[2, 100] = 1e2
+    K, W, Y, rejected = picard(X, fun=fun, ortho=False, extended=extended,
+                               random_state=0, ll_reject=15)
+    for loc in [10, 20, 100]:
+        assert rejected[loc]
+    assert np.sum(rejected) == 3
+    assert_equal(W.shape, A.shape)
+    assert_equal(K.shape, A.shape)
+    WA = W.dot(K).dot(A)
+    WA = permute(WA)  # Permute and scale
+    assert_allclose(WA, np.eye(N), rtol=0, atol=1e-1)
+
+
 def test_picard():
     N, T = 3, 1000
     rng = np.random.RandomState(42)
