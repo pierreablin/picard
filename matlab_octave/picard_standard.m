@@ -68,7 +68,7 @@ y_list = {};
 r_list = {};
 current_loss = loss(Y, W);
 
-for n =1:maxiter
+for n_top = 1:maxiter
     % Compute the score function
     thY = tanh(Y / 2.);
     % Compute the relative gradient
@@ -79,7 +79,7 @@ for n =1:maxiter
         break
     end
     % Update the memory
-    if n > 1
+    if n_top > 1
         s_list{end + 1} = direction;
         y = G - G_old;
         y_list{end + 1} = y;
@@ -106,7 +106,7 @@ for n =1:maxiter
     W = new_W;
     current_loss = new_loss;
     if verbose
-        fprintf('iteration %d, gradient norm = %.4g\n', n + 1, G_norm)
+        fprintf('iteration %d, gradient norm = %.4g\n', n_top, G_norm)
     end
 end
 
@@ -142,7 +142,7 @@ function [converged, Y_new, W_new, new_loss, rel_step] = line_search(Y, W, direc
         alpha = alpha / 2.;
     end
     if verbose
-        sprintf('line search failed, falling back to gradient');
+        fprintf('line search failed, falling back to gradient.\n');
     end
     converged = false;
     rel_step = alpha * direction;
