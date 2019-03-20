@@ -87,7 +87,7 @@ for n=1:maxiter
     % Project
     G = (g - g') / 2.;
     % Stopping criterion
-    gradient_norm = max(abs(G));
+    gradient_norm = max(max(abs(G)));
     if gradient_norm < tol
         break
     end

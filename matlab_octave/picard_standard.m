@@ -74,7 +74,7 @@ for n_top = 1:maxiter
     % Compute the relative gradient
     G = (thY * Y') / T - eye(N);
     % Stopping criterion
-    G_norm = max(abs(G));
+    G_norm = max(max(abs(G)));
     if G_norm < tol
         break
     end
