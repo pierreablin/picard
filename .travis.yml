@@ -1,6 +1,8 @@
 dist: bionic
 language: python
-
+services:
+  - xvfb
+  
 matrix:
     include:
         - os: linux
