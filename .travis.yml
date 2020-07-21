@@ -2,7 +2,7 @@ dist: bionic
 language: python
 services:
   - xvfb
-  
+
 matrix:
     include:
         - os: linux
@@ -19,12 +19,11 @@ before_install:
   - conda update --yes --quiet conda
   - sudo apt-get install octave
 install:
-    - conda create -n testenv --yes pip python=${PYTHON_VERSION}
+    - conda create -n testenv --yes python=${PYTHON_VERSION}
     - source activate testenv
     - conda install --yes --quiet numpy matplotlib numexpr scipy
-    - conda install --yes --quiet nose coverage
     - pip install flake8 check-manifest
-    - pip install coverage coveralls
+    - pip install nose coverage
     - python setup.py install
 script:
     - make
