@@ -10,6 +10,9 @@ Picard : Preconditioned ICA for Real Data
 .. |Codecov| image:: http://codecov.io/github/pierreablin/picard/coverage.svg?branch=master
 .. _Codecov: http://codecov.io/github/pierreablin/picard?branch=master
 
+.. |PyPI| image:: https://badge.fury.io/py/python-picard.svg
+.. _PyPI: https://badge.fury.io/py/python-picard
+
 .. |Downloads| image:: http://pepy.tech/badge/python-picard
 .. _Downloads: http://pepy.tech/project/python-picard
 
