@@ -6,6 +6,9 @@ services:
 matrix:
     include:
         - os: linux
+          env: PYTHON_VERSION=3.6
+
+        - os: linux
           env: PYTHON_VERSION=3.8
 
 before_install:
