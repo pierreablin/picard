@@ -7,7 +7,6 @@ from itertools import product
 
 import numpy as np
 from numpy.testing import assert_allclose
-from nose.tools import assert_equal
 
 from picard import picard, permute
 from picard.densities import Tanh, Exp, Cube, check_density
@@ -22,9 +21,9 @@ def test_dimension_reduction():
     X = np.dot(A, S)
     K, W, Y = picard(X, n_components=n_components, ortho=False,
                      random_state=rng, max_iter=2)
-    assert_equal(K.shape, (n_components, N))
-    assert_equal(W.shape, (n_components, n_components))
-    assert_equal(Y.shape, (n_components, T))
+    assert K.shape == (n_components, N)
+    assert W.shape == (n_components, n_components)
+    assert Y.shape, (n_components, T)
     with warnings.catch_warnings(record=True) as w:
         K, W, Y = picard(X, n_components=n_components, ortho=False,
                          whiten=False, max_iter=1)
@@ -86,9 +85,9 @@ def test_pre_fastica():
         err_msg = 'fun %s, gradient norm greater than tol' % names[j]
         assert_allclose(G, np.zeros((N, N)), atol=1e-7,
                         err_msg=err_msg)
-        assert_equal(Y.shape, X.shape)
-        assert_equal(W.shape, A.shape)
-        assert_equal(K.shape, A.shape)
+        assert Y.shape == X.shape
+        assert W.shape == A.shape
+        assert K.shape == A.shape
         WA = W.dot(K).dot(A)
         WA = permute(WA)  # Permute and scale
         err_msg = 'fun %s, wrong unmixing matrix' % names[j]
@@ -120,9 +119,9 @@ def test_picard():
         err_msg = 'fun %s, gradient norm greater than tol' % names[j]
         assert_allclose(G, np.zeros((N, N)), atol=1e-7,
                         err_msg=err_msg)
-        assert_equal(Y.shape, X.shape)
-        assert_equal(W.shape, A.shape)
-        assert_equal(K.shape, A.shape)
+        assert Y.shape == X.shape
+        assert W.shape == A.shape
+        assert K.shape == A.shape
         WA = W.dot(K).dot(A)
         WA = permute(WA)  # Permute and scale
         err_msg = 'fun %s, wrong unmixing matrix' % names[j]
@@ -143,9 +142,9 @@ def test_extended():
     X = np.dot(A, S)
     K, W, Y = picard(X, ortho=False, random_state=0,
                      extended=True)
-    assert_equal(Y.shape, X.shape)
-    assert_equal(W.shape, A.shape)
-    assert_equal(K.shape, A.shape)
+    assert Y.shape == X.shape
+    assert W.shape == A.shape
+    assert K.shape == A.shape
     WA = W.dot(K).dot(A)
     WA = permute(WA)  # Permute and scale
     err_msg = 'wrong unmixing matrix'
@@ -167,7 +166,7 @@ def test_shift():
     WA = permute(WA)
     assert_allclose(WA, np.eye(N), rtol=0, atol=0.2)
     _, W, Y, X_mean = picard(X, ortho=False, whiten=False,
-                             centering=False,  return_X_mean=True,
+                             centering=False, return_X_mean=True,
                              random_state=rng)
     assert_allclose(X_mean, 0)
 
@@ -198,9 +197,9 @@ def test_picardo():
             err_msg = 'fun %s, gradient norm greater than tol' % fun
             assert_allclose(G, np.zeros((N, N)), atol=1e-7,
                             err_msg=err_msg)
-            assert_equal(Y.shape, X.shape)
-            assert_equal(W.shape, A.shape)
-            assert_equal(K.shape, A.shape)
+            assert Y.shape == X.shape
+            assert W.shape == A.shape
+            assert K.shape == A.shape
             WA = W.dot(K).dot(A)
             WA = permute(WA)  # Permute and scale
             err_msg = 'fun %s, wrong unmixing matrix' % fun
