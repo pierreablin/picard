@@ -15,9 +15,9 @@ from .densities import Tanh, Exp, Cube, check_density
 
 def picard(X, fun='tanh', n_components=None, ortho=True, extended=None,
            whiten=True, return_X_mean=False, return_n_iter=False,
-           centering=True, max_iter=100, tol=1e-07, m=7,  ls_tries=10,
-           lambda_min=0.01, check_fun=True, w_init=None, fastica_it=None,
-           random_state=None, verbose=False):
+           centering=True, ll_reject=None, reject_every=5, max_iter=100,
+           tol=1e-07, m=7,  ls_tries=10, lambda_min=0.01, check_fun=True,
+           w_init=None, fastica_it=None, random_state=None, verbose=False):
     """Perform Independent Component Analysis.
 
     Parameters
@@ -66,6 +66,14 @@ def picard(X, fun='tanh', n_components=None, ortho=True, extended=None,
 
     centering : bool, optional
         If True, X is mean corrected.
+
+    ll_reject : None or float, optional
+        If None, no sample rejection is performed. Otherwise, samples with a
+        negative log-likelihood > reject are rejected every `reject_every`
+        iteration.
+
+    reject_every : int, optional
+        Samples are rejected every `reject_every` iteration
 
     max_iter : int, optional
         Maximum number of iterations to perform.
@@ -129,8 +137,14 @@ def picard(X, fun='tanh', n_components=None, ortho=True, extended=None,
     n_iter : int
         Number of iterations taken to converge. This is
         returned only when return_n_iter is set to `True`.
+
+    rejected : boolean array, shape (n_samples, )
+        A mask indicating which samples have been rejected (1 = rejected).
+        Returned if `ll_reject` is not None.
     """
     random_state = check_random_state(random_state)
+
+    rejection = (ll_reject is not None)
 
     # Behaves like Fastica if ortho, standard infomax if not ortho
     if extended is None:
@@ -200,7 +214,8 @@ def picard(X, fun='tanh', n_components=None, ortho=True, extended=None,
     kwargs = {'density': fun, 'm': m, 'max_iter': max_iter, 'tol': tol,
               'lambda_min': lambda_min, 'ls_tries': ls_tries,
               'verbose': verbose, 'ortho': ortho, 'extended': extended,
-              'covariance': covariance}
+              'covariance': covariance, 'll_reject': ll_reject,
+              'reject_every': reject_every}
 
     with np.errstate(all='raise'):  # So code breaks if overflow/Nans
         Y, W, infos = core_picard(X1, **kwargs)
@@ -217,6 +232,24 @@ def picard(X, fun='tanh', n_components=None, ortho=True, extended=None,
     if not whiten:
         K = None
     n_iter = infos['n_iterations']
+    if rejection:
+        rejected = infos['rejected']
+        if return_X_mean:
+            if centering:
+                if return_n_iter:
+                    return K, W, Y, X_mean, n_iter, rejected
+                else:
+                    return K, W, Y, X_mean, rejected
+            else:
+                if return_n_iter:
+                    return K, W, Y, np.zeros(p), n_iter, rejected
+                else:
+                    return K, W, Y, np.zeros(p), rejected
+        else:
+            if return_n_iter:
+                return K, W, Y, n_iter, rejected
+            else:
+                return K, W, Y, rejected
     if return_X_mean:
         if centering:
             if return_n_iter:
