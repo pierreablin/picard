@@ -23,7 +23,7 @@ install:
     - source activate testenv
     - conda install --yes --quiet numpy matplotlib numexpr scipy
     - pip install flake8 check-manifest
-    - pip install nose coverage
+    - pip install pytest coverage pytest-sugar
     - python setup.py install
 script:
     - make
