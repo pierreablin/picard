@@ -1,7 +1,7 @@
 Picard : Preconditioned ICA for Real Data
 =========================================
 
-|Travis|_ |Codecov|_ |Downloads|_
+|Travis|_ |PyPI|_ |Codecov|_ |Downloads|_
 
 
 .. |Travis| image:: https://api.travis-ci.org/pierreablin/picard.svg?branch=master
@@ -9,6 +9,9 @@ Picard : Preconditioned ICA for Real Data
 
 .. |Codecov| image:: http://codecov.io/github/pierreablin/picard/coverage.svg?branch=master
 .. _Codecov: http://codecov.io/github/pierreablin/picard?branch=master
+
+.. |PyPI| image:: https://badge.fury.io/py/python-picard.svg
+.. _PyPI: https://badge.fury.io/py/python-picard
 
 .. |Downloads| image:: http://pepy.tech/badge/python-picard
 .. _Downloads: http://pepy.tech/project/python-picard
@@ -43,6 +46,8 @@ It is chosen with the parameter `extended`.
 
 Installation
 ------------
+
+Picard requires Python >= 3.6.
 
 To install the package, the simplest way is to use pip to get the latest release::
 

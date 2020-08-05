@@ -1,4 +1,16 @@
+dist: bionic
 language: python
+services:
+  - xvfb
+
+matrix:
+    include:
+        - os: linux
+          env: PYTHON_VERSION=3.6
+
+        - os: linux
+          env: PYTHON_VERSION=3.8
+
 before_install:
   - wget -q http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O miniconda.sh
   - chmod +x miniconda.sh
@@ -7,12 +19,11 @@ before_install:
   - conda update --yes --quiet conda
   - sudo apt-get install octave
 install:
-    - conda create -n testenv --yes pip python=2.7
+    - conda create -n testenv --yes python=${PYTHON_VERSION}
     - source activate testenv
-    - conda install --yes --quiet numpy=1.11 matplotlib=1.5 numexpr scipy=0.19
-    - conda install --yes --quiet nose coverage
+    - conda install --yes --quiet --file requirements.txt
     - pip install flake8 check-manifest
-    - pip install coverage coveralls
+    - pip install pytest coverage pytest-sugar
     - python setup.py install
 script:
     - make

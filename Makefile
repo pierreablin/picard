@@ -4,9 +4,7 @@
 
 PYTHON ?= python
 CYTHON ?= cython
-NOSETESTS ?= nosetests
-NOSETESTS_OPTIONS := $(shell pip list | grep nose-timer > /dev/null && \
-                       echo '--with-timer --timer-top-n 50')
+PYTESTS ?= pytest
 CTAGS ?= ctags
 
 all: clean test
@@ -32,16 +30,14 @@ inplace:
 	$(PYTHON) setup.py build_ext -i
 
 test-code:
-	$(NOSETESTS) -s picard $(NOSETESTS_OPTIONS)
+	$(PYTESTS) picard
 
 test-doc:
-	$(NOSETESTS) -s --with-doctest --doctest-tests --doctest-extension=rst \
-	--doctest-extension=inc --doctest-fixtures=_fixture `find doc/ -name '*.rst'`
+	$(PYTESTS) --doctest-modules --doctest-ignore-import-errors picard
 
 test-coverage:
 	rm -rf coverage .coverage
-	$(NOSETESTS) -s --with-coverage --cover-html --cover-html-dir=coverage \
-	--cover-package=picard picard
+	$(PYTESTS) --cov=picard --cov-report html:coverage
 
 test: test-code test-doc test-manifest
 

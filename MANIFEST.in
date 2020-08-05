@@ -2,6 +2,7 @@ include *.rst
 include LICENSE
 include picard/__init__.py
 include *.png
+include requirements.txt
 
 recursive-include examples *.py
 recursive-include examples *.txt
@@ -12,7 +13,9 @@ recursive-include picard *.py
 
 exclude Makefile
 exclude .coveragerc
+exclude .circleci/*
 exclude *.yml
+
 exclude dictionary.txt
 exclude .mailmap
 recursive-exclude picard *.pyc
