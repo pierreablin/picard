@@ -21,7 +21,7 @@ before_install:
 install:
     - conda create -n testenv --yes python=${PYTHON_VERSION}
     - source activate testenv
-    - conda install --yes --quiet numpy matplotlib numexpr scipy
+    - conda install --yes --quiet --file requirements.txt
     - pip install flake8 check-manifest
     - pip install pytest coverage pytest-sugar
     - python setup.py install
