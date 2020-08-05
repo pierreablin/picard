@@ -19,4 +19,4 @@
 __version__ = '0.5.dev'
 
 from .solver import picard  # noqa
-from ._tools import permute  # noqa
+from ._tools import permute, amari_distance  # noqa

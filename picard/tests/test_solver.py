@@ -8,7 +8,7 @@ from itertools import product
 import numpy as np
 from numpy.testing import assert_allclose
 
-from picard import picard, permute
+from picard import picard, permute, amari_distance
 from picard.densities import Tanh, Exp, Cube, check_density
 
 
@@ -257,3 +257,15 @@ def test_no_regression():
             nb_mean = baseline[mode, ortho]
             err_msg = 'mode=%s, ortho=%s. %d iterations, expecting <%d.'
             assert n_mean < nb_mean, err_msg % (mode, ortho, n_mean, nb_mean)
+
+
+def test_amari_distance():
+    p = 3
+    rng = np.random.RandomState(0)
+    A = rng.randn(p, p)
+    W = np.linalg.pinv(A)
+    scale = rng.randn(p)
+    perm = np.argsort(rng.randn(p))
+    W = W[perm]
+    W *= scale[:, None]
+    assert amari_distance(W, A) < 1e-6
