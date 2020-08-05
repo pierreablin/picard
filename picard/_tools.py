@@ -91,7 +91,22 @@ def _ica_par(X, fun, max_iter, w_init, verbose):
     return W
 
 
-def amari_d(W, A):
+def amari_distance(W, A):
+    """
+    Computes the amari distance between two matrices W and A.
+    It cancels when WA is a permutation and scale matrix.
+
+    Parameters
+    ----------
+    W : ndarray, shape (n_features, n_features)
+        Input matrix
+    A : ndarray, shape (n_features, n_features)
+        Input matrix
+    Returns
+    -------
+    d : float
+        The Amari distance
+    """
     P = np.dot(W, A)
 
     def s(r):
