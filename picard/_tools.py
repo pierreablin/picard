@@ -100,6 +100,7 @@ def amari_distance(W, A):
     ----------
     W : ndarray, shape (n_features, n_features)
         Input matrix
+
     A : ndarray, shape (n_features, n_features)
         Input matrix
     Returns
