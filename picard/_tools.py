@@ -93,7 +93,7 @@ def _ica_par(X, fun, max_iter, w_init, verbose):
 
 def amari_distance(W, A):
     """
-    Computes the amari distance between two matrices W and A.
+    Computes the Amari distance between two matrices W and A.
     It cancels when WA is a permutation and scale matrix.
 
     Parameters
