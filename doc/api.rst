@@ -16,3 +16,4 @@ Functions
 
    picard
    permute
+   amari_distance
