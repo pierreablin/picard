@@ -1,0 +1,6 @@
+picard.amari\_distance
+======================
+
+.. currentmodule:: picard
+
+.. autofunction:: amari_distance

@@ -1,23 +1,22 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>picard.picard &#8212; picard 0.4.dev0 documentation</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>picard.picard &#8212; picard 0.5.dev documentation</title>
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
-    <script type="text/javascript" src="../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
-    <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="../_static/bootstrap-3.3.7/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
+    <link rel="stylesheet" type="text/css" href="../_static/gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/gallery-dataframe.css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="shortcut icon" href="../_static/picard_logo.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -27,6 +26,10 @@
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="../_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../_static/bootstrap-sphinx.js "></script>
 
   </head><body>
 
@@ -41,7 +44,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           picard</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.4.dev0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.5.dev</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -111,140 +114,102 @@
   
   <div class="section" id="picard-picard">
 <h1>picard.picard<a class="headerlink" href="#picard-picard" title="Permalink to this headline">¶</a></h1>
-<dl class="function">
+<dl class="py function">
 <dt id="picard.picard">
-<code class="descclassname">picard.</code><code class="descname">picard</code><span class="sig-paren">(</span><em>X</em>, <em>fun='tanh'</em>, <em>n_components=None</em>, <em>ortho=True</em>, <em>whiten=True</em>, <em>return_X_mean=False</em>, <em>return_n_iter=False</em>, <em>centering=True</em>, <em>max_iter=100</em>, <em>tol=1e-07</em>, <em>m=7</em>, <em>ls_tries=10</em>, <em>lambda_min=0.01</em>, <em>check_fun=True</em>, <em>w_init=None</em>, <em>fastica_it=None</em>, <em>random_state=None</em>, <em>verbose=False</em><span class="sig-paren">)</span><a class="headerlink" href="#picard.picard" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">picard.</code><code class="sig-name descname">picard</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">fun</span><span class="o">=</span><span class="default_value">'tanh'</span></em>, <em class="sig-param"><span class="n">n_components</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">ortho</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">extended</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">whiten</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">return_X_mean</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">return_n_iter</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">centering</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">max_iter</span><span class="o">=</span><span class="default_value">100</span></em>, <em class="sig-param"><span class="n">tol</span><span class="o">=</span><span class="default_value">1e-07</span></em>, <em class="sig-param"><span class="n">m</span><span class="o">=</span><span class="default_value">7</span></em>, <em class="sig-param"><span class="n">ls_tries</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">lambda_min</span><span class="o">=</span><span class="default_value">0.01</span></em>, <em class="sig-param"><span class="n">check_fun</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">w_init</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">fastica_it</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">random_state</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#picard.picard" title="Permalink to this definition">¶</a></dt>
 <dd><p>Perform Independent Component Analysis.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : array-like, shape (n_features, n_samples)</p>
-<blockquote>
-<div><p>Training vector, where n_samples is the number of samples and
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>X</strong><span class="classifier">array-like, shape (n_features, n_samples)</span></dt><dd><p>Training vector, where n_samples is the number of samples and
 n_features is the number of features.</p>
-</div></blockquote>
-<p><strong>fun</strong> : str or class, optional</p>
-<blockquote>
-<div><p>Either a built in density model (‘tanh’, ‘exp’ and ‘cube’), or a custom
+</dd>
+<dt><strong>fun</strong><span class="classifier">str or class, optional</span></dt><dd><p>Either a built in density model (‘tanh’, ‘exp’ and ‘cube’), or a custom
 density.
 A custom density is a class that should contain two methods called
 ‘log_lik’ and ‘score_and_der’. See examples in the densities.py file.</p>
-</div></blockquote>
-<p><strong>n_components</strong> : int, optional</p>
-<blockquote>
-<div><p>Number of components to extract. If None no dimension reduction
+</dd>
+<dt><strong>n_components</strong><span class="classifier">None or int, optional</span></dt><dd><p>Number of components to extract. If None no dimension reduction
 is performed.</p>
-</div></blockquote>
-<p><strong>ortho</strong> : bool, optional</p>
-<blockquote>
-<div><p>If True, uses Picard-O. Otherwise, uses the standard Picard. Picard-O
-tends to converge in fewer iterations, and finds both super Gaussian
-and sub Gaussian sources.</p>
-</div></blockquote>
-<p><strong>whiten</strong> : boolean, optional</p>
-<blockquote>
-<div><p>If True perform an initial whitening of the data.
+</dd>
+<dt><strong>ortho</strong><span class="classifier">bool, optional</span></dt><dd><p>If True, uses Picard-O. Otherwise, uses the standard Picard.</p>
+</dd>
+<dt><strong>extended</strong><span class="classifier">None or bool, optional</span></dt><dd><p>If True, uses the extended algorithm to separate sub and super-gaussian
+sources. By default, True if <cite>ortho == True</cite>, <cite>False</cite> otherwise.
+Using a different density than <cite>‘tanh’</cite> may lead to erratic behavior of
+the algorithm: when <cite>extended=True</cite>, the non-linearity used by the
+algorithm is <cite>x +/- fun(x)</cite>. The non-linearity should correspond to a
+density, hence <cite>fun</cite> should be dominated by <cite>x ** 2</cite>. Further,
+<cite>x + fun(x)</cite> should separate super-Gaussian sources and <cite>x-fun(x)</cite>
+should separate sub-Gaussian sources. This set of requirement is met by
+<cite>‘tanh’</cite>.</p>
+</dd>
+<dt><strong>whiten</strong><span class="classifier">boolean, optional</span></dt><dd><p>If True perform an initial whitening of the data.
 If False, the data is assumed to have already been
 preprocessed: it should be centered, normed and white,
 otherwise you will get incorrect results.
 In this case the parameter n_components will be ignored.</p>
-</div></blockquote>
-<p><strong>return_X_mean</strong> : bool, optional</p>
-<blockquote>
-<div><p>If True, X_mean is returned too. Equals to 0 if centering is False.</p>
-</div></blockquote>
-<p><strong>return_n_iter</strong> : bool, option</p>
-<blockquote>
-<div><p>Whether or not to return the number of iterations.</p>
-</div></blockquote>
-<p><strong>centering</strong> : bool, optional</p>
-<blockquote>
-<div><p>If True, X is mean corrected.</p>
-</div></blockquote>
-<p><strong>max_iter</strong> : int, optional</p>
-<blockquote>
-<div><p>Maximum number of iterations to perform.</p>
-</div></blockquote>
-<p><strong>tol</strong> : float, optional</p>
-<blockquote>
-<div><p>A positive scalar giving the tolerance at which the
+</dd>
+<dt><strong>return_X_mean</strong><span class="classifier">bool, optional</span></dt><dd><p>If True, X_mean is returned too. Equals to 0 if centering is False.</p>
+</dd>
+<dt><strong>return_n_iter</strong><span class="classifier">bool, option</span></dt><dd><p>Whether or not to return the number of iterations.</p>
+</dd>
+<dt><strong>centering</strong><span class="classifier">bool, optional</span></dt><dd><p>If True, X is mean corrected.</p>
+</dd>
+<dt><strong>max_iter</strong><span class="classifier">int, optional</span></dt><dd><p>Maximum number of iterations to perform.</p>
+</dd>
+<dt><strong>tol</strong><span class="classifier">float, optional</span></dt><dd><p>A positive scalar giving the tolerance at which the
 un-mixing matrix is considered to have converged.</p>
-</div></blockquote>
-<p><strong>m</strong> : int, optional</p>
-<blockquote>
-<div><p>Size of L-BFGS’s memory.</p>
-</div></blockquote>
-<p><strong>ls_tries</strong> : int, optional</p>
-<blockquote>
-<div><p>Number of attempts during the backtracking line-search.</p>
-</div></blockquote>
-<p><strong>lambda_min</strong> : float, optional</p>
-<blockquote>
-<div><p>Threshold on the eigenvalues of the Hessian approximation. Any
+</dd>
+<dt><strong>m</strong><span class="classifier">int, optional</span></dt><dd><p>Size of L-BFGS’s memory.</p>
+</dd>
+<dt><strong>ls_tries</strong><span class="classifier">int, optional</span></dt><dd><p>Number of attempts during the backtracking line-search.</p>
+</dd>
+<dt><strong>lambda_min</strong><span class="classifier">float, optional</span></dt><dd><p>Threshold on the eigenvalues of the Hessian approximation. Any
 eigenvalue below lambda_min is shifted to lambda_min.</p>
-</div></blockquote>
-<p><strong>check_fun</strong> : bool, optionnal</p>
-<blockquote>
-<div><p>Whether to check the fun provided by the user at the beginning of
+</dd>
+<dt><strong>check_fun</strong><span class="classifier">bool, optionnal</span></dt><dd><p>Whether to check the fun provided by the user at the beginning of
 the run. Setting it to False is not safe.</p>
-</div></blockquote>
-<p><strong>w_init</strong> : (n_components, n_components) array, optional</p>
-<blockquote>
-<div><p>Initial un-mixing array of dimension (n.comp,n.comp).
+</dd>
+<dt><strong>w_init</strong><span class="classifier">None or (n_components, n_components) array, optional</span></dt><dd><p>Initial un-mixing array of dimension (n.comp,n.comp).
 If None (default) then a random rotation is used.</p>
-</div></blockquote>
-<p><strong>fastica_it</strong> : int or None, optional (default=None)</p>
-<blockquote>
-<div><p>If an int, perform <cite>fastica_it</cite> iterations of FastICA before running
+</dd>
+<dt><strong>fastica_it</strong><span class="classifier">int or None, optional (default=None)</span></dt><dd><p>If an int, perform <cite>fastica_it</cite> iterations of FastICA before running
 Picard. It might help starting from a better point.</p>
-</div></blockquote>
-<p><strong>random_state</strong> : int, RandomState instance or None, optional (default=None)</p>
-<blockquote>
-<div><p>Used to perform a random initialization when w_init is not provided.
+</dd>
+<dt><strong>random_state</strong><span class="classifier">int, RandomState instance or None, optional (default=None)</span></dt><dd><p>Used to perform a random initialization when w_init is not provided.
 If int, random_state is the seed used by the random number generator;
 If RandomState instance, random_state is the random number generator;
 If None, the random number generator is the RandomState instance used
 by <cite>np.random</cite>.</p>
-</div></blockquote>
-<p><strong>verbose</strong> : bool, optional</p>
-<blockquote>
-<div><p>Prints informations about the state of the algorithm if True.</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>K</strong> : array, shape (n_components, n_features) | None.</p>
-<blockquote>
-<div><p>If whiten is ‘True’, K is the pre-whitening matrix that projects data
+</dd>
+<dt><strong>verbose</strong><span class="classifier">bool, optional</span></dt><dd><p>Prints informations about the state of the algorithm if True.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl>
+<dt><strong>K</strong><span class="classifier">array, shape (n_components, n_features) | None.</span></dt><dd><p>If whiten is ‘True’, K is the pre-whitening matrix that projects data
 onto the first n_components principal components. If whiten is ‘False’,
 K is ‘None’.</p>
-</div></blockquote>
-<p><strong>W</strong> : array, shape (n_components, n_components)</p>
-<blockquote>
-<div><p>Estimated un-mixing matrix.
+</dd>
+<dt><strong>W</strong><span class="classifier">array, shape (n_components, n_components)</span></dt><dd><p>Estimated un-mixing matrix.
 The mixing matrix can be obtained by:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">K</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">K</span><span class="p">)</span>
 <span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">w</span><span class="o">.</span><span class="n">T</span><span class="p">)))</span>
 </pre></div>
 </div>
-</div></blockquote>
-<p><strong>Y</strong> : array, shape (n_components, n_samples) | None</p>
-<blockquote>
-<div><p>Estimated source matrix</p>
-</div></blockquote>
-<p><strong>X_mean</strong> : array, shape (n_features,)</p>
-<blockquote>
-<div><p>The mean over features. Returned only if return_X_mean is True.</p>
-</div></blockquote>
-<p><strong>n_iter</strong> : int</p>
-<blockquote class="last">
-<div><p>Number of iterations taken to converge. This is
+</dd>
+<dt><strong>Y</strong><span class="classifier">array, shape (n_components, n_samples) | None</span></dt><dd><p>Estimated source matrix</p>
+</dd>
+<dt><strong>X_mean</strong><span class="classifier">array, shape (n_features,)</span></dt><dd><p>The mean over features. Returned only if return_X_mean is True.</p>
+</dd>
+<dt><strong>n_iter</strong><span class="classifier">int</span></dt><dd><p>Number of iterations taken to converge. This is
 returned only when return_n_iter is set to <cite>True</cite>.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
@@ -265,7 +230,7 @@ data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_
     </p>
     <p>
         &copy; Copyright 2017, Pierre Ablin.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.2.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.1.2.<br/>
     </p>
   </div>
 </footer>
