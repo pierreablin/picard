@@ -119,7 +119,7 @@ Fit ICA using FastICA, with a few iterations, for different initializations :
     *
 
       .. image:: /auto_examples/images/sphx_glr_plot_ecg_detection_001.png
-          :alt: Method : fastica, init 1. Took 26 sec.
+          :alt: Method : fastica, init 1. Took 22 sec.
           :class: sphx-glr-multi-img
 
     *
@@ -131,7 +131,7 @@ Fit ICA using FastICA, with a few iterations, for different initializations :
     *
 
       .. image:: /auto_examples/images/sphx_glr_plot_ecg_detection_003.png
-          :alt: Method : fastica, init 2. Took 24 sec.
+          :alt: Method : fastica, init 2. Took 21 sec.
           :class: sphx-glr-multi-img
 
     *
@@ -143,7 +143,7 @@ Fit ICA using FastICA, with a few iterations, for different initializations :
     *
 
       .. image:: /auto_examples/images/sphx_glr_plot_ecg_detection_005.png
-          :alt: Method : fastica, init 3. Took 22 sec.
+          :alt: Method : fastica, init 3. Took 23 sec.
           :class: sphx-glr-multi-img
 
     *
@@ -189,7 +189,7 @@ Do the same thing with Picard :
     *
 
       .. image:: /auto_examples/images/sphx_glr_plot_ecg_detection_007.png
-          :alt: Method : picard, init 1. Took 7.3 sec.
+          :alt: Method : picard, init 1. Took 8.3 sec.
           :class: sphx-glr-multi-img
 
     *
@@ -201,7 +201,7 @@ Do the same thing with Picard :
     *
 
       .. image:: /auto_examples/images/sphx_glr_plot_ecg_detection_009.png
-          :alt: Method : picard, init 2. Took 7.3 sec.
+          :alt: Method : picard, init 2. Took 7.5 sec.
           :class: sphx-glr-multi-img
 
     *
@@ -213,7 +213,7 @@ Do the same thing with Picard :
     *
 
       .. image:: /auto_examples/images/sphx_glr_plot_ecg_detection_011.png
-          :alt: Method : picard, init 3. Took 8 sec.
+          :alt: Method : picard, init 3. Took 9.2 sec.
           :class: sphx-glr-multi-img
 
     *
@@ -233,7 +233,7 @@ finds the same topographies each time, and more consistently.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 1 minutes  53.089 seconds)
+   **Total running time of the script:** ( 1 minutes  50.935 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_ecg_detection.py:
