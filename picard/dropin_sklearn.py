@@ -1,3 +1,6 @@
+# Authors: Pierre Ablin <pierre.ablin@inria.fr>
+#
+# License: BSD (3-clause)
 import warnings
 
 import numpy as np
