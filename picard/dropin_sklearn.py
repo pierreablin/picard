@@ -85,8 +85,6 @@ class Picard(FastICA):
     >>> X_transformed = transformer.fit_transform(X)
     >>> X_transformed.shape
     (1797, 7)
-    Notes
-    -----
     """
     def __init__(self, n_components=None, *, ortho=True, extended=None,
                  whiten=True, fun='tanh', max_iter=200, tol=1e-7,
