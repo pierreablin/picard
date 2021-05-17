@@ -86,6 +86,22 @@ the estimated sources Y. It means that:
 
     Y = W K X
 
+
+NEW: scikit-learn compatible API
+--------------------------------
+
+Introducting `picard.Picard`, which mimics `sklearn.decomposition.FastICA` behavior:
+
+.. code:: python
+
+    >>> from sklearn.datasets import load_digits
+    >>> from picard import Picard
+    >>> X, _ = load_digits(return_X_y=True)
+    >>> transformer = Picard(n_components=7)
+    >>> X_transformed = transformer.fit_transform(X)
+    >>> X_transformed.shape
+
+
 Dependencies
 ------------
 
