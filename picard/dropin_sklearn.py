@@ -26,14 +26,9 @@ class Picard(FastICA):
         Otherwise, uses the standard Picard.
     extended : None or bool, optional
         If True, uses the extended algorithm to separate sub and super-gaussian
-        sources. If ``None`` (default), it is set to True if `ortho == True`, and `False` otherwise.
-        With `extended=True` we recommend you keep the different density to `'tanh'`.
-        See notes below.
-        algorithm is `x +/- fun(x)`. The non-linearity should correspond to a
-        density, hence `fun` should be dominated by `x ** 2`. Further,
-        `x + fun(x)` should separate super-Gaussian sources and `x-fun(x)`
-        should separate sub-Gaussian sources. This set of requirement is met by
-        `'tanh'`.
+        sources. If ``None`` (default), it is set to True if `ortho == True`,
+        and `False` otherwise. With `extended=True` we recommend you keep the
+        different density to `'tanh'`. See notes below.
     whiten : bool, default=True
         If whiten is false, the data is already considered to be
         whitened, and no whitening is performed.
@@ -86,6 +81,16 @@ class Picard(FastICA):
     >>> X_transformed = transformer.fit_transform(X)
     >>> X_transformed.shape
     (1797, 7)
+
+    Notes
+    -----
+    Using a different density than `'tanh'` may lead to erratic behavior of
+    the algorithm: when `extended=True`, the non-linearity used by the
+    algorithm is `x +/- fun(x)`. The non-linearity should correspond to a
+    density, hence `fun` should be dominated by `x ** 2`. Further,
+    `x + fun(x)` should separate super-Gaussian sources and `x-fun(x)`
+    should separate sub-Gaussian sources. This set of requirement is met by
+    `'tanh'`.
     """
     def __init__(self, n_components=None, *, ortho=True, extended=None,
                  whiten=True, fun='tanh', max_iter=200, tol=1e-7,
