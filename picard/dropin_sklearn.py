@@ -8,8 +8,6 @@ from sklearn.decomposition import FastICA
 from sklearn.utils import check_random_state, as_float_array
 from sklearn.utils.validation import FLOAT_DTYPES
 
-
-from._tools import _sym_decorrelation
 from .solver import picard
 
 
@@ -108,7 +106,6 @@ class Picard(FastICA):
         self.lambda_min = lambda_min
         self.random_state = random_state
 
-
     def _fit(self, X, compute_sources=False):
         """Fit the model
         Parameters
@@ -172,11 +169,11 @@ class Picard(FastICA):
                   'extended': self.extended,
                   'max_iter': self.max_iter,
                   'w_init': w_init,
-                  'whiten': None, # Already done above
+                  'whiten': None,  # Already done above
                   'm': self.m,
                   'ls_tries': self.ls_tries,
                   'lambda_min': self.lambda_min,
-                  'random_state': self.random_state}
+                  'random_state': random_state}
         _, W, _ = picard(X1, **kwargs)
         del X1
 

@@ -4,15 +4,11 @@
 # License: BSD (3-clause)
 import warnings
 import pytest
-from itertools import product
 
 import numpy as np
-from numpy.testing import assert_allclose
 
 from sklearn.utils._testing import assert_array_almost_equal
 from sklearn.utils._testing import assert_warns
-
-from sklearn.exceptions import ConvergenceWarning
 
 from picard import Picard
 
@@ -77,7 +73,7 @@ def test_inverse_transform():
             n_components_ = (n_components if n_components is not None else
                              X.shape[1])
             ica = Picard(n_components=n_components, random_state=rng,
-                          whiten=whiten)
+                         whiten=whiten)
             with warnings.catch_warnings(record=True):
                 # catch "n_components ignored" warning
                 Xt = ica.fit_transform(X)
@@ -92,10 +88,5 @@ def test_inverse_transform():
 
 
 def test_picard_errors():
-    n_features = 3
-    n_samples = 10
-    rng = np.random.RandomState(0)
-    X = rng.random_sample((n_samples, n_features))
-    w_init = rng.randn(n_features + 1, n_features + 1)
     with pytest.raises(ValueError, match='max_iter should be greater than 1'):
         Picard(max_iter=0)
