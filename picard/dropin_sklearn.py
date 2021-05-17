@@ -75,6 +75,7 @@ class Picard(FastICA):
     whitening_ : ndarray of shape (n_components, n_features)
         Only set if whiten is 'True'. This is the pre-whitening matrix
         that projects data onto the first `n_components` principal components.
+
     Examples
     --------
     >>> from sklearn.datasets import load_digits
