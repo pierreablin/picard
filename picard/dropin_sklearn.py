@@ -26,7 +26,7 @@ class Picard(FastICA):
         Otherwise, uses the standard Picard.
     extended : None or bool, optional
         If True, uses the extended algorithm to separate sub and super-gaussian
-        sources. By default, True if `ortho == True`, `False` otherwise.
+        sources. If ``None`` (default), it is set to True if `ortho == True`, and `False` otherwise.
         Using a different density than `'tanh'` may lead to erratic behavior of
         the algorithm: when `extended=True`, the non-linearity used by the
         algorithm is `x +/- fun(x)`. The non-linearity should correspond to a
