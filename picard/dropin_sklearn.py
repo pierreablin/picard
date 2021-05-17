@@ -38,7 +38,7 @@ class Picard(FastICA):
         If whiten is false, the data is already considered to be
         whitened, and no whitening is performed.
     fun : str or class, optional
-        Either a built in density model ('tanh', 'exp' and 'cube'), or a custom
+        Either a built-in density model ('tanh', 'exp' and 'cube'), or a custom
         density.
         A custom density is a class that should contain two methods called
         'log_lik' and 'score_and_der'. See examples in the densities.py file.
