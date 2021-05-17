@@ -122,7 +122,8 @@ class Picard(FastICA):
 
         Returns
         -------
-            X_new : ndarray of shape (n_samples, n_components)
+      X_new : ndarray of shape (n_samples, n_components)
+            The estimated sources.
         """
 
         X = self._validate_data(X, copy=self.whiten, dtype=FLOAT_DTYPES,
