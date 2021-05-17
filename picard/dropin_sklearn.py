@@ -110,6 +110,7 @@ class Picard(FastICA):
 
     def _fit(self, X, compute_sources=False):
         """Fit the model
+
         Parameters
         ----------
         X : array-like of shape (n_samples, n_features)
