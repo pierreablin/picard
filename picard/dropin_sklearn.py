@@ -59,7 +59,6 @@ class Picard(FastICA):
         Used to initialize ``w_init`` when not specified, with a
         normal distribution. Pass an int, for reproducible results
         across multiple function calls.
-        See :term:`Glossary <random_state>`.
     Attributes
     ----------
     components_ : ndarray of shape (n_components, n_features)
@@ -151,11 +150,9 @@ class Picard(FastICA):
             u, d, _ = linalg.svd(X, full_matrices=False, check_finite=False)
 
             del _
-            K = (u / d).T[:n_components]  # see (6.33) p.140
+            K = (u / d).T[:n_components]
             del u, d
             X1 = np.dot(K, X)
-            # see (13.6) p.267 Here X1 is white and data
-            # in X has been projected onto a subspace by PCA
             X1 *= np.sqrt(n_features)
         else:
             # X must be casted to floats to avoid typing issues with numpy
