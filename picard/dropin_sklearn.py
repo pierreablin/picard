@@ -119,6 +119,7 @@ class Picard(FastICA):
         compute_sources : bool, default=False
             If False, sources are not computes but only the rotation matrix.
             This can save memory when working with big data. Defaults to False.
+
         Returns
         -------
             X_new : ndarray of shape (n_samples, n_components)
