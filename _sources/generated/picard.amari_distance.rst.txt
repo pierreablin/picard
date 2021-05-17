@@ -1,4 +1,4 @@
-picard.amari\_distance
+﻿picard.amari\_distance
 ======================
 
 .. currentmodule:: picard

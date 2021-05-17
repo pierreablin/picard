@@ -1,4 +1,4 @@
-picard.permute
+﻿picard.permute
 ==============
 
 .. currentmodule:: picard

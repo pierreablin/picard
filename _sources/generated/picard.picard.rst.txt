@@ -1,4 +1,4 @@
-picard.picard
+﻿picard.picard
 =============
 
 .. currentmodule:: picard
