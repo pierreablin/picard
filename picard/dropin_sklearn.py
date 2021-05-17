@@ -59,6 +59,7 @@ class Picard(FastICA):
         Used to initialize ``w_init`` when not specified, with a
         normal distribution. Pass an int, for reproducible results
         across multiple function calls.
+
     Attributes
     ----------
     components_ : ndarray of shape (n_components, n_features)
