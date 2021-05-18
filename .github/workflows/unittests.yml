@@ -1,0 +1,44 @@
+name: unittests
+on:
+  pull_request:
+  push:
+    branches: master
+
+jobs:
+  test:
+    runs-on: ubuntu-20.04
+    defaults:
+      run:
+        shell: bash -l {0}
+    strategy:
+      fail-fast: false
+      matrix:
+        python: [3.6, 3.8]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: conda-incubator/setup-miniconda@v2
+        with:
+          python-version: ${{ matrix.python }}
+          channels: conda-forge
+      - name: Installations
+        run: |
+          sudo apt-get install octave
+          conda --version
+          which python
+          conda install --yes --quiet --file requirements.txt
+          pip install flake8 check-manifest
+          pip install pytest coverage pytest-sugar
+          python setup.py install
+      - name: Run Python unit tests
+        run: |
+          make
+          flake8 --count picard
+      - name: Run Octave unit tests
+        run: |
+          cd examples/matlab_octave
+          octave plot_ica.m
+          octave plot_ica_whiten.m
+          octave plot_ica_pca.m
+      - name: Upload coverage
+        run: |
+          bash <(curl -s https://codecov.io/bash)
