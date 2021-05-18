@@ -1,11 +1,10 @@
 Picard : Preconditioned ICA for Real Data
 =========================================
 
-|Travis|_ |PyPI|_ |Codecov|_ |Downloads|_
+|GHActions|_ |PyPI|_ |Codecov|_ |Downloads|_
 
-
-.. |Travis| image:: https://api.travis-ci.org/pierreablin/picard.svg?branch=master
-.. _Travis: https://travis-ci.org/pierreablin/picard
+.. |GHActions| image:: https://github.com/pierreablin/picard/workflows/unittests/badge.svg?branch=master&event=push
+.. _GHActions: https://github.com/pierreablin/picard/actions
 
 .. |Codecov| image:: http://codecov.io/github/pierreablin/picard/coverage.svg?branch=master
 .. _Codecov: http://codecov.io/github/pierreablin/picard?branch=master
