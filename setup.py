@@ -63,7 +63,7 @@ if __name__ == "__main__":
           platforms='any',
           python_requires='>=3.6',
           install_requires=[
-              'numpy'
+              'numpy',
               'numexpr',
           ],
           packages=package_tree('picard'),
