@@ -2,7 +2,8 @@
 
 import os
 import setuptools  # noqa; we are using a setuptools namespace
-from numpy.distutils.core import setup
+from setuptools import setup
+
 
 descr = """Preconditoned ICA for Real Data"""
 
@@ -62,6 +63,7 @@ if __name__ == "__main__":
           platforms='any',
           python_requires='>=3.6',
           install_requires=[
+              'numpy',
               'numexpr',
           ],
           packages=package_tree('picard'),
