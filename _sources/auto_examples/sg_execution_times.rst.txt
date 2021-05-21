@@ -5,16 +5,16 @@
 
 Computation times
 =================
-**07:11.718** total execution time for **auto_examples** files:
+**07:09.371** total execution time for **auto_examples** files:
 
 +---------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_plot_ecg_detection.py` (``plot_ecg_detection.py``)             | 05:20.590 | 0.0 MB |
+| :ref:`sphx_glr_auto_examples_plot_ecg_detection.py` (``plot_ecg_detection.py``)             | 05:30.129 | 0.0 MB |
 +---------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_plot_faces_decomposition.py` (``plot_faces_decomposition.py``) | 01:00.543 | 0.0 MB |
+| :ref:`sphx_glr_auto_examples_plot_ica_eeg.py` (``plot_ica_eeg.py``)                         | 00:51.560 | 0.0 MB |
 +---------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_plot_ica_eeg.py` (``plot_ica_eeg.py``)                         | 00:49.622 | 0.0 MB |
+| :ref:`sphx_glr_auto_examples_plot_faces_decomposition.py` (``plot_faces_decomposition.py``) | 00:46.656 | 0.0 MB |
 +---------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_plot_ica_synth.py` (``plot_ica_synth.py``)                     | 00:00.643 | 0.0 MB |
+| :ref:`sphx_glr_auto_examples_plot_ica_synth.py` (``plot_ica_synth.py``)                     | 00:00.719 | 0.0 MB |
 +---------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_plot_custom_density.py` (``plot_custom_density.py``)           | 00:00.321 | 0.0 MB |
+| :ref:`sphx_glr_auto_examples_plot_custom_density.py` (``plot_custom_density.py``)           | 00:00.307 | 0.0 MB |
 +---------------------------------------------------------------------------------------------+-----------+--------+
