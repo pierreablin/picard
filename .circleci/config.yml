@@ -33,8 +33,11 @@ jobs:
         # Load our data
         - restore_cache:
             keys:
-              - data-cache-0
               - pip-cache
+
+        - restore_cache:
+            keys:
+              - data-cache-0
 
         - run:
             name: Spin up Xvfb
