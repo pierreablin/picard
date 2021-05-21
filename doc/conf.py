@@ -136,9 +136,8 @@ html_theme_options = {
         ("API", "api"),
         ("GitHub", "https://github.com/pierreablin/picard", True)
     ],
-    'bootswatch_theme': "united"
+    'bootswatch_theme': "journal"
 }
-
 # Add any paths that contain custom themes here, relative to this directory.
 html_theme_path = sphinx_bootstrap_theme.get_html_theme_path()
 
