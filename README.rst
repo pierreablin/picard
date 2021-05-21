@@ -79,17 +79,12 @@ And then use Picard to separate the signals:
    >>> K, W, Y = picard(X)
 
 Picard outputs the whitening matrix, K, the estimated unmixing matrix, W, and
-the estimated sources Y. It means that:
-
-.. math::
-
-    Y = W K X
-
+the estimated sources Y. It means that Y = WKX
 
 NEW: scikit-learn compatible API
 --------------------------------
 
-Introducting `picard.Picard`, which mimics `sklearn.decomposition.FastICA` behavior:
+Introducing `picard.Picard`, which mimics `sklearn.decomposition.FastICA` behavior:
 
 .. code:: python
 
