@@ -1,0 +1,28 @@
+﻿picard.Picard
+=============
+
+.. currentmodule:: picard
+
+.. autoclass:: Picard
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~Picard.__init__
+      ~Picard.fit
+      ~Picard.fit_transform
+      ~Picard.get_params
+      ~Picard.inverse_transform
+      ~Picard.set_params
+      ~Picard.transform
+   
+   
+
+   
+   
+   

@@ -17,3 +17,11 @@ Functions
    picard
    permute
    amari_distance
+
+
+Class
+
+   .. autosummary::
+      :toctree: generated/
+
+      Picard
