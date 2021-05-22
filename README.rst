@@ -46,15 +46,49 @@ It is chosen with the parameter `extended`.
 Installation
 ------------
 
-Picard requires Python >= 3.6.
+We recommend the `Anaconda Python distribution <https://www.continuum.io/downloads>`_.
 
-To install the package, the simplest way is to use pip to get the latest release::
 
-  $ pip install python-picard
+conda
+~~~~~
+
+Picard can be installed with `conda-forge <https://conda-forge.org/docs/user/introduction.html>`_.
+You need to add `conda-forge` to your conda channels, and then do::
+
+  $ conda install python-picard
+
+
+pip
+~~~
+
+Otherwise, to install ``picard``, you first need to install its dependencies::
+
+	$ pip install numpy matplotlib numexpr scipy
+
+Then install Picard with pip::
+
+	$ pip install python-picard
 
 or to get the latest version of the code::
 
   $ pip install git+https://github.com/pierreablin/picard.git#egg=picard
+
+If you do not have admin privileges on the computer, use the ``--user`` flag
+with `pip`. To upgrade, use the ``--upgrade`` flag provided by `pip`.
+
+
+check
+~~~~~
+
+To check if everything worked fine, you can do::
+
+	$ python -c 'import picard'
+
+and it should not give any error message.
+
+
+matlab/octave
+~~~~~~~~~~~~~
 
 The Matlab/Octave version of Picard and Picard-O is `available here <https://github.com/pierreablin/picard/tree/master/matlab_octave>`_.
 
