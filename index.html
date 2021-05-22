@@ -79,7 +79,12 @@
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
 <li><a class="reference internal" href="#">Picard</a><ul>
-<li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#installation">Installation</a><ul>
+<li><a class="reference internal" href="#conda">conda</a></li>
+<li><a class="reference internal" href="#pip">pip</a></li>
+<li><a class="reference internal" href="#check">check</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#quickstart">Quickstart</a></li>
 <li><a class="reference internal" href="#new-in-0-6-scikit-learn-compatible-api">NEW in 0.6: scikit-learn compatible API</a></li>
 <li><a class="reference internal" href="#dependencies">Dependencies</a></li>
@@ -128,22 +133,36 @@ and its orthogonal version (PICARD-O) [2]. These algorithms show fast convergenc
 on real data for which sources independence do not perfectly hold.</p>
 <section id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
-<p>We recommend the <a class="reference external" href="https://www.continuum.io/downloads">Anaconda Python distribution</a>.
-Otherwise, to install <code class="docutils literal notranslate"><span class="pre">picard</span></code>, you first need to install its dependencies:</p>
+<p>We recommend the <a class="reference external" href="https://www.continuum.io/downloads">Anaconda Python distribution</a>.</p>
+<section id="conda">
+<h3>conda<a class="headerlink" href="#conda" title="Permalink to this headline">¶</a></h3>
+<p>Picard can be installed with <a class="reference external" href="https://conda-forge.org/docs/user/introduction.html">conda-forge</a>.
+You need to add <cite>conda-forge</cite> to your conda channels, and then do:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ conda install python-picard
+</pre></div>
+</div>
+</section>
+<section id="pip">
+<h3>pip<a class="headerlink" href="#pip" title="Permalink to this headline">¶</a></h3>
+<p>Otherwise, to install <code class="docutils literal notranslate"><span class="pre">picard</span></code>, you first need to install its dependencies:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ pip install numpy matplotlib numexpr scipy
 </pre></div>
 </div>
-<p>Then install Picard:</p>
+<p>Then install Picard with pip:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ pip install python-picard
 </pre></div>
 </div>
 <p>If you do not have admin privileges on the computer, use the <code class="docutils literal notranslate"><span class="pre">--user</span></code> flag
 with <cite>pip</cite>. To upgrade, use the <code class="docutils literal notranslate"><span class="pre">--upgrade</span></code> flag provided by <cite>pip</cite>.</p>
+</section>
+<section id="check">
+<h3>check<a class="headerlink" href="#check" title="Permalink to this headline">¶</a></h3>
 <p>To check if everything worked fine, you can do:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ python -c &#39;import picard&#39;
 </pre></div>
 </div>
 <p>and it should not give any error message.</p>
+</section>
 </section>
 <section id="quickstart">
 <h2>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h2>

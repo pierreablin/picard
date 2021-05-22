@@ -14,16 +14,34 @@ Installation
 ------------
 
 We recommend the `Anaconda Python distribution <https://www.continuum.io/downloads>`_.
+
+
+conda
+~~~~~
+
+Picard can be installed with `conda-forge <https://conda-forge.org/docs/user/introduction.html>`_.
+You need to add `conda-forge` to your conda channels, and then do::
+
+  $ conda install python-picard
+
+
+pip
+~~~
+
 Otherwise, to install ``picard``, you first need to install its dependencies::
 
 	$ pip install numpy matplotlib numexpr scipy
 
-Then install Picard::
+Then install Picard with pip::
 
 	$ pip install python-picard
 
 If you do not have admin privileges on the computer, use the ``--user`` flag
 with `pip`. To upgrade, use the ``--upgrade`` flag provided by `pip`.
+
+
+check
+~~~~~
 
 To check if everything worked fine, you can do::
 
@@ -56,7 +74,7 @@ the estimated sources `Y`. It means that:
 
 
 NEW in 0.6: scikit-learn compatible API
---------------------------------
+---------------------------------------
 
 Introducing `picard.Picard`, which mimics `sklearn.decomposition.FastICA` behavior:
 
