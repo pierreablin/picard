@@ -61,7 +61,7 @@ if __name__ == "__main__":
                        'Programming Language :: Python :: 3',
                        ],
           platforms='any',
-          python_requires='>=3.6',
+          python_requires='>=3.7',
           install_requires=[
               'numpy',
               'scipy',
