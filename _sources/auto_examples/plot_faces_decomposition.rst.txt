@@ -156,10 +156,10 @@ elapsed time.
 
  .. code-block:: none
 
-    /home/circleci/.local/lib/python3.8/site-packages/sklearn/decomposition/_fastica.py:118: ConvergenceWarning: FastICA did not converge. Consider increasing tolerance or the maximum number of iterations.
-      warnings.warn('FastICA did not converge. Consider increasing '
-    /home/circleci/.local/lib/python3.8/site-packages/sklearn/decomposition/_fastica.py:118: ConvergenceWarning: FastICA did not converge. Consider increasing tolerance or the maximum number of iterations.
-      warnings.warn('FastICA did not converge. Consider increasing '
+    /home/circleci/.local/lib/python3.8/site-packages/sklearn/decomposition/_fastica.py:116: ConvergenceWarning: FastICA did not converge. Consider increasing tolerance or the maximum number of iterations.
+      warnings.warn(
+    /home/circleci/.local/lib/python3.8/site-packages/sklearn/decomposition/_fastica.py:116: ConvergenceWarning: FastICA did not converge. Consider increasing tolerance or the maximum number of iterations.
+      warnings.warn(
 
 
 
@@ -203,9 +203,10 @@ Plot the results
 
 
 
-.. image:: /auto_examples/images/sphx_glr_plot_faces_decomposition_001.png
-    :alt: plot faces decomposition
-    :class: sphx-glr-single-img
+.. image-sg:: /auto_examples/images/sphx_glr_plot_faces_decomposition_001.png
+   :alt: plot faces decomposition
+   :srcset: /auto_examples/images/sphx_glr_plot_faces_decomposition_001.png
+   :class: sphx-glr-single-img
 
 
 
@@ -214,7 +215,7 @@ Plot the results
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  45.134 seconds)
+   **Total running time of the script:** ( 1 minutes  15.471 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_faces_decomposition.py:

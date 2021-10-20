@@ -6,13 +6,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Comparing Picard and FastICA for the task of detecting ECG artifacts in MEG &#8212; picard 0.7.dev documentation</title>
+    <title>Comparing Picard and FastICA for the task of detecting ECG artifacts in MEG &#8212; picard 0.8.dev documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/gallery.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/gallery-binder.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/gallery-dataframe.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css" />
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
@@ -24,9 +24,9 @@
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
-<script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="../_static/js/jquery-1.12.4.min.js "></script>
 <script type="text/javascript" src="../_static/js/jquery-fix.js "></script>
-<script type="text/javascript" src="../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../_static/bootstrap-3.4.1/js/bootstrap.min.js "></script>
 <script type="text/javascript" src="../_static/bootstrap-sphinx.js "></script>
 
   </head><body>
@@ -42,7 +42,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           picard</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.7.dev</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.8.dev</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -179,26 +179,20 @@ related to ECG, and plots the resulting scores and topographies.</p>
 </pre></div>
 </div>
 <ul class="sphx-glr-horizontal">
-<li><img alt="Method : fastica, init 1. Took 64 sec." class="sphx-glr-multi-img" src="../_images/sphx_glr_plot_ecg_detection_001.png" />
-</li>
-<li><img alt="ICA components, ICA005, ICA000, ICA006, AU, AU, AU" class="sphx-glr-multi-img" src="../_images/sphx_glr_plot_ecg_detection_002.png" />
-</li>
-<li><img alt="Method : fastica, init 2. Took 60 sec." class="sphx-glr-multi-img" src="../_images/sphx_glr_plot_ecg_detection_003.png" />
-</li>
-<li><img alt="ICA components, ICA005, ICA000, AU, AU" class="sphx-glr-multi-img" src="../_images/sphx_glr_plot_ecg_detection_004.png" />
-</li>
-<li><img alt="Method : fastica, init 3. Took 61 sec." class="sphx-glr-multi-img" src="../_images/sphx_glr_plot_ecg_detection_005.png" />
-</li>
-<li><img alt="ICA components, ICA007, ICA000, AU, AU" class="sphx-glr-multi-img" src="../_images/sphx_glr_plot_ecg_detection_006.png" />
-</li>
+<li><img src="../_images/sphx_glr_plot_ecg_detection_001.png" srcset="../_images/sphx_glr_plot_ecg_detection_001.png" alt="Method : fastica, init 1. Took 52 sec." class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_plot_ecg_detection_002.png" srcset="../_images/sphx_glr_plot_ecg_detection_002.png" alt="ICA components, ICA004, ICA000, ICA006, AU, AU, AU" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_plot_ecg_detection_003.png" srcset="../_images/sphx_glr_plot_ecg_detection_003.png" alt="Method : fastica, init 2. Took 57 sec." class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_plot_ecg_detection_004.png" srcset="../_images/sphx_glr_plot_ecg_detection_004.png" alt="ICA components, ICA005, ICA000, AU, AU" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_plot_ecg_detection_005.png" srcset="../_images/sphx_glr_plot_ecg_detection_005.png" alt="Method : fastica, init 3. Took 71 sec." class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_plot_ecg_detection_006.png" srcset="../_images/sphx_glr_plot_ecg_detection_006.png" alt="ICA components, ICA005, ICA000, AU, AU" class = "sphx-glr-multi-img"/></li>
 </ul>
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/home/circleci/.local/lib/python3.8/site-packages/sklearn/decomposition/_fastica.py:118: ConvergenceWarning: FastICA did not converge. Consider increasing tolerance or the maximum number of iterations.
-  warnings.warn(&#39;FastICA did not converge. Consider increasing &#39;
-/home/circleci/.local/lib/python3.8/site-packages/sklearn/decomposition/_fastica.py:118: ConvergenceWarning: FastICA did not converge. Consider increasing tolerance or the maximum number of iterations.
-  warnings.warn(&#39;FastICA did not converge. Consider increasing &#39;
-/home/circleci/.local/lib/python3.8/site-packages/sklearn/decomposition/_fastica.py:118: ConvergenceWarning: FastICA did not converge. Consider increasing tolerance or the maximum number of iterations.
-  warnings.warn(&#39;FastICA did not converge. Consider increasing &#39;
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/home/circleci/.local/lib/python3.8/site-packages/sklearn/decomposition/_fastica.py:116: ConvergenceWarning: FastICA did not converge. Consider increasing tolerance or the maximum number of iterations.
+  warnings.warn(
+/home/circleci/.local/lib/python3.8/site-packages/sklearn/decomposition/_fastica.py:116: ConvergenceWarning: FastICA did not converge. Consider increasing tolerance or the maximum number of iterations.
+  warnings.warn(
+/home/circleci/.local/lib/python3.8/site-packages/sklearn/decomposition/_fastica.py:116: ConvergenceWarning: FastICA did not converge. Consider increasing tolerance or the maximum number of iterations.
+  warnings.warn(
 </pre></div>
 </div>
 <p>Do the same thing with Picard :</p>
@@ -209,23 +203,17 @@ related to ECG, and plots the resulting scores and topographies.</p>
 </pre></div>
 </div>
 <ul class="sphx-glr-horizontal">
-<li><img alt="Method : picard, init 1. Took 34 sec." class="sphx-glr-multi-img" src="../_images/sphx_glr_plot_ecg_detection_007.png" />
-</li>
-<li><img alt="ICA components, ICA005, ICA000, AU, AU" class="sphx-glr-multi-img" src="../_images/sphx_glr_plot_ecg_detection_008.png" />
-</li>
-<li><img alt="Method : picard, init 2. Took 24 sec." class="sphx-glr-multi-img" src="../_images/sphx_glr_plot_ecg_detection_009.png" />
-</li>
-<li><img alt="ICA components, ICA004, ICA000, AU, AU" class="sphx-glr-multi-img" src="../_images/sphx_glr_plot_ecg_detection_010.png" />
-</li>
-<li><img alt="Method : picard, init 3. Took 27 sec." class="sphx-glr-multi-img" src="../_images/sphx_glr_plot_ecg_detection_011.png" />
-</li>
-<li><img alt="ICA components, ICA004, ICA000, AU, AU" class="sphx-glr-multi-img" src="../_images/sphx_glr_plot_ecg_detection_012.png" />
-</li>
+<li><img src="../_images/sphx_glr_plot_ecg_detection_007.png" srcset="../_images/sphx_glr_plot_ecg_detection_007.png" alt="Method : picard, init 1. Took 60 sec." class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_plot_ecg_detection_008.png" srcset="../_images/sphx_glr_plot_ecg_detection_008.png" alt="ICA components, ICA005, ICA000, AU, AU" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_plot_ecg_detection_009.png" srcset="../_images/sphx_glr_plot_ecg_detection_009.png" alt="Method : picard, init 2. Took 54 sec." class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_plot_ecg_detection_010.png" srcset="../_images/sphx_glr_plot_ecg_detection_010.png" alt="ICA components, ICA004, ICA000, AU, AU" class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_plot_ecg_detection_011.png" srcset="../_images/sphx_glr_plot_ecg_detection_011.png" alt="Method : picard, init 3. Took 55 sec." class = "sphx-glr-multi-img"/></li>
+<li><img src="../_images/sphx_glr_plot_ecg_detection_012.png" srcset="../_images/sphx_glr_plot_ecg_detection_012.png" alt="ICA components, ICA005, ICA000, AU, AU" class = "sphx-glr-multi-img"/></li>
 </ul>
 <p>The third topography found by FastICA does not really look like an ECG
 artifact, and is not consistent across different initializations. Picard
 finds the same topographies each time, and more consistently.</p>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 4 minutes  46.492 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 6 minutes  19.160 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-plot-ecg-detection-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/ad99c59ea433c56daaf071bbc9c7670b/plot_ecg_detection.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_ecg_detection.py</span></code></a></p>
@@ -253,7 +241,7 @@ data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_
     </p>
     <p>
         &copy; Copyright 2017, Pierre Ablin.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.0.2.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br/>
     </p>
   </div>
 </footer>

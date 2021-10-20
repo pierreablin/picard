@@ -99,9 +99,10 @@ Plot the corresponding functions
 
 
 
-.. image:: /auto_examples/images/sphx_glr_plot_custom_density_001.png
-    :alt: Custom density
-    :class: sphx-glr-single-img
+.. image-sg:: /auto_examples/images/sphx_glr_plot_custom_density_001.png
+   :alt: Custom density
+   :srcset: /auto_examples/images/sphx_glr_plot_custom_density_001.png
+   :class: sphx-glr-single-img
 
 
 
@@ -130,9 +131,10 @@ Run Picard on toy dataset using this density
 
 
 
-.. image:: /auto_examples/images/sphx_glr_plot_custom_density_002.png
-    :alt: Product between the estimated unmixing matrix and the mixingmatrix
-    :class: sphx-glr-single-img
+.. image-sg:: /auto_examples/images/sphx_glr_plot_custom_density_002.png
+   :alt: Product between the estimated unmixing matrix and the mixingmatrix
+   :srcset: /auto_examples/images/sphx_glr_plot_custom_density_002.png
+   :class: sphx-glr-single-img
 
 
 
@@ -141,7 +143,7 @@ Run Picard on toy dataset using this density
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.291 seconds)
+   **Total running time of the script:** ( 0 minutes  0.354 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_custom_density.py:

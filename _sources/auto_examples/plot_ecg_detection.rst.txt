@@ -137,39 +137,45 @@ Fit ICA using FastICA, with a few iterations, for different initializations :
 
     *
 
-      .. image:: /auto_examples/images/sphx_glr_plot_ecg_detection_001.png
-          :alt: Method : fastica, init 1. Took 64 sec.
-          :class: sphx-glr-multi-img
+      .. image-sg:: /auto_examples/images/sphx_glr_plot_ecg_detection_001.png
+         :alt: Method : fastica, init 1. Took 52 sec.
+         :srcset: /auto_examples/images/sphx_glr_plot_ecg_detection_001.png
+         :class: sphx-glr-multi-img
 
     *
 
-      .. image:: /auto_examples/images/sphx_glr_plot_ecg_detection_002.png
-          :alt: ICA components, ICA005, ICA000, ICA006, AU, AU, AU
-          :class: sphx-glr-multi-img
+      .. image-sg:: /auto_examples/images/sphx_glr_plot_ecg_detection_002.png
+         :alt: ICA components, ICA004, ICA000, ICA006, AU, AU, AU
+         :srcset: /auto_examples/images/sphx_glr_plot_ecg_detection_002.png
+         :class: sphx-glr-multi-img
 
     *
 
-      .. image:: /auto_examples/images/sphx_glr_plot_ecg_detection_003.png
-          :alt: Method : fastica, init 2. Took 60 sec.
-          :class: sphx-glr-multi-img
+      .. image-sg:: /auto_examples/images/sphx_glr_plot_ecg_detection_003.png
+         :alt: Method : fastica, init 2. Took 57 sec.
+         :srcset: /auto_examples/images/sphx_glr_plot_ecg_detection_003.png
+         :class: sphx-glr-multi-img
 
     *
 
-      .. image:: /auto_examples/images/sphx_glr_plot_ecg_detection_004.png
-          :alt: ICA components, ICA005, ICA000, AU, AU
-          :class: sphx-glr-multi-img
+      .. image-sg:: /auto_examples/images/sphx_glr_plot_ecg_detection_004.png
+         :alt: ICA components, ICA005, ICA000, AU, AU
+         :srcset: /auto_examples/images/sphx_glr_plot_ecg_detection_004.png
+         :class: sphx-glr-multi-img
 
     *
 
-      .. image:: /auto_examples/images/sphx_glr_plot_ecg_detection_005.png
-          :alt: Method : fastica, init 3. Took 61 sec.
-          :class: sphx-glr-multi-img
+      .. image-sg:: /auto_examples/images/sphx_glr_plot_ecg_detection_005.png
+         :alt: Method : fastica, init 3. Took 71 sec.
+         :srcset: /auto_examples/images/sphx_glr_plot_ecg_detection_005.png
+         :class: sphx-glr-multi-img
 
     *
 
-      .. image:: /auto_examples/images/sphx_glr_plot_ecg_detection_006.png
-          :alt: ICA components, ICA007, ICA000, AU, AU
-          :class: sphx-glr-multi-img
+      .. image-sg:: /auto_examples/images/sphx_glr_plot_ecg_detection_006.png
+         :alt: ICA components, ICA005, ICA000, AU, AU
+         :srcset: /auto_examples/images/sphx_glr_plot_ecg_detection_006.png
+         :class: sphx-glr-multi-img
 
 
 .. rst-class:: sphx-glr-script-out
@@ -178,12 +184,12 @@ Fit ICA using FastICA, with a few iterations, for different initializations :
 
  .. code-block:: none
 
-    /home/circleci/.local/lib/python3.8/site-packages/sklearn/decomposition/_fastica.py:118: ConvergenceWarning: FastICA did not converge. Consider increasing tolerance or the maximum number of iterations.
-      warnings.warn('FastICA did not converge. Consider increasing '
-    /home/circleci/.local/lib/python3.8/site-packages/sklearn/decomposition/_fastica.py:118: ConvergenceWarning: FastICA did not converge. Consider increasing tolerance or the maximum number of iterations.
-      warnings.warn('FastICA did not converge. Consider increasing '
-    /home/circleci/.local/lib/python3.8/site-packages/sklearn/decomposition/_fastica.py:118: ConvergenceWarning: FastICA did not converge. Consider increasing tolerance or the maximum number of iterations.
-      warnings.warn('FastICA did not converge. Consider increasing '
+    /home/circleci/.local/lib/python3.8/site-packages/sklearn/decomposition/_fastica.py:116: ConvergenceWarning: FastICA did not converge. Consider increasing tolerance or the maximum number of iterations.
+      warnings.warn(
+    /home/circleci/.local/lib/python3.8/site-packages/sklearn/decomposition/_fastica.py:116: ConvergenceWarning: FastICA did not converge. Consider increasing tolerance or the maximum number of iterations.
+      warnings.warn(
+    /home/circleci/.local/lib/python3.8/site-packages/sklearn/decomposition/_fastica.py:116: ConvergenceWarning: FastICA did not converge. Consider increasing tolerance or the maximum number of iterations.
+      warnings.warn(
 
 
 
@@ -210,39 +216,45 @@ Do the same thing with Picard :
 
     *
 
-      .. image:: /auto_examples/images/sphx_glr_plot_ecg_detection_007.png
-          :alt: Method : picard, init 1. Took 34 sec.
-          :class: sphx-glr-multi-img
+      .. image-sg:: /auto_examples/images/sphx_glr_plot_ecg_detection_007.png
+         :alt: Method : picard, init 1. Took 60 sec.
+         :srcset: /auto_examples/images/sphx_glr_plot_ecg_detection_007.png
+         :class: sphx-glr-multi-img
 
     *
 
-      .. image:: /auto_examples/images/sphx_glr_plot_ecg_detection_008.png
-          :alt: ICA components, ICA005, ICA000, AU, AU
-          :class: sphx-glr-multi-img
+      .. image-sg:: /auto_examples/images/sphx_glr_plot_ecg_detection_008.png
+         :alt: ICA components, ICA005, ICA000, AU, AU
+         :srcset: /auto_examples/images/sphx_glr_plot_ecg_detection_008.png
+         :class: sphx-glr-multi-img
 
     *
 
-      .. image:: /auto_examples/images/sphx_glr_plot_ecg_detection_009.png
-          :alt: Method : picard, init 2. Took 24 sec.
-          :class: sphx-glr-multi-img
+      .. image-sg:: /auto_examples/images/sphx_glr_plot_ecg_detection_009.png
+         :alt: Method : picard, init 2. Took 54 sec.
+         :srcset: /auto_examples/images/sphx_glr_plot_ecg_detection_009.png
+         :class: sphx-glr-multi-img
 
     *
 
-      .. image:: /auto_examples/images/sphx_glr_plot_ecg_detection_010.png
-          :alt: ICA components, ICA004, ICA000, AU, AU
-          :class: sphx-glr-multi-img
+      .. image-sg:: /auto_examples/images/sphx_glr_plot_ecg_detection_010.png
+         :alt: ICA components, ICA004, ICA000, AU, AU
+         :srcset: /auto_examples/images/sphx_glr_plot_ecg_detection_010.png
+         :class: sphx-glr-multi-img
 
     *
 
-      .. image:: /auto_examples/images/sphx_glr_plot_ecg_detection_011.png
-          :alt: Method : picard, init 3. Took 27 sec.
-          :class: sphx-glr-multi-img
+      .. image-sg:: /auto_examples/images/sphx_glr_plot_ecg_detection_011.png
+         :alt: Method : picard, init 3. Took 55 sec.
+         :srcset: /auto_examples/images/sphx_glr_plot_ecg_detection_011.png
+         :class: sphx-glr-multi-img
 
     *
 
-      .. image:: /auto_examples/images/sphx_glr_plot_ecg_detection_012.png
-          :alt: ICA components, ICA004, ICA000, AU, AU
-          :class: sphx-glr-multi-img
+      .. image-sg:: /auto_examples/images/sphx_glr_plot_ecg_detection_012.png
+         :alt: ICA components, ICA005, ICA000, AU, AU
+         :srcset: /auto_examples/images/sphx_glr_plot_ecg_detection_012.png
+         :class: sphx-glr-multi-img
 
 
 
@@ -257,7 +269,7 @@ finds the same topographies each time, and more consistently.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 4 minutes  46.492 seconds)
+   **Total running time of the script:** ( 6 minutes  19.160 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_ecg_detection.py:

@@ -124,27 +124,31 @@ Plot results
 
     *
 
-      .. image:: /auto_examples/images/sphx_glr_plot_ica_synth_001.png
-          :alt: Observations (mixed signal)
-          :class: sphx-glr-multi-img
+      .. image-sg:: /auto_examples/images/sphx_glr_plot_ica_synth_001.png
+         :alt: Observations (mixed signal)
+         :srcset: /auto_examples/images/sphx_glr_plot_ica_synth_001.png
+         :class: sphx-glr-multi-img
 
     *
 
-      .. image:: /auto_examples/images/sphx_glr_plot_ica_synth_002.png
-          :alt: True Sources
-          :class: sphx-glr-multi-img
+      .. image-sg:: /auto_examples/images/sphx_glr_plot_ica_synth_002.png
+         :alt: True Sources
+         :srcset: /auto_examples/images/sphx_glr_plot_ica_synth_002.png
+         :class: sphx-glr-multi-img
 
     *
 
-      .. image:: /auto_examples/images/sphx_glr_plot_ica_synth_003.png
-          :alt: ICA recovered signals with Picard
-          :class: sphx-glr-multi-img
+      .. image-sg:: /auto_examples/images/sphx_glr_plot_ica_synth_003.png
+         :alt: ICA recovered signals with Picard
+         :srcset: /auto_examples/images/sphx_glr_plot_ica_synth_003.png
+         :class: sphx-glr-multi-img
 
     *
 
-      .. image:: /auto_examples/images/sphx_glr_plot_ica_synth_004.png
-          :alt: ICA recovered signals with Picard-O
-          :class: sphx-glr-multi-img
+      .. image-sg:: /auto_examples/images/sphx_glr_plot_ica_synth_004.png
+         :alt: ICA recovered signals with Picard-O
+         :srcset: /auto_examples/images/sphx_glr_plot_ica_synth_004.png
+         :class: sphx-glr-multi-img
 
 
 
@@ -153,7 +157,7 @@ Plot results
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.653 seconds)
+   **Total running time of the script:** ( 0 minutes  1.032 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_ica_synth.py:
