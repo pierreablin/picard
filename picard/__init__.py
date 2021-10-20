@@ -16,7 +16,7 @@
 # Dev branch marker is: 'X.Y.devN' where N is an integer.
 #
 
-__version__ = '0.7.dev'
+__version__ = '0.8.dev'
 
 from .solver import picard  # noqa
 from ._tools import permute, amari_distance  # noqa
