@@ -4,3 +4,4 @@ pillow
 scikit-learn >=0.18
 sphinx-bootstrap-theme
 sphinx-gallery
+pooch
