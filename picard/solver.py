@@ -148,7 +148,7 @@ def picard(X, fun='tanh', n_components=None, ortho=True, extended=None,
     if fun == 'tanh':
         fun = Tanh()
     elif fun == 'exp':
-        fun = Exp()
+        fun = Exp(params={'alpha': 0.1})
     elif fun == 'cube':
         fun = Cube()
     elif check_fun:
