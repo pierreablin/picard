@@ -159,3 +159,9 @@ If you use this code in your project, please cite::
     Faster ICA under orthogonal constraint
     ICASSP, 2018
     https://arxiv.org/abs/1711.10873
+
+
+Changelog
+---------
+
+New in 0.8 : for the density `exp`, the default parameter is now alpha = 0.1 instead of alpha = 1.

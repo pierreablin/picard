@@ -187,7 +187,7 @@ def test_picardo():
             if fun == 'tanh':
                 fun = Tanh()
             elif fun == 'exp':
-                fun = Exp()
+                fun = Exp(params={'alpha': 0.1})
             elif fun == 'cube':
                 fun = Cube()
             # Get the final gradient norm
