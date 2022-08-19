@@ -11,7 +11,7 @@ from .densities import Tanh
 
 
 def core_picard(X, density=Tanh(), ortho=False, extended=False, m=7,
-                max_iter=1000, tol=1e-7, lambda_min=0.01, ls_tries=10,
+                max_iter=500, tol=1e-7, lambda_min=0.01, ls_tries=10,
                 verbose=False, covariance=None):
     '''Runs the Picard algorithm
 
