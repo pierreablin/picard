@@ -104,6 +104,7 @@ class Picard(FastICA):
         self.ortho = ortho
         self.extended = extended
         self.whiten = whiten
+        self._whiten = whiten  # for compatibility
         self.fun = fun
         self.max_iter = max_iter
         self.tol = tol
