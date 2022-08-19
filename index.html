@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
     <title>Picard &#8212; picard 0.8.dev documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
@@ -16,6 +16,7 @@
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="shortcut icon" href="_static/picard_logo.ico"/>
@@ -26,10 +27,10 @@
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
-<script type="text/javascript" src="_static/js/jquery-1.12.4.min.js "></script>
-<script type="text/javascript" src="_static/js/jquery-fix.js "></script>
-<script type="text/javascript" src="_static/bootstrap-3.4.1/js/bootstrap.min.js "></script>
-<script type="text/javascript" src="_static/bootstrap-sphinx.js "></script>
+<script type="text/javascript" src="_static/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+<script type="text/javascript" src="_static/bootstrap-3.4.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
 
   </head><body>
 
@@ -127,15 +128,15 @@
 <div class="container content-container">
   
   <section id="picard">
-<h1>Picard<a class="headerlink" href="#picard" title="Permalink to this headline">¶</a></h1>
+<h1>Picard<a class="headerlink" href="#picard" title="Permalink to this heading">¶</a></h1>
 <p>This is a library to run the Preconditioned ICA for Real Data (PICARD) algorithm [1]
 and its orthogonal version (PICARD-O) [2]. These algorithms show fast convergence even
 on real data for which sources independence do not perfectly hold.</p>
 <section id="installation">
-<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this heading">¶</a></h2>
 <p>We recommend the <a class="reference external" href="https://www.continuum.io/downloads">Anaconda Python distribution</a>.</p>
 <section id="conda">
-<h3>conda<a class="headerlink" href="#conda" title="Permalink to this headline">¶</a></h3>
+<h3>conda<a class="headerlink" href="#conda" title="Permalink to this heading">¶</a></h3>
 <p>Picard can be installed with <a class="reference external" href="https://conda-forge.org/docs/user/introduction.html">conda-forge</a>.
 You need to add <cite>conda-forge</cite> to your conda channels, and then do:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ conda install python-picard
@@ -143,7 +144,7 @@ You need to add <cite>conda-forge</cite> to your conda channels, and then do:</p
 </div>
 </section>
 <section id="pip">
-<h3>pip<a class="headerlink" href="#pip" title="Permalink to this headline">¶</a></h3>
+<h3>pip<a class="headerlink" href="#pip" title="Permalink to this heading">¶</a></h3>
 <p>Otherwise, to install <code class="docutils literal notranslate"><span class="pre">picard</span></code>, you first need to install its dependencies:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ pip install numpy matplotlib numexpr scipy
 </pre></div>
@@ -156,7 +157,7 @@ You need to add <cite>conda-forge</cite> to your conda channels, and then do:</p
 with <cite>pip</cite>. To upgrade, use the <code class="docutils literal notranslate"><span class="pre">--upgrade</span></code> flag provided by <cite>pip</cite>.</p>
 </section>
 <section id="check">
-<h3>check<a class="headerlink" href="#check" title="Permalink to this headline">¶</a></h3>
+<h3>check<a class="headerlink" href="#check" title="Permalink to this heading">¶</a></h3>
 <p>To check if everything worked fine, you can do:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ python -c &#39;import picard&#39;
 </pre></div>
@@ -165,7 +166,7 @@ with <cite>pip</cite>. To upgrade, use the <code class="docutils literal notrans
 </section>
 </section>
 <section id="quickstart">
-<h2>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h2>
+<h2>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this heading">¶</a></h2>
 <p>The easiest way to get started is to copy the following lines of code
 in your script:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -183,7 +184,7 @@ the estimated sources <cite>Y</cite>. It means that:</p>
 \[Y = W K X\]</div>
 </section>
 <section id="new-in-0-6-scikit-learn-compatible-api">
-<h2>NEW in 0.6: scikit-learn compatible API<a class="headerlink" href="#new-in-0-6-scikit-learn-compatible-api" title="Permalink to this headline">¶</a></h2>
+<h2>NEW in 0.6: scikit-learn compatible API<a class="headerlink" href="#new-in-0-6-scikit-learn-compatible-api" title="Permalink to this heading">¶</a></h2>
 <p>Introducing <cite>picard.Picard</cite>, which mimics <cite>sklearn.decomposition.FastICA</cite> behavior:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_digits</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">picard</span> <span class="kn">import</span> <span class="n">Picard</span>
@@ -195,7 +196,7 @@ the estimated sources <cite>Y</cite>. It means that:</p>
 </div>
 </section>
 <section id="dependencies">
-<h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h2>
+<h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this heading">¶</a></h2>
 <p>These are the dependencies to use Picard:</p>
 <ul class="simple">
 <li><p>numpy (&gt;=1.8)</p></li>
@@ -210,7 +211,7 @@ the estimated sources <cite>Y</cite>. It means that:</p>
 </ul>
 </section>
 <section id="cite">
-<h2>Cite<a class="headerlink" href="#cite" title="Permalink to this headline">¶</a></h2>
+<h2>Cite<a class="headerlink" href="#cite" title="Permalink to this heading">¶</a></h2>
 <p>If you use this code in your project, please cite:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Pierre</span> <span class="n">Ablin</span><span class="p">,</span> <span class="n">Jean</span><span class="o">-</span><span class="n">Francois</span> <span class="n">Cardoso</span><span class="p">,</span> <span class="n">Alexandre</span> <span class="n">Gramfort</span>
 <span class="n">Faster</span> <span class="n">independent</span> <span class="n">component</span> <span class="n">analysis</span> <span class="n">by</span> <span class="n">preconditioning</span> <span class="k">with</span> <span class="n">Hessian</span> <span class="n">approximations</span>
@@ -225,11 +226,11 @@ the estimated sources <cite>Y</cite>. It means that:</p>
 </div>
 </section>
 <section id="bug-reports">
-<h2>Bug reports<a class="headerlink" href="#bug-reports" title="Permalink to this headline">¶</a></h2>
+<h2>Bug reports<a class="headerlink" href="#bug-reports" title="Permalink to this heading">¶</a></h2>
 <p>Use the <a class="reference external" href="https://github.com/pierreablin/picard/issues">github issue tracker</a> to report bugs.</p>
 </section>
 <section id="api">
-<h2>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
+<h2>API<a class="headerlink" href="#api" title="Permalink to this heading">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API Documentation</a></li>
@@ -254,7 +255,7 @@ data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_
     </p>
     <p>
         &copy; Copyright 2017, Pierre Ablin.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.3.1.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br/>
     </p>
   </div>
 </footer>

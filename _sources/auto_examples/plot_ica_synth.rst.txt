@@ -157,28 +157,23 @@ Plot results
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.825 seconds)
+   **Total running time of the script:** ( 0 minutes  0.651 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_ica_synth.py:
 
+.. only:: html
 
-.. only :: html
-
- .. container:: sphx-glr-footer
-    :class: sphx-glr-footer-example
+  .. container:: sphx-glr-footer sphx-glr-footer-example
 
 
+    .. container:: sphx-glr-download sphx-glr-download-python
 
-  .. container:: sphx-glr-download sphx-glr-download-python
+      :download:`Download Python source code: plot_ica_synth.py <plot_ica_synth.py>`
 
-     :download:`Download Python source code: plot_ica_synth.py <plot_ica_synth.py>`
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
-
-
-  .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-     :download:`Download Jupyter notebook: plot_ica_synth.ipynb <plot_ica_synth.ipynb>`
+      :download:`Download Jupyter notebook: plot_ica_synth.ipynb <plot_ica_synth.ipynb>`
 
 
 .. only:: html

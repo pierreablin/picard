@@ -16,6 +16,7 @@
       ~Picard.__init__
       ~Picard.fit
       ~Picard.fit_transform
+      ~Picard.get_feature_names_out
       ~Picard.get_params
       ~Picard.inverse_transform
       ~Picard.set_params

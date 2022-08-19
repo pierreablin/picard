@@ -1,9 +1,5 @@
 :orphan:
 
-
-
-.. _sphx_glr_auto_examples:
-
 .. _general_examples:
 
 Examples Gallery
@@ -17,14 +13,93 @@ Examples Gallery
 
 .. raw:: html
 
+    <div class="sphx-glr-thumbnails">
+
+
+.. raw:: html
+
     <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to use custom densities using Picard">
 
 .. only:: html
 
- .. figure:: /auto_examples/images/thumb/sphx_glr_plot_custom_density_thumb.png
-     :alt: Using a custom density with Picard
+  .. image:: /auto_examples/images/thumb/sphx_glr_plot_custom_density_thumb.png
+    :alt: Using a custom density with Picard
 
-     :ref:`sphx_glr_auto_examples_plot_custom_density.py`
+  :ref:`sphx_glr_auto_examples_plot_custom_density.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Using a custom density with Picard</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="The example runs the Picard algorithm proposed in:">
+
+.. only:: html
+
+  .. image:: /auto_examples/images/thumb/sphx_glr_plot_ica_synth_thumb.png
+    :alt: Blind source separation using Picard and Picard-O
+
+  :ref:`sphx_glr_auto_examples_plot_ica_synth.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Blind source separation using Picard and Picard-O</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="The example runs the Picard-O algorithm proposed in:">
+
+.. only:: html
+
+  .. image:: /auto_examples/images/thumb/sphx_glr_plot_ica_eeg_thumb.png
+    :alt: Blind source separation using preconditioned ICA on EEG
+
+  :ref:`sphx_glr_auto_examples_plot_ica_eeg.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Blind source separation using preconditioned ICA on EEG</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Picard and FastICA are fitted to MEG data, from several initializations. The scores related to ...">
+
+.. only:: html
+
+  .. image:: /auto_examples/images/thumb/sphx_glr_plot_ecg_detection_thumb.png
+    :alt: Comparing Picard and FastICA for the task of detecting ECG artifacts in MEG
+
+  :ref:`sphx_glr_auto_examples_plot_ecg_detection.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Comparing Picard and FastICA for the task of detecting ECG artifacts in MEG</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example compares FastICA and Picard-O:">
+
+.. only:: html
+
+  .. image:: /auto_examples/images/thumb/sphx_glr_plot_faces_decomposition_thumb.png
+    :alt: Comparison of Picard-O and FastICA on faces data
+
+  :ref:`sphx_glr_auto_examples_plot_faces_decomposition.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Comparison of Picard-O and FastICA on faces data</div>
+    </div>
+
 
 .. raw:: html
 
@@ -35,111 +110,23 @@ Examples Gallery
    :hidden:
 
    /auto_examples/plot_custom_density
-
-.. raw:: html
-
-    <div class="sphx-glr-thumbcontainer" tooltip="The example runs the Picard algorithm proposed in:">
-
-.. only:: html
-
- .. figure:: /auto_examples/images/thumb/sphx_glr_plot_ica_synth_thumb.png
-     :alt: Blind source separation using Picard and Picard-O
-
-     :ref:`sphx_glr_auto_examples_plot_ica_synth.py`
-
-.. raw:: html
-
-    </div>
-
-
-.. toctree::
-   :hidden:
-
    /auto_examples/plot_ica_synth
-
-.. raw:: html
-
-    <div class="sphx-glr-thumbcontainer" tooltip="The example runs the Picard-O algorithm proposed in:">
-
-.. only:: html
-
- .. figure:: /auto_examples/images/thumb/sphx_glr_plot_ica_eeg_thumb.png
-     :alt: Blind source separation using preconditioned ICA on EEG
-
-     :ref:`sphx_glr_auto_examples_plot_ica_eeg.py`
-
-.. raw:: html
-
-    </div>
-
-
-.. toctree::
-   :hidden:
-
    /auto_examples/plot_ica_eeg
-
-.. raw:: html
-
-    <div class="sphx-glr-thumbcontainer" tooltip="Picard and FastICA are fitted to MEG data, from several initializations. The scores related to ...">
-
-.. only:: html
-
- .. figure:: /auto_examples/images/thumb/sphx_glr_plot_ecg_detection_thumb.png
-     :alt: Comparing Picard and FastICA for the task of detecting ECG artifacts in MEG
-
-     :ref:`sphx_glr_auto_examples_plot_ecg_detection.py`
-
-.. raw:: html
-
-    </div>
-
-
-.. toctree::
-   :hidden:
-
    /auto_examples/plot_ecg_detection
+   /auto_examples/plot_faces_decomposition
 
-.. raw:: html
-
-    <div class="sphx-glr-thumbcontainer" tooltip="This example compares FastICA and Picard-O:">
 
 .. only:: html
 
- .. figure:: /auto_examples/images/thumb/sphx_glr_plot_faces_decomposition_thumb.png
-     :alt: Comparison of Picard-O and FastICA on faces data
+  .. container:: sphx-glr-footer sphx-glr-footer-gallery
 
-     :ref:`sphx_glr_auto_examples_plot_faces_decomposition.py`
+    .. container:: sphx-glr-download sphx-glr-download-python
 
-.. raw:: html
+      :download:`Download all examples in Python source code: auto_examples_python.zip </auto_examples/auto_examples_python.zip>`
 
-    </div>
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
-
-.. toctree::
-   :hidden:
-
-   /auto_examples/plot_faces_decomposition
-.. raw:: html
-
-    <div class="sphx-glr-clear"></div>
-
-
-
-.. only :: html
-
- .. container:: sphx-glr-footer
-    :class: sphx-glr-footer-gallery
-
-
-  .. container:: sphx-glr-download sphx-glr-download-python
-
-    :download:`Download all examples in Python source code: auto_examples_python.zip </auto_examples/auto_examples_python.zip>`
-
-
-
-  .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-    :download:`Download all examples in Jupyter notebooks: auto_examples_jupyter.zip </auto_examples/auto_examples_jupyter.zip>`
+      :download:`Download all examples in Jupyter notebooks: auto_examples_jupyter.zip </auto_examples/auto_examples_jupyter.zip>`
 
 
 .. only:: html
