@@ -223,7 +223,7 @@ def test_bad_custom_density():
     except AssertionError:
         pass
     else:
-        raise(AssertionError, 'Bad function undetected')
+        raise (AssertionError, 'Bad function undetected')
 
 
 def test_fun():

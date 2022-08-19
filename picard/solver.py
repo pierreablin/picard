@@ -15,7 +15,7 @@ from .densities import Tanh, Exp, Cube, check_density
 
 def picard(X, fun='tanh', n_components=None, ortho=True, extended=None,
            whiten=True, return_X_mean=False, return_n_iter=False,
-           centering=True, max_iter=100, tol=1e-07, m=7,  ls_tries=10,
+           centering=True, max_iter=500, tol=1e-07, m=7,  ls_tries=10,
            lambda_min=0.01, check_fun=True, w_init=None, fastica_it=None,
            random_state=None, verbose=False):
     """Perform Independent Component Analysis.

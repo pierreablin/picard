@@ -25,7 +25,7 @@ function [Y, W] = picard(X, varargin)
 %
 % 'maxiter'                   (int) Maximal number of iterations for the
 %                             algorithm.
-%                             Default : 100
+%                             Default : 500
 %
 % 'mode'                      (string) Chooses to run the orthogonal
 %                             (Picard-O) or unconstrained version of
@@ -102,7 +102,7 @@ end
 % Default parameters
 
 m = 7;
-maxiter = 100;
+maxiter = 500;
 mode = 'ortho';
 tol = 1e-8;
 lambda_min = 0.01;

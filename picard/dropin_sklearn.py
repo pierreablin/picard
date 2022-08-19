@@ -37,7 +37,7 @@ class Picard(FastICA):
         density.
         A custom density is a class that should contain two methods called
         'log_lik' and 'score_and_der'. See examples in the densities.py file.
-    max_iter : int, default=200
+    max_iter : int, default=500
         Maximum number of iterations during fit.
     tol : float, default=1e-7
         Tolerance on update at each iteration.
@@ -93,7 +93,7 @@ class Picard(FastICA):
     `'tanh'`.
     """
     def __init__(self, n_components=None, *, ortho=True, extended=None,
-                 whiten=True, fun='tanh', max_iter=200, tol=1e-7,
+                 whiten=True, fun='tanh', max_iter=500, tol=1e-7,
                  w_init=None, m=7,  ls_tries=10, lambda_min=0.01,
                  random_state=None):
         super().__init__()
@@ -104,6 +104,7 @@ class Picard(FastICA):
         self.ortho = ortho
         self.extended = extended
         self.whiten = whiten
+        self._whiten = whiten  # for compatibility
         self.fun = fun
         self.max_iter = max_iter
         self.tol = tol
