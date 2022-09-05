@@ -8,7 +8,6 @@ import pytest
 import numpy as np
 
 from sklearn.utils._testing import assert_array_almost_equal
-from sklearn.utils._testing import assert_warns
 
 from picard import Picard
 
@@ -32,7 +31,8 @@ def test_picard_nowhiten():
     m = [[0, 1], [1, 0]]
 
     ica = Picard(n_components=1, whiten=False, random_state=0)
-    assert_warns(UserWarning, ica.fit, m)
+    with pytest.warns(UserWarning):
+        ica.fit(m)
     assert hasattr(ica, 'mixing_')
 
 
