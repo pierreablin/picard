@@ -155,7 +155,7 @@ end
 
 if n_components > getrank(X),
     warning(['Input matrix is of deficient rank. ' ...
-            'Please consider to reduce dimensionality (pca) prior to ICA.'])
+            'Please consider reducing the dimensionality (e.g. with PCA) prior to ICA.'])
 end
 
 if centering,
