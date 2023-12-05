@@ -100,7 +100,10 @@ class Picard(FastICA):
         super().__init__()
 
         # update parameters constraint dict
-        self._parameter_constraints["fun"] = [StrOptions({"tanh", "exp", "cube"}), callable]
+        self._parameter_constraints["fun"] = [
+            StrOptions({"tanh", "exp", "cube"}),
+            callable,
+        ]
         if max_iter < 1:
             raise ValueError("max_iter should be greater than 1, got "
                              "(max_iter={})".format(max_iter))
