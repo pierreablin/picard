@@ -136,7 +136,7 @@ class Picard(FastICA):
                                 ensure_min_samples=2).T
         random_state = check_random_state(self.random_state)
 
-        n_samples, n_features = X.shape
+        n_features, n_samples = X.shape
 
         n_components = self.n_components
         if not self.whiten and n_components is not None:
@@ -164,7 +164,7 @@ class Picard(FastICA):
             K = (u / d).T[:n_components]
             del u, d
             X1 = np.dot(K, X)
-            X1 *= np.sqrt(n_features)
+            X1 *= np.sqrt(n_samples)
         else:
             # X must be casted to floats to avoid typing issues with numpy
             # 2.0 and the line below
