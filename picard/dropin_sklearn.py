@@ -10,6 +10,7 @@ from scipy import linalg
 from sklearn.decomposition import FastICA
 from sklearn.utils import check_random_state, as_float_array
 from sklearn.utils.validation import FLOAT_DTYPES
+from sklearn.utils._param_validation import StrOptions
 
 from .solver import picard
 
@@ -97,6 +98,9 @@ class Picard(FastICA):
                  w_init=None, m=7,  ls_tries=10, lambda_min=0.01,
                  random_state=None):
         super().__init__()
+
+        # update parameters constraint dict
+        self._parameter_constraints["fun"] = [StrOptions({"tanh", "exp", "cube"}), callable]
         if max_iter < 1:
             raise ValueError("max_iter should be greater than 1, got "
                              "(max_iter={})".format(max_iter))
@@ -114,7 +118,7 @@ class Picard(FastICA):
         self.lambda_min = lambda_min
         self.random_state = random_state
 
-    def _fit(self, X, compute_sources=False):
+    def _fit_transform(self, X, compute_sources=False):
         """Fit the model
 
         Parameters
