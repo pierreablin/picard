@@ -10,6 +10,7 @@ from scipy import linalg
 from sklearn.decomposition import FastICA
 from sklearn.utils import check_random_state, as_float_array
 from sklearn.utils.validation import FLOAT_DTYPES
+from sklearn.utils._param_validation import StrOptions
 
 from .solver import picard
 
@@ -97,14 +98,23 @@ class Picard(FastICA):
                  w_init=None, m=7,  ls_tries=10, lambda_min=0.01,
                  random_state=None):
         super().__init__()
+
+        # update parameters constraint dict
+        self._parameter_constraints["fun"] = [
+            StrOptions({"tanh", "exp", "cube"}),
+            callable,
+        ]
         if max_iter < 1:
             raise ValueError("max_iter should be greater than 1, got "
                              "(max_iter={})".format(max_iter))
         self.n_components = n_components
         self.ortho = ortho
         self.extended = extended
-        self.whiten = whiten
         self._whiten = whiten  # for compatibility
+        if whiten is True:
+            self.whiten = "arbitrary-variance"
+        else:
+            self.whiten = whiten
         self.fun = fun
         self.max_iter = max_iter
         self.tol = tol
@@ -114,7 +124,7 @@ class Picard(FastICA):
         self.lambda_min = lambda_min
         self.random_state = random_state
 
-    def _fit(self, X, compute_sources=False):
+    def _fit_transform(self, X, compute_sources=False):
         """Fit the model
 
         Parameters
@@ -136,7 +146,7 @@ class Picard(FastICA):
                                 ensure_min_samples=2).T
         random_state = check_random_state(self.random_state)
 
-        n_samples, n_features = X.shape
+        n_features, n_samples = X.shape
 
         n_components = self.n_components
         if not self.whiten and n_components is not None:
@@ -152,7 +162,7 @@ class Picard(FastICA):
                 % n_components
             )
 
-        if self.whiten:
+        if self.whiten == "arbitrary-variance":
             # Centering the columns (ie the variables)
             X_mean = X.mean(axis=-1)
             X -= X_mean[:, np.newaxis]
@@ -164,7 +174,7 @@ class Picard(FastICA):
             K = (u / d).T[:n_components]
             del u, d
             X1 = np.dot(K, X)
-            X1 *= np.sqrt(n_features)
+            X1 *= np.sqrt(n_samples)
         else:
             # X must be casted to floats to avoid typing issues with numpy
             # 2.0 and the line below
@@ -187,14 +197,14 @@ class Picard(FastICA):
         del X1
 
         if compute_sources:
-            if self.whiten:
+            if self.whiten == "arbitrary-variance":
                 S = np.linalg.multi_dot([W, K, X]).T
             else:
                 S = np.dot(W, X).T
         else:
             S = None
 
-        if self.whiten:
+        if self.whiten == "arbitrary-variance":
             self.components_ = np.dot(W, K)
             self.mean_ = X_mean
             self.whitening_ = K
