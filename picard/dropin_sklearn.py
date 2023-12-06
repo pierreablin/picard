@@ -110,8 +110,11 @@ class Picard(FastICA):
         self.n_components = n_components
         self.ortho = ortho
         self.extended = extended
-        self.whiten = whiten
         self._whiten = whiten  # for compatibility
+        if whiten is True:
+            self.whiten = "arbitrary-variance"
+        else:
+            self.whiten = whiten
         self.fun = fun
         self.max_iter = max_iter
         self.tol = tol
@@ -159,7 +162,7 @@ class Picard(FastICA):
                 % n_components
             )
 
-        if self.whiten:
+        if self.whiten == "arbitrary-variance":
             # Centering the columns (ie the variables)
             X_mean = X.mean(axis=-1)
             X -= X_mean[:, np.newaxis]
@@ -194,14 +197,14 @@ class Picard(FastICA):
         del X1
 
         if compute_sources:
-            if self.whiten:
+            if self.whiten == "arbitrary-variance":
                 S = np.linalg.multi_dot([W, K, X]).T
             else:
                 S = np.dot(W, X).T
         else:
             S = None
 
-        if self.whiten:
+        if self.whiten == "arbitrary-variance":
             self.components_ = np.dot(W, K)
             self.mean_ = X_mean
             self.whitening_ = K
