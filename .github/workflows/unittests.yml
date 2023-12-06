@@ -26,7 +26,7 @@ jobs:
           sudo apt-get install octave
           conda --version
           which python
-          pip install
+          pip install .
           pip install flake8 check-manifest
           pip install pytest coverage pytest-sugar
       - name: Run Python unit tests
