@@ -63,7 +63,7 @@ pip
 
 Otherwise, to install ``picard``, you first need to install its dependencies::
 
-	$ pip install numpy matplotlib numexpr scipy
+	$ pip install numpy matplotlib scipy
 
 Then install Picard with pip::
 
@@ -137,9 +137,11 @@ These are the dependencies to use Picard:
 
 * numpy (>=1.8)
 * matplotlib (>=1.3)
-* numexpr (>= 2.0)
 * scipy (>=0.19)
 
+Optionally to get faster computations, you can install
+
+* numexpr (>= 2.0)
 
 These are the dependencies to run the EEG example:
 

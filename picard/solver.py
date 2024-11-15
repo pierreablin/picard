@@ -202,7 +202,7 @@ def picard(X, fun='tanh', n_components=None, ortho=True, extended=None,
               'verbose': verbose, 'ortho': ortho, 'extended': extended,
               'covariance': covariance}
 
-    with np.errstate(all='raise'):  # So code breaks if overflow/Nans
+    with np.errstate(over='raise', invalid='raise'):
         Y, W, infos = core_picard(X1, **kwargs)
 
     del X1

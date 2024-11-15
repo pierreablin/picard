@@ -5,8 +5,10 @@
 # License: BSD (3-clause)
 
 import numpy as np
-import numexpr as ne
-
+try:
+    import numexpr as ne
+except ImportError:
+    ne = None
 from scipy.optimize import check_grad
 from numpy.testing import assert_allclose
 
@@ -40,11 +42,18 @@ class Tanh(object):
 
     def log_lik(self, Y):
         alpha = self.alpha  # noqa
+        if ne is None:
+            absY = np.abs(Y)
+            np.exp(-2. * alpha * absY)
+            return absY + np.log1p(np.exp(-2. * alpha * absY)) / alpha
         return ne.evaluate('abs(Y) + log1p(exp(-2. * alpha * abs(Y))) / alpha')
 
     def score_and_der(self, Y):
         alpha = self.alpha
-        score = ne.evaluate('tanh(alpha * Y)')
+        if ne is None:
+            score = np.tanh(alpha * Y)
+        else:
+            score = ne.evaluate('tanh(alpha * Y)')
         return score, alpha - alpha * score ** 2
 
 
@@ -57,18 +66,29 @@ class Exp(object):
 
     def log_lik(self, Y):
         a = self.alpha  # noqa
+        if ne is None:
+            return -np.exp(- a * Y ** 2 / 2.) / a
         return ne.evaluate('-exp(- a * Y ** 2 / 2.) / a')
 
     def score_and_der(self, Y):
         a = self.alpha  # noqa
-        Y_sq = ne.evaluate('Y ** 2')  # noqa
-        K = ne.evaluate('exp(- a / 2. * Y_sq)')  # noqa
-        return ne.evaluate('Y * K'), ne.evaluate('(1- a * Y_sq) * K')
+        if ne is None:
+            Y_sq = Y ** 2
+            K = np.exp(- a / 2. * Y_sq)
+            return Y * K, (1 - a * Y_sq) * K
+        else:
+            Y_sq = ne.evaluate('Y ** 2')  # noqa
+            K = ne.evaluate('exp(- a / 2. * Y_sq)')  # noqa
+            return ne.evaluate('Y * K'), ne.evaluate('(1- a * Y_sq) * K')
 
 
 class Cube(object):
     def log_lik(self, Y):
+        if ne is None:
+            return Y ** 4 / 4
         return ne.evaluate('Y ** 4 / 4')
 
     def score_and_der(self, Y):
+        if ne is None:
+            return Y ** 3, 3 * Y ** 2
         return ne.evaluate('Y ** 3'), ne.evaluate('3 * Y ** 2')
