@@ -44,8 +44,7 @@ class Tanh(object):
         alpha = self.alpha  # noqa
         if ne is None:
             return np.abs(Y) + np.log1p(np.exp(-2. * alpha * np.abs(Y))) / alpha
-        else:
-            return ne.evaluate('abs(Y) + log1p(exp(-2. * alpha * abs(Y))) / alpha')
+        return ne.evaluate('abs(Y) + log1p(exp(-2. * alpha * abs(Y))) / alpha')
 
     def score_and_der(self, Y):
         alpha = self.alpha
@@ -67,8 +66,7 @@ class Exp(object):
         a = self.alpha  # noqa
         if ne is None:
             return -np.exp(- a * Y ** 2 / 2.) / a
-        else:
-            return ne.evaluate('-exp(- a * Y ** 2 / 2.) / a')
+        return ne.evaluate('-exp(- a * Y ** 2 / 2.) / a')
 
     def score_and_der(self, Y):
         a = self.alpha  # noqa
@@ -86,11 +84,9 @@ class Cube(object):
     def log_lik(self, Y):
         if ne is None:
             return Y ** 4 / 4
-        else:
-            return ne.evaluate('Y ** 4 / 4')
+        return ne.evaluate('Y ** 4 / 4')
 
     def score_and_der(self, Y):
         if ne is None:
             return Y ** 3, 3 * Y ** 2
-        else:
-            return ne.evaluate('Y ** 3'), ne.evaluate('3 * Y ** 2')
+        return ne.evaluate('Y ** 3'), ne.evaluate('3 * Y ** 2')
