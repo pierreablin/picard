@@ -43,7 +43,8 @@ class Tanh(object):
     def log_lik(self, Y):
         alpha = self.alpha  # noqa
         if ne is None:
-            return np.abs(Y) + np.log1p(np.exp(-2. * alpha * np.abs(Y))) / alpha
+            absY = np.abs(Y)
+            return absY + np.log1p(np.exp(-2. * alpha * absY)) / alpha
         return ne.evaluate('abs(Y) + log1p(exp(-2. * alpha * abs(Y))) / alpha')
 
     def score_and_der(self, Y):
