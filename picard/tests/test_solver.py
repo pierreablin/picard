@@ -7,6 +7,7 @@ from itertools import product
 
 import numpy as np
 from numpy.testing import assert_allclose
+import pytest
 
 from picard import picard, permute, amari_distance
 from picard.densities import Tanh, Exp, Cube, check_density
@@ -30,34 +31,33 @@ def test_dimension_reduction():
         assert len(w) == 2
 
 
-def test_dots():
+@pytest.mark.parametrize('n_component', [5, 3])
+@pytest.mark.parametrize('whiten', [False, True])
+@pytest.mark.parametrize('ortho', [False, True])
+@pytest.mark.parametrize('w_init', [None, 'id'])
+def test_dots(n_component, whiten, ortho, w_init):
     N, T = 5, 100
     rng = np.random.RandomState(42)
     S = rng.laplace(size=(N, T))
     A = rng.randn(N, N)
     X = np.dot(A, S)
-    n_components = [N, 3]
-    tf = [False, True]
-    w_inits = [None, 'id']
-    for n_component, ortho, whiten, w_init in product(n_components, tf, tf,
-                                                      w_inits):
-        if w_init == 'id':
-            if whiten:
-                w_init = np.eye(n_component)
-            else:
-                w_init = np.eye(N)
-        with warnings.catch_warnings(record=True):
-            K, W, Y, X_mean = picard(X, ortho=ortho, whiten=whiten,
-                                     return_X_mean=True, w_init=w_init,
-                                     n_components=n_component,
-                                     random_state=rng, max_iter=2,
-                                     verbose=False)
-        if not whiten:
-            K = np.eye(N)
-        if ortho and whiten:
-            assert_allclose(Y.dot(Y.T) / T, np.eye(n_component), atol=1e-8)
-        Y_prime = np.dot(W, K).dot(X - X_mean[:, None])
-        assert_allclose(Y, Y_prime, atol=1e-7)
+    if w_init == 'id':
+        if whiten:
+            w_init = np.eye(n_component)
+        else:
+            w_init = np.eye(N)
+    with warnings.catch_warnings(record=True):
+        K, W, Y, X_mean = picard(X, ortho=ortho, whiten=whiten,
+                                    return_X_mean=True, w_init=w_init,
+                                    n_components=n_component,
+                                    random_state=rng, max_iter=2,
+                                    verbose=False)
+    if not whiten:
+        K = np.eye(N)
+    if ortho and whiten:
+        assert_allclose(Y.dot(Y.T) / T, np.eye(n_component), atol=1e-8)
+    Y_prime = np.dot(W, K).dot(X - X_mean[:, None])
+    assert_allclose(Y, Y_prime, atol=1e-7)
 
 
 def test_pre_fastica():
@@ -231,7 +231,9 @@ def test_fun():
         check_density(fun)
 
 
-def test_no_regression():
+@pytest.mark.parametrize('mode', ['lap', 'gauss'])
+@pytest.mark.parametrize('ortho', [True, False])
+def test_no_regression(mode, ortho):
     n_tests = 10
     baseline = {}
     baseline['lap', True] = 17.
@@ -239,24 +241,22 @@ def test_no_regression():
     baseline['gauss', True] = 58.
     baseline['gauss', False] = 60.
     N, T = 10, 1000
-    for mode in ['lap', 'gauss']:
-        for ortho in [True, False]:
-            n_iters = []
-            for i in range(n_tests):
-                rng = np.random.RandomState(i)
-                if mode == 'lap':
-                    S = rng.laplace(size=(N, T))
-                else:
-                    S = rng.randn(N, T)
-                A = rng.randn(N, N)
-                X = np.dot(A, S)
-                _, _, _, n_iter = picard(X, return_n_iter=True,
-                                         ortho=ortho, random_state=rng)
-                n_iters.append(n_iter)
-            n_mean = np.mean(n_iters)
-            nb_mean = baseline[mode, ortho]
-            err_msg = 'mode=%s, ortho=%s. %d iterations, expecting <%d.'
-            assert n_mean < nb_mean, err_msg % (mode, ortho, n_mean, nb_mean)
+    n_iters = []
+    for i in range(n_tests):
+        rng = np.random.RandomState(i)
+        if mode == 'lap':
+            S = rng.laplace(size=(N, T))
+        else:
+            S = rng.randn(N, T)
+        A = rng.randn(N, N)
+        X = np.dot(A, S)
+        _, _, _, n_iter = picard(X, return_n_iter=True,
+                                    ortho=ortho, random_state=rng)
+        n_iters.append(n_iter)
+    n_mean = np.mean(n_iters)
+    nb_mean = baseline[mode, ortho]
+    err_msg = 'mode=%s, ortho=%s. %d iterations, expecting <%d.'
+    assert n_mean < nb_mean, err_msg % (mode, ortho, n_mean, nb_mean)
 
 
 def test_amari_distance():
