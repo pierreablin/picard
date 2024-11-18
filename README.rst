@@ -26,10 +26,10 @@ Algorithm
 Picard is an algorithm for maximum likelihood independent component analysis.
 It shows state of the art speed of convergence, and solves the same problems as the widely used FastICA, Infomax and extended-Infomax, faster.
 
-.. image:: comparison.png
-  :scale: 50 %
-  :alt: Comparison
-  :align: center
+  .. image:: comparison.png
+    :scale: 50 %
+    :alt: Comparison
+    :align: center
 
 The parameter `ortho` choses whether to work under orthogonal constraint (i.e. enforce the decorrelation of the output) or not.
 It also comes with an extended version just like extended-infomax, which makes separation of both sub and super-Gaussian signals possible.
